@@ -9,7 +9,7 @@ function Copyright() {
     <Typography variant="body2" color="text.secondary" align="center">
       {'© '}
       <Link color="inherit" href="https://www.froystein.jp/">
-        K.K. Froystein Consulting
+        Froystein Consulting Inc.
       </Link>{' '}
       {new Date().getFullYear()}
     </Typography>
