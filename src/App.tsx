@@ -39,6 +39,16 @@ export default function App() {
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4, textAlign: "center" }}>
+        <Box
+          component="img"
+          sx={{
+            height: 250,
+            width: 350,
+            maxHeight: { xs: 350, md: 250 },
+            maxWidth: { xs: 350, md: 250 },
+          }}
+          src="fc.svg"
+        />
         <Typography variant="h2" component="h2" gutterBottom>
           Froystein Consulting
         </Typography>
