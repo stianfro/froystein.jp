@@ -72,6 +72,16 @@ export default function App() {
                 Guide to High Availability in Kubernetes
               </Link>
             </ListItem>
+            <ListItem>
+              <Link
+                color="inherit"
+                href="https://engineering.intility.com/article/architecting-a-scalable-kubernetes-platform"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Architecting a Scalable Kubernetes Platform
+              </Link>
+            </ListItem>
           </List>
         </Typography>
         <Typography variant="h5" component="h5" align="left">
