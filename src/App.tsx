@@ -65,6 +65,36 @@ export default function App() {
             <ListItem>
               <Link
                 color="inherit"
+                href="https://blog.froystein.jp/en/posts/gateway-api-1/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Gateway API for dummies
+              </Link>
+            </ListItem>
+            <ListItem>
+              <Link
+                color="inherit"
+                href="https://blog.froystein.jp/en/posts/registry-mirror-2"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Configuring clients to use a container registry mirror
+              </Link>
+            </ListItem>
+            <ListItem>
+              <Link
+                color="inherit"
+                href="https://blog.froystein.jp/en/posts/registry-mirror-1"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                How to set up a simple registry mirror in Kubernetes
+              </Link>
+            </ListItem>
+            <ListItem>
+              <Link
+                color="inherit"
                 href="https://engineering.intility.com/article/guide-to-high-availability-in-kubernetes"
                 target="_blank"
                 rel="noopener noreferrer"
