@@ -114,6 +114,16 @@ export default function App() {
             </ListItem>
           </List>
         </Typography>
+        <Typography variant="body1" align="center" sx={{ mt: 2 }}>
+          <Link
+            href="https://blog.froystein.jp/"
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{ fontWeight: 500 }}
+          >
+            View more posts on my blog →
+          </Link>
+        </Typography>
         <Typography variant="h5" component="h5" align="left">
           Certifications
         </Typography>
