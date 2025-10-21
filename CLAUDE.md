@@ -18,6 +18,7 @@ The site showcases:
 - **Build Tool**: Vite
 - **UI Library**: Material-UI (MUI) v5
 - **Styling**: Emotion (MUI's default)
+- **Color Scheme**: Catppuccin Mocha palette (dark theme)
 - **Icons**: Material-UI Icons and FontAwesome
 
 ## Project Structure
@@ -46,7 +47,7 @@ The main component containing the entire page layout:
 Displays the Japanese company name: フロイシュタインコンサルティング合同会社
 
 ### theme.tsx
-Defines custom MUI theme with specific color palette and typography settings.
+Defines custom MUI theme using the Catppuccin Mocha color palette (https://github.com/catppuccin/palette). The theme includes all 26 Mocha colors configured for dark mode with proper background, text, and accent colors.
 
 ## Development
 
