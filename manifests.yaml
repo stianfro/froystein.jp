@@ -30,7 +30,7 @@ spec:
         app.kubernetes.io/name: froystein-jp
     spec:
       containers:
-      - image: ghcr.io/stianfro/froystein.jp:1.0.0
+      - image: ghcr.io/stianfro/froystein.jp:1.2.4
         livenessProbe:
           httpGet:
             path: /healthz
