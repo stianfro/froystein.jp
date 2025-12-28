@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.3](https://github.com/stianfro/froystein.jp/compare/v1.2.2...v1.2.3) (2025-12-28)
+
+
+### Bug Fixes
+
+* **ci:** trigger image build when release-please creates tags ([355e28a](https://github.com/stianfro/froystein.jp/commit/355e28a33d0f6bf228fee78d8119a631f70fe278))
+
 ## [1.2.2](https://github.com/stianfro/froystein.jp/compare/v1.2.1...v1.2.2) (2025-12-28)
 
 
