@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.2](https://github.com/stianfro/froystein.jp/compare/v1.2.1...v1.2.2) (2025-12-28)
+
+
+### Bug Fixes
+
+* **infra:** add namespace resource to dev stage ([9efb062](https://github.com/stianfro/froystein.jp/commit/9efb06257bcce0942d1b50b1e3ef2aad512c50cd))
+* **infra:** add namespace resource to prod stage ([bf13a9d](https://github.com/stianfro/froystein.jp/commit/bf13a9d7ce65993686eaf02af1312b53c86729ee))
+
 ## [1.2.1](https://github.com/stianfro/froystein.jp/compare/v1.2.0...v1.2.1) (2025-12-28)
 
 
