@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/stianfro/froystein.jp/compare/v1.1.0...v1.2.0) (2025-12-28)
+
+
+### Features
+
+* **infra:** add dev stage with internal-only access ([cb1544b](https://github.com/stianfro/froystein.jp/commit/cb1544b7265b31bf245128fbab4bff4f71416410))
+
 ## [1.1.0](https://github.com/stianfro/froystein.jp/compare/v1.0.3...v1.1.0) (2025-12-28)
 
 
