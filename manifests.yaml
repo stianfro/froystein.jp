@@ -53,9 +53,23 @@ spec:
           readOnlyRootFilesystem: true
           runAsNonRoot: true
           runAsUser: 101
+        volumeMounts:
+        - mountPath: /var/cache/nginx
+          name: cache
+        - mountPath: /var/run
+          name: run
+        - mountPath: /tmp
+          name: tmp
       securityContext:
         seccompProfile:
           type: RuntimeDefault
+      volumes:
+      - emptyDir: {}
+        name: cache
+      - emptyDir: {}
+        name: run
+      - emptyDir: {}
+        name: tmp
 ---
 apiVersion: v1
 kind: Service
