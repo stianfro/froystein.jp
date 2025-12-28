@@ -6,7 +6,7 @@ namespace: froystein-jp
 resources:
   - deployment.yaml
   - service.yaml
-  - httproute-public.yaml
+  - httproute.yaml
 
 labels:
   - pairs:
