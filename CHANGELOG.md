@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.5](https://github.com/stianfro/froystein.jp/compare/v1.2.4...v1.2.5) (2025-12-28)
+
+
+### Bug Fixes
+
+* **ci:** pass version tag to build workflow for proper semver tagging ([f8437d3](https://github.com/stianfro/froystein.jp/commit/f8437d3caa319cdd8de55306f011be339025965d))
+
 ## [1.2.4](https://github.com/stianfro/froystein.jp/compare/v1.2.3...v1.2.4) (2025-12-28)
 
 
