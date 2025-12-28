@@ -20,11 +20,11 @@ preview:
 
 # Build Docker image locally
 docker-build tag="latest":
-    docker build -t ghcr.io/stianfro/froystein-jp:{{tag}} .
+    docker build -t ghcr.io/stianfro/froystein.jp:{{tag}} .
 
 # Run Docker container locally
 docker-run tag="latest":
-    docker run --rm -p 8080:80 ghcr.io/stianfro/froystein-jp:{{tag}}
+    docker run --rm -p 8080:80 ghcr.io/stianfro/froystein.jp:{{tag}}
 
 # Build and run locally
 docker-dev: docker-build docker-run

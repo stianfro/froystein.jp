@@ -15,5 +15,5 @@ labels:
     includeSelectors: false
 
 images:
-  - name: ghcr.io/stianfro/froystein-jp
+  - name: ghcr.io/stianfro/froystein.jp
     newTag: latest
