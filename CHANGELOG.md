@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.4](https://github.com/stianfro/froystein.jp/compare/v1.2.3...v1.2.4) (2025-12-28)
+
+
+### Bug Fixes
+
+* **deps:** bump rollup from 4.6.1 to 4.54.0 ([#6](https://github.com/stianfro/froystein.jp/issues/6)) ([b386d64](https://github.com/stianfro/froystein.jp/commit/b386d64990de274eee6022383d6fc84e1ab76727))
+
 ## [1.2.3](https://github.com/stianfro/froystein.jp/compare/v1.2.2...v1.2.3) (2025-12-28)
 
 
