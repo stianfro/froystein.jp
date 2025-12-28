@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/stianfro/froystein.jp/compare/v1.0.3...v1.1.0) (2025-12-28)
+
+
+### Features
+
+* **infra:** add public HTTPRoute for froystein.jp ([7faf8d9](https://github.com/stianfro/froystein.jp/commit/7faf8d9c1186a3eb1c659148a81758ca2d41c0b5))
+
 ## [1.0.3](https://github.com/stianfro/froystein.jp/compare/v1.0.2...v1.0.3) (2025-12-28)
 
 
