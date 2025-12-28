@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/stianfro/froystein.jp/compare/v1.2.0...v1.2.1) (2025-12-28)
+
+
+### Bug Fixes
+
+* **infra:** use separate namespace for dev stage ([d661ab7](https://github.com/stianfro/froystein.jp/commit/d661ab7231e996a4df5fa2ee61670c5182fcea3d))
+
 ## [1.2.0](https://github.com/stianfro/froystein.jp/compare/v1.1.0...v1.2.0) (2025-12-28)
 
 
