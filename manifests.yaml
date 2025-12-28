@@ -108,3 +108,23 @@ spec:
   - backendRefs:
     - name: froystein-jp
       port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: kargo
+    app.kubernetes.io/part-of: froystein-jp
+  name: froystein-jp-public
+  namespace: froystein-jp
+spec:
+  hostnames:
+  - froystein.jp
+  - www.froystein.jp
+  parentRefs:
+  - name: eg-public
+    namespace: envoy-gateway-system
+  rules:
+  - backendRefs:
+    - name: froystein-jp
+      port: 80
