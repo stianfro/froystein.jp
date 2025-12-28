@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/stianfro/froystein.jp/compare/v1.0.2...v1.0.3) (2025-12-28)
+
+
+### Bug Fixes
+
+* add emptyDir volumes for nginx writable directories ([2ca9a52](https://github.com/stianfro/froystein.jp/commit/2ca9a5257216d4bcf703a0bd942c8bbd66e843c7))
+
 ## [1.0.2](https://github.com/stianfro/froystein.jp/compare/v1.0.1...v1.0.2) (2025-12-28)
 
 
