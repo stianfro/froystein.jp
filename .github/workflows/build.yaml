@@ -10,6 +10,11 @@ on:
     branches:
       - main
   workflow_call:
+    inputs:
+      version:
+        description: 'Version tag (e.g., v1.2.3) for semver tagging'
+        required: false
+        type: string
 
 env:
   REGISTRY: ghcr.io
@@ -43,11 +48,14 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
+            type=semver,pattern={{version}},value=${{ inputs.version }},enable=${{ inputs.version != '' }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ inputs.version }},enable=${{ inputs.version != '' }}
+            type=semver,pattern={{major}},value=${{ inputs.version }},enable=${{ inputs.version != '' }}
+            type=semver,pattern={{version}},enable=${{ inputs.version == '' }}
+            type=semver,pattern={{major}}.{{minor}},enable=${{ inputs.version == '' }}
+            type=semver,pattern={{major}},enable=${{ inputs.version == '' }}
             type=sha,prefix=sha-
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || inputs.version != '' }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
