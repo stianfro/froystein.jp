@@ -34,3 +34,11 @@ jobs:
           PR_NUMBER=$(echo "$PR_JSON" | jq -r '.number')
           echo "Auto-merging PR #$PR_NUMBER"
           gh pr merge "$PR_NUMBER" --auto --squash --repo ${{ github.repository }}
+
+  build-on-release:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}
+    uses: ./.github/workflows/build.yaml
+    permissions:
+      contents: read
+      packages: write
