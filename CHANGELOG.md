@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.7](https://github.com/stianfro/froystein.jp/compare/v1.2.6...v1.2.7) (2026-06-02)
+
+
+### Bug Fixes
+
+* **deps:** bump postcss from 8.4.32 to 8.5.15 ([#26](https://github.com/stianfro/froystein.jp/issues/26)) ([43e2e82](https://github.com/stianfro/froystein.jp/commit/43e2e8282bdd2008f8edaeca2efb4568855c62f9))
+
 ## [1.2.6](https://github.com/stianfro/froystein.jp/compare/v1.2.5...v1.2.6) (2026-03-02)
 
 
