@@ -1,0 +1,9 @@
+.cache
+.git
+.github
+.claude
+.astro
+dist
+node_modules
+*.log
+.DS_Store

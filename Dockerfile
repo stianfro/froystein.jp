@@ -1,19 +1,19 @@
 # Build stage
-FROM node:22-alpine AS builder
+FROM oven/bun:1.3.14-alpine AS builder
 
 WORKDIR /app
 
 # Copy package files
-COPY package.json package-lock.json* ./
+COPY package.json bun.lock ./
 
 # Install dependencies
-RUN npm ci
+RUN bun install --frozen-lockfile
 
 # Copy source code
 COPY . .
 
-# Build the application
-RUN npm run build
+# Validate and build the application
+RUN bun run lint && bun run build && bun run test
 
 # Production stage
 FROM nginx:1.27-alpine
@@ -36,9 +36,15 @@ server {
         add_header Cache-Control "public, immutable";
     }
 
-    # SPA routing - serve index.html for all routes
+    # Serve only generated static routes and return a real 404 otherwise
+    error_page 404 /404.html;
+
+    location = /404.html {
+        internal;
+    }
+
     location / {
-        try_files \$uri \$uri/ /index.html;
+        try_files \$uri \$uri/ =404;
     }
 
     # Health check endpoint
@@ -53,7 +59,8 @@ EOF
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Run as non-root user
-RUN chown -R nginx:nginx /usr/share/nginx/html && \
+RUN sed -i 's|pid.*;|pid /tmp/nginx.pid;|' /etc/nginx/nginx.conf && \
+    chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx /var/run /tmp && \
     chmod -R 755 /usr/share/nginx/html
 
 USER nginx

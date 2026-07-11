@@ -4,19 +4,20 @@ default:
 
 # Install dependencies
 install:
-    npm install
+    mkdir -p .cache/bun/install .cache/bun/tmp
+    BUN_INSTALL_CACHE_DIR=.cache/bun/install TMPDIR=.cache/bun/tmp bun install --frozen-lockfile
 
 # Run development server
-dev:
-    npm run dev
+dev *args:
+    bun run dev {{args}}
 
 # Build for production
 build:
-    npm run build
+    bun run build
 
 # Preview production build
-preview:
-    npm run preview
+preview *args:
+    bun run preview {{args}}
 
 # Build Docker image locally
 docker-build tag="latest":
@@ -33,12 +34,16 @@ docker-dev: docker-build docker-run
 kustomize-build:
     kustomize build infra/prod
 
-# Lint Kubernetes manifests
+# Lint source and YAML without depending on the active Kubernetes context
 lint:
-    @echo "Linting Kubernetes manifests..."
-    kustomize build infra/prod | kubectl apply --dry-run=client -f -
-    @echo "Lint passed!"
+    bun run lint
+    @for file in $(git ls-files '*.yaml' '*.yml'); do yq eval '.' "$file" >/dev/null; done
+    @for environment in dev prod; do kustomize build "infra/$environment" | yq eval '.' >/dev/null; done
+
+# Run focused build-output tests
+test: build
+    bun run test
 
 # Run all checks before commit
-check: lint build
+check: lint test
     @echo "All checks passed!"

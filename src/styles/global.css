@@ -1,0 +1,157 @@
+:root {
+  color-scheme: dark;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --color-background: #1e1e2e;
+  --color-text: #cdd6f4;
+  --color-subtext: #bac2de;
+  --color-link: #89b4fa;
+  --color-focus: #f9e2af;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-background);
+}
+
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-text);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+}
+
+a:focus-visible {
+  border-radius: 2px;
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.site-container {
+  width: 100%;
+  max-width: 600px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.home {
+  margin-block: 32px;
+  text-align: center;
+}
+
+.logo {
+  display: block;
+  width: 250px;
+  height: 250px;
+  max-width: 100%;
+  margin-inline: auto;
+  object-fit: contain;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0.35em;
+  font-size: clamp(2.75rem, 10vw, 3.75rem);
+  font-weight: 300;
+  line-height: 1.167;
+}
+
+section {
+  margin-top: 32px;
+}
+
+h2 {
+  margin-bottom: 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.334;
+  text-align: left;
+}
+
+ul {
+  margin: 0;
+  padding-block: 8px;
+  padding-left: 0;
+  list-style: none;
+  text-align: left;
+}
+
+li {
+  padding: 8px 16px;
+}
+
+.more-posts {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.more-posts a {
+  color: var(--color-link);
+  font-weight: 500;
+}
+
+.company-name {
+  margin-top: 48px;
+  margin-bottom: 24px;
+  color: var(--color-subtext);
+}
+
+.copyright {
+  margin-bottom: 0;
+  color: var(--color-subtext);
+  font-size: 0.875rem;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+}
+
+.social-links a {
+  display: inline-flex;
+  padding: 4px;
+}
+
+.social-links svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.error-page {
+  padding-block: 64px;
+}
+
+.error-page h1 {
+  font-size: clamp(2.25rem, 8vw, 3.75rem);
+}
+
+@media print {
+  :root {
+    color-scheme: light;
+    --color-background: #ffffff;
+    --color-text: #11111b;
+    --color-subtext: #45475a;
+    --color-link: #1e66f5;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+}
