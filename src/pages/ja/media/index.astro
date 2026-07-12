@@ -1,0 +1,17 @@
+---
+import MediaPage from "../../../components/MediaPage.astro";
+import { mediaStructuredData } from "../../../data/structured-data";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="ノルウェーに関する取材・出演のご相談 | スティアン・フロイスタイン"
+  description="東京在住のノルウェー人、スティアン・フロイスタインが、日本語・英語でテレビ出演、取材、番組リサーチ、イベントに対応します。"
+  canonicalPath="/ja/media/"
+  alternatePath="/media/"
+  currentPage="media"
+  language="ja"
+  structuredData={mediaStructuredData("ja", "/ja/media/")}
+>
+  <MediaPage language="ja" />
+</SiteLayout>

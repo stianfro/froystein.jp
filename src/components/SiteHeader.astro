@@ -1,0 +1,66 @@
+---
+import type { Language } from "../data/content";
+
+interface Props {
+  currentPage: "contact" | "home" | "media";
+  language: Language;
+}
+
+const { currentPage, language } = Astro.props;
+const isJapanese = language === "ja";
+const prefix = isJapanese ? "/ja" : "";
+const paths = {
+  contact: `${prefix}/contact/`,
+  home: `${prefix}/`,
+  media: `${prefix}/media/`,
+};
+const alternatePaths = {
+  contact: isJapanese ? "/contact/" : "/ja/contact/",
+  home: isJapanese ? "/" : "/ja/",
+  media: isJapanese ? "/media/" : "/ja/media/",
+};
+---
+
+<header class="site-header">
+  <a class="brand" href={paths.home}>
+    <span class="brand-primary">Froystein Consulting</span>
+    <span class="brand-secondary">
+      {
+        isJapanese
+          ? "株式会社フロイスタインコンサルティング"
+          : "Froystein Consulting Co., Ltd"
+      }
+    </span>
+  </a>
+  <nav aria-label={isJapanese ? "メインナビゲーション" : "Main navigation"}>
+    <a
+      aria-current={currentPage === "home" ? "page" : undefined}
+      href={paths.home}
+    >
+      {isJapanese ? "ホーム" : "Home"}
+    </a>
+    <a
+      aria-current={currentPage === "media" ? "page" : undefined}
+      href={paths.media}
+    >
+      {isJapanese ? "プロフィール" : "About"}
+    </a>
+    <a
+      aria-current={currentPage === "contact" ? "page" : undefined}
+      href={paths.contact}
+    >
+      {isJapanese ? "お問い合わせ" : "Contact"}
+    </a>
+    <a
+      class="language-link"
+      href={alternatePaths[currentPage]}
+      hreflang={isJapanese ? "en" : "ja"}
+      lang={isJapanese ? "en" : "ja"}
+      aria-label={isJapanese
+        ? "View this page in English"
+        : "このページを日本語で見る"}
+    >
+      {isJapanese ? "English" : "日本語"}
+    </a>
+  </nav>
+</header>

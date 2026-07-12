@@ -7,7 +7,6 @@ spec:
     - name: eg-public
       namespace: envoy-gateway-system
   hostnames:
-    - froystein.jp
     - www.froystein.jp
   rules:
     - backendRefs:

@@ -1,0 +1,105 @@
+---
+import "../styles/global.css";
+import "@ibm/plex-sans-jp/fonts/split/woff2/hinted/IBMPlexSansJP-Regular.css";
+import "@ibm/plex-sans-jp/fonts/split/woff2/hinted/IBMPlexSansJP-Medium.css";
+import "@ibm/plex-sans-jp/fonts/split/woff2/hinted/IBMPlexSansJP-SemiBold.css";
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  alternatePath?: string;
+  language?: "en" | "ja";
+  noindex?: boolean;
+  structuredData?: object | object[];
+}
+
+const {
+  title,
+  description,
+  canonicalPath = "/",
+  alternatePath,
+  language = "en",
+  noindex = false,
+  structuredData,
+} = Astro.props;
+const canonicalUrl = new URL(canonicalPath, Astro.site);
+const alternateUrl = alternatePath
+  ? new URL(alternatePath, Astro.site)
+  : undefined;
+const englishUrl = language === "en" ? canonicalUrl : alternateUrl;
+const japaneseUrl = language === "ja" ? canonicalUrl : alternateUrl;
+const markdownUrl = noindex
+  ? undefined
+  : new URL(
+      canonicalPath === "/"
+        ? "/index.md"
+        : `${canonicalPath.replace(/\/$/, "")}.md`,
+      Astro.site,
+    );
+---
+
+<!doctype html>
+<html lang={language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/fc.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+    {englishUrl && <link rel="alternate" hreflang="en" href={englishUrl} />}
+    {japaneseUrl && <link rel="alternate" hreflang="ja" href={japaneseUrl} />}
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={englishUrl ?? canonicalUrl}
+    />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link
+      rel="help"
+      type="text/plain"
+      href="/llms.txt"
+      title="LLM content guide"
+    />
+    {
+      markdownUrl && (
+        <link
+          rel="alternate"
+          type="text/markdown"
+          href={markdownUrl}
+          title={`${title} in Markdown`}
+        />
+      )
+    }
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="Froystein Consulting" />
+    <meta
+      property="og:locale"
+      content={language === "ja" ? "ja_JP" : "en_US"}
+    />
+    <meta
+      property="og:locale:alternate"
+      content={language === "ja" ? "en_US" : "ja_JP"}
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {
+      structuredData && (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify(structuredData)}
+        />
+      )
+    }
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

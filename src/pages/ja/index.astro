@@ -1,0 +1,17 @@
+---
+import HomePage from "../../components/HomePage.astro";
+import { homeStructuredData } from "../../data/structured-data";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="Froystein Consulting | Kubernetes・クラウドネイティブ コンサルティング"
+  description="株式会社フロイスタインコンサルティングは、Kubernetes、クラウドネイティブ、プラットフォームエンジニアリング、SREに関するコンサルティングを提供しています。"
+  canonicalPath="/ja/"
+  alternatePath="/"
+  currentPage="home"
+  language="ja"
+  structuredData={homeStructuredData("ja", "/ja/")}
+>
+  <HomePage language="ja" />
+</SiteLayout>

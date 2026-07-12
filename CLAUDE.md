@@ -4,65 +4,75 @@ This file contains information for AI code agents working on this repository.
 
 ## Project Overview
 
-This is a simple React-based personal website for Froystein Consulting Co., Ltd, hosted at https://www.froystein.jp/
+This is a static Astro website for Froystein Consulting Co., Ltd, hosted at https://www.froystein.jp/
 
 The site showcases:
 - Company information and services (Kubernetes and Cloud Native consultancy)
-- Featured blog content from blog.froystein.jp
+- English and Japanese media profiles and contact routes
+- Verified television appearances
+- Blog posts from blog.froystein.jp and Engineering at Intility
 - Professional certifications
 - Social media links (GitHub, LinkedIn)
 
 ## Technology Stack
 
-- **Framework**: React 18 with TypeScript
-- **Build Tool**: Vite
-- **UI Library**: Material-UI (MUI) v5
-- **Styling**: Emotion (MUI's default)
-- **Color Scheme**: Catppuccin Mocha palette (dark theme)
-- **Icons**: Material-UI Icons and FontAwesome
+- **Framework**: Astro with TypeScript
+- **Build Tool**: Astro with Vite
+- **Package Manager**: Bun
+- **Styling**: Plain CSS
+- **Color Scheme**: restrained light palette and Catppuccin Mocha dark palette through `prefers-color-scheme`
+- **Rendering**: Static HTML with no production client JavaScript
 
 ## Project Structure
 
 ```
 /src/
-  - App.tsx          # Main application component with all page content
-  - Content.tsx      # Simple component for Japanese company name
-  - theme.tsx        # Custom MUI theme configuration
-  - main.tsx         # React entry point
-  - index.html       # HTML template
+  /components/       # Reusable Astro components
+  /data/             # Shared content, Markdown mirrors, and structured data
+  /layouts/          # Shared HTML and metadata layouts
+  /pages/            # File-based static routes
+  /styles/           # Global CSS and theme tokens
+/tests/              # Build-output tests
 /public/
   - fc.svg           # Company logo
 ```
 
 ## Key Files
 
-### App.tsx
-The main component containing the entire page layout:
-- Header with logo and company description
-- Featured content section (blog posts)
+### src/pages/index.astro
+The main page containing the homepage layout:
+- Header with company name and language-aware navigation
+- Consultancy and media-profile entry points
+- Blog posts
 - Certifications section
 - Footer with copyright and social links
 
-### Content.tsx
-Displays the Japanese company name: フロイシュタインコンサルティング合同会社
+### src/layouts/BaseLayout.astro
+Defines shared document metadata and the HTML shell.
 
-### theme.tsx
-Defines custom MUI theme using the Catppuccin Mocha color palette (https://github.com/catppuccin/palette). The theme includes all 26 Mocha colors configured for dark mode with proper background, text, and accent colors.
+### src/styles/global.css
+Defines light and Catppuccin Mocha dark color tokens, typography, spacing, responsive layout, focus states, and print colors.
+
+### src/data/content.ts
+Defines shared television appearances, blog posts, certifications, media topics, and participation formats.
+
+### src/data/markdown-content.ts
+Generates clean Markdown mirrors for each canonical page. Add `.md` to the page path to open its Markdown version, such as `/media.md` or `/ja/contact.md`. `/llms.txt` and the HTML alternate links use these direct routes. Proposal-style `index.html.md` routes remain available as compatibility aliases.
 
 ## Development
 
 ```bash
 # Install dependencies
-npm install
+just install
 
 # Run development server
-npm run dev
+just dev
 
 # Build for production
-npm run build
+just build
 
 # Preview production build
-npm run preview
+just preview
 ```
 
 ## Deployment
@@ -76,7 +86,7 @@ The site is deployed at https://www.froystein.jp/
 
 ## Code Style
 
-- TypeScript for type safety
-- Material-UI components for consistent design
-- Functional React components with hooks
+- Astro and TypeScript for static, type-safe pages
+- Semantic HTML and plain CSS
+- No client-side JavaScript unless a feature requires it
 - Simple, straightforward structure without over-engineering

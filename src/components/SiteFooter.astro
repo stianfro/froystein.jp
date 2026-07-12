@@ -1,0 +1,28 @@
+---
+import type { Language } from "../data/content";
+import SocialLinks from "./SocialLinks.astro";
+
+interface Props {
+  language: Language;
+}
+
+const { language } = Astro.props;
+const isJapanese = language === "ja";
+---
+
+<footer class="site-footer">
+  <div>
+    <p class="footer-company">
+      {
+        isJapanese
+          ? "株式会社フロイスタインコンサルティング"
+          : "Froystein Consulting Co., Ltd"
+      }
+    </p>
+    <p>Tokyo, Japan</p>
+  </div>
+  <div class="footer-meta">
+    <p>© {new Date().getFullYear()} Froystein Consulting Co., Ltd</p>
+    <SocialLinks language={language} />
+  </div>
+</footer>
