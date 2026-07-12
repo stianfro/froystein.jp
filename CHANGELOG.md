@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/stianfro/froystein.jp/compare/v1.3.0...v1.3.1) (2026-07-12)
+
+
+### Bug Fixes
+
+* declare llms.txt UTF-8 charset ([#34](https://github.com/stianfro/froystein.jp/issues/34)) ([e467379](https://github.com/stianfro/froystein.jp/commit/e4673796b7ddd2a5576d3f703df60bffe2b204af))
+
 ## [1.3.0](https://github.com/stianfro/froystein.jp/compare/v1.2.7...v1.3.0) (2026-07-12)
 
 
