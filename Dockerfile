@@ -31,6 +31,14 @@ server {
     gzip on;
     gzip_types text/plain text/markdown text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml;
 
+    # Prevent clients from guessing a legacy Japanese encoding for llms.txt
+    location = /llms.txt {
+        default_type text/plain;
+        charset utf-8;
+        charset_types text/plain;
+        try_files \$uri =404;
+    }
+
     # Serve clean Markdown mirrors for llms.txt consumers without indexing duplicates
     location ~* \.md$ {
         types { text/markdown md; }

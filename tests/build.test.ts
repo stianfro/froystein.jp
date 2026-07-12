@@ -220,6 +220,8 @@ describe("static build", () => {
     expect(mirrors[2]).toContain("mailto:media@froystein.jp");
     expect(dockerfile).toContain("types { text/markdown md; }");
     expect(dockerfile).toContain("charset_types text/markdown;");
+    expect(dockerfile).toContain("location = /llms.txt");
+    expect(dockerfile).toContain("charset_types text/plain;");
     expect(dockerfile).toContain('X-Robots-Tag "noindex, follow"');
 
     const response = markdownResponse("# Test");
