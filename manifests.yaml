@@ -8,6 +8,25 @@ metadata:
     app.kubernetes.io/part-of: froystein-jp
   name: froystein-jp
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: kargo
+    app.kubernetes.io/name: froystein-jp
+    app.kubernetes.io/part-of: froystein-jp
+  name: froystein-jp
+  namespace: froystein-jp
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+  selector:
+    app.kubernetes.io/name: froystein-jp
+  type: ClusterIP
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,75 +49,78 @@ spec:
         app.kubernetes.io/name: froystein-jp
     spec:
       containers:
-      - image: ghcr.io/stianfro/froystein.jp:1.2.4
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: http
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        name: web
-        ports:
-        - containerPort: 80
-          name: http
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /healthz
-            port: http
-          initialDelaySeconds: 5
-          periodSeconds: 5
-        resources:
-          limits:
-            cpu: 100m
-            memory: 128Mi
-          requests:
-            cpu: 50m
-            memory: 64Mi
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
-          readOnlyRootFilesystem: true
-          runAsNonRoot: true
-          runAsUser: 101
-        volumeMounts:
-        - mountPath: /var/cache/nginx
-          name: cache
-        - mountPath: /var/run
-          name: run
-        - mountPath: /tmp
-          name: tmp
+        - image: ghcr.io/stianfro/froystein.jp:sha-f1d3f3d@sha256:e3978b825622ca06ef093004fbe5d0108c0af14615a1155277ee58470b85250c
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          name: web
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 101
+          volumeMounts:
+            - mountPath: /var/cache/nginx
+              name: cache
+            - mountPath: /var/run
+              name: run
+            - mountPath: /tmp
+              name: tmp
       securityContext:
         seccompProfile:
           type: RuntimeDefault
       volumes:
-      - emptyDir: {}
-        name: cache
-      - emptyDir: {}
-        name: run
-      - emptyDir: {}
-        name: tmp
+        - emptyDir: {}
+          name: cache
+        - emptyDir: {}
+          name: run
+        - emptyDir: {}
+          name: tmp
 ---
-apiVersion: v1
-kind: Service
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
 metadata:
   labels:
     app.kubernetes.io/managed-by: kargo
-    app.kubernetes.io/name: froystein-jp
     app.kubernetes.io/part-of: froystein-jp
-  name: froystein-jp
+  name: froystein-jp-canonical-redirect
   namespace: froystein-jp
 spec:
-  ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: http
-  selector:
-    app.kubernetes.io/name: froystein-jp
-  type: ClusterIP
+  hostnames:
+    - froystein.jp
+  parentRefs:
+    - name: eg-public
+      namespace: envoy-gateway-system
+  rules:
+    - filters:
+        - requestRedirect:
+            hostname: www.froystein.jp
+            scheme: https
+            statusCode: 301
+          type: RequestRedirect
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -110,12 +132,11 @@ metadata:
   namespace: froystein-jp
 spec:
   hostnames:
-  - froystein.jp
-  - www.froystein.jp
+    - www.froystein.jp
   parentRefs:
-  - name: eg-public
-    namespace: envoy-gateway-system
+    - name: eg-public
+      namespace: envoy-gateway-system
   rules:
-  - backendRefs:
-    - name: froystein-jp
-      port: 80
+    - backendRefs:
+        - name: froystein-jp
+          port: 80
