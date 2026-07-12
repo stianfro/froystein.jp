@@ -1,115 +1,17 @@
 ---
-import SocialLinks from "../components/SocialLinks.astro";
-import BaseLayout from "../layouts/BaseLayout.astro";
-
-const featuredContent = [
-  {
-    title: "Gateway API for dummies",
-    href: "https://blog.froystein.jp/en/posts/gateway-api-1/",
-  },
-  {
-    title: "Configuring clients to use a container registry mirror",
-    href: "https://blog.froystein.jp/en/posts/registry-mirror-2",
-  },
-  {
-    title: "How to set up a simple registry mirror in Kubernetes",
-    href: "https://blog.froystein.jp/en/posts/registry-mirror-1",
-  },
-  {
-    title: "Guide to High Availability in Kubernetes",
-    href: "https://engineering.intility.com/article/guide-to-high-availability-in-kubernetes",
-  },
-  {
-    title: "Architecting a Scalable Kubernetes Platform",
-    href: "https://engineering.intility.com/article/architecting-a-scalable-kubernetes-platform",
-  },
-];
-
-const certifications = [
-  {
-    title: "Red Hat Certified OpenShift Administrator",
-    href: "https://www.credly.com/badges/417725b8-2350-472c-85d4-f1db952371f7/public_url",
-  },
-  {
-    title: "Red Hat Certified Engineer (RHCE)",
-    href: "https://www.credly.com/badges/2f24df96-a500-4175-b0a1-97142609c93c/public_url",
-  },
-  {
-    title: "Red Hat Certified System Administrator (RHCSA)",
-    href: "https://www.credly.com/badges/12c4dcdb-2833-446e-bf69-eb0bda710d74/public_url",
-  },
-];
+import HomePage from "../components/HomePage.astro";
+import { homeStructuredData } from "../data/structured-data";
+import SiteLayout from "../layouts/SiteLayout.astro";
 ---
 
-<BaseLayout
-  title="Froystein Consulting"
-  description="Consultancy services for Kubernetes and Cloud Native technology."
+<SiteLayout
+  title="Froystein Consulting | Kubernetes and Cloud Native Consultancy"
+  description="Froystein Consulting provides consultancy services for Kubernetes, cloud native technology, platform engineering, and SRE."
+  canonicalPath="/"
+  alternatePath="/ja/"
+  currentPage="home"
+  language="en"
+  structuredData={homeStructuredData("en", "/")}
 >
-  <main class="site-container">
-    <div class="home">
-      <img
-        class="logo"
-        src="/fc.svg"
-        alt="Froystein Consulting moose logo"
-        width="250"
-        height="250"
-      />
-      <h1>Froystein Consulting</h1>
-      <p>
-        We offer consultancy services for Kubernetes and Cloud Native
-        technology.
-      </p>
-
-      <section>
-        <h2>Featured content</h2>
-        <ul>
-          {
-            featuredContent.map((item) => (
-              <li>
-                <a href={item.href} target="_blank" rel="noopener noreferrer">
-                  {item.title}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-        <p class="more-posts">
-          <a
-            href="https://blog.froystein.jp/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View more posts on my blog →
-          </a>
-        </p>
-      </section>
-
-      <section>
-        <h2>Certifications</h2>
-        <ul>
-          {
-            certifications.map((item) => (
-              <li>
-                <a href={item.href} target="_blank" rel="noopener noreferrer">
-                  {item.title}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <footer>
-        <p class="company-name" lang="ja">
-          株式会社フロイスタインコンサルティング
-        </p>
-        <p class="copyright">
-          © <a href="https://www.froystein.jp/">Froystein Consulting Co., Ltd</a
-          >
-          {new Date().getFullYear()}
-        </p>
-        <SocialLinks />
-      </footer>
-    </div>
-  </main>
-</BaseLayout>
+  <HomePage language="en" />
+</SiteLayout>

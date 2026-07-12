@@ -18,17 +18,27 @@ RUN bun run lint && bun run build && bun run test
 # Production stage
 FROM nginx:1.27-alpine
 
-# Copy custom nginx config for SPA routing
+# Copy custom nginx config for static routing
 COPY <<EOF /etc/nginx/conf.d/default.conf
 server {
     listen 80;
     server_name _;
     root /usr/share/nginx/html;
     index index.html;
+    absolute_redirect off;
 
     # Gzip compression
     gzip on;
-    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml;
+    gzip_types text/plain text/markdown text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml;
+
+    # Serve clean Markdown mirrors for llms.txt consumers without indexing duplicates
+    location ~* \.md$ {
+        types { text/markdown md; }
+        charset utf-8;
+        charset_types text/markdown;
+        add_header X-Robots-Tag "noindex, follow";
+        try_files \$uri =404;
+    }
 
     # Cache static assets
     location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$ {
@@ -66,5 +76,8 @@ RUN sed -i 's|pid.*;|pid /tmp/nginx.pid;|' /etc/nginx/nginx.conf && \
 USER nginx
 
 EXPOSE 80
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD wget -q -O /dev/null http://127.0.0.1/healthz || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]

@@ -1,0 +1,273 @@
+export type Language = "en" | "ja";
+
+export interface Appearance {
+  date: string;
+  displayDate: string;
+  network: Record<Language, string>;
+  program: string;
+  detail: Record<Language, string>;
+  url?: string;
+}
+
+export interface BlogPost {
+  date: string;
+  displayDate: string;
+  source: string;
+  title: string;
+  url: string;
+}
+
+export interface Certification {
+  title: string;
+  url: string;
+}
+
+export const appearances: Appearance[] = [
+  {
+    date: "2026-06-24",
+    displayDate: "2026.06.24",
+    network: { en: "TV Asahi", ja: "テレビ朝日" },
+    program: "大下容子ワイド！スクランブル",
+    detail: {
+      en: "A short interview about the Norwegian national team supporters' Viking row celebration and its origins was broadcast",
+      ja: "ノルウェー代表サポーターが行う「バイキング・ロウ」と、その由来について取材を受け、短いインタビューが放送",
+    },
+  },
+  {
+    date: "2026-05-01",
+    displayDate: "2026.05.01",
+    network: { en: "TBS", ja: "TBS" },
+    program: "世界くらべてみたら",
+    detail: {
+      en: "Appeared in the “世界ざっくりマップ in 北欧” segment",
+      ja: "「世界ざっくりマップ in 北欧」に出演",
+    },
+    url: "https://www.tbs.co.jp/sekakura/archive/20260501/",
+  },
+  {
+    date: "2026-01-05",
+    displayDate: "2026.01.05",
+    network: { en: "Nippon TV", ja: "日本テレビ" },
+    program: "世界まる見え！テレビ特捜部",
+    detail: {
+      en: "Appeared as a programme agent in the two-hour New Year special",
+      ja: "「お年玉クイズ2時間SP」に番組エージェントとして出演",
+    },
+    url: "https://www.ntv.co.jp/marumie/articles/3264bz5am8pnm3hasguc.html",
+  },
+  {
+    date: "2025-05-05",
+    displayDate: "2025.05.05",
+    network: { en: "Nippon TV", ja: "日本テレビ" },
+    program: "世界まる見え！テレビ特捜部",
+    detail: {
+      en: "Appeared as a programme agent in the problem children special",
+      ja: "「お騒がせな問題児大集合SP」に番組エージェントとして出演",
+    },
+    url: "https://www.ntv.co.jp/marumie/articles/3264j2oksgbz65pmv4y9.html",
+  },
+  {
+    date: "2025-03-12",
+    displayDate: "2025.03.12",
+    network: { en: "TBS", ja: "TBS" },
+    program: "世界くらべてみたら",
+    detail: {
+      en: "Appeared in an episode about children working in Norway’s cod-fishing industry",
+      ja: "ノルウェーのタラ漁に携わる子どもたちを取り上げた回に出演",
+    },
+    url: "https://www.tbs.co.jp/sekakura/archive/20250312/",
+  },
+  {
+    date: "2024-11-16",
+    displayDate: "2024.11.16",
+    network: { en: "Fuji TV", ja: "フジテレビ" },
+    program: "チャンハウス",
+    detail: {
+      en: "Appeared in a segment about the Norwegian expression “nja”",
+      ja: "ノルウェー語の表現「nja」を取り上げた企画に出演",
+    },
+  },
+  {
+    date: "2024-04-29",
+    displayDate: "2024.04.29",
+    network: { en: "Nippon TV", ja: "日本テレビ" },
+    program: "世界まる見え！テレビ特捜部",
+    detail: {
+      en: "Appeared as a programme agent in the dangerous journeys special",
+      ja: "「キケンな旅スペシャル」に番組エージェントとして出演",
+    },
+    url: "https://www.ntv.co.jp/marumie/articles/326441qzv32k9jhtjoon.html",
+  },
+  {
+    date: "2024-03-04",
+    displayDate: "2024.03.04",
+    network: { en: "Nippon TV", ja: "日本テレビ" },
+    program: "世界まる見え！テレビ特捜部",
+    detail: {
+      en: "Appeared as a programme agent in the Zekkyō special, for a segment about the Norwegian choir The Men's Choir",
+      ja: "「絶叫SP」内、ノルウェーの合唱団「ザ・メンズ・コア」の企画に番組エージェントとして出演",
+    },
+    url: "https://www.ntv.co.jp/marumie/articles/32646rqy9fces51h95f2.html",
+  },
+  {
+    date: "2023-11-13",
+    displayDate: "2023.11.13",
+    network: { en: "Nippon TV", ja: "日本テレビ" },
+    program: "世界まる見え！テレビ特捜部",
+    detail: {
+      en: "Appeared as a programme agent in the True or False two-hour special",
+      ja: "「ウソかマコトか？2HSP」に番組エージェントとして出演",
+    },
+    url: "https://www.ntv.co.jp/marumie/articles/3264f8oqkwotzuxwswar.html",
+  },
+  {
+    date: "2023-06-05",
+    displayDate: "2023.06.05",
+    network: { en: "Nippon TV", ja: "日本テレビ" },
+    program: "世界まる見え！テレビ特捜部",
+    detail: {
+      en: "Appeared as a programme agent in the working machines special",
+      ja: "「世界の働くマシンSP」に番組エージェントとして出演",
+    },
+    url: "https://www.ntv.co.jp/marumie/articles/3264xj8rlebf8byk81jv.html",
+  },
+  {
+    date: "2023-05-15",
+    displayDate: "2023.05.15",
+    network: { en: "Nippon TV", ja: "日本テレビ" },
+    program: "世界まる見え！テレビ特捜部",
+    detail: {
+      en: "Appeared as a programme agent in the two-hour arrest special",
+      ja: "「全員逮捕だ2時間SP」に番組エージェントとして出演",
+    },
+    url: "https://www.ntv.co.jp/marumie/articles/3264c4s4l7v2x9xw2zpt.html",
+  },
+  {
+    date: "2023-03-27",
+    displayDate: "2023.03.27",
+    network: { en: "Nippon TV", ja: "日本テレビ" },
+    program: "世界まる見え！テレビ特捜部",
+    detail: {
+      en: "Appeared as a programme agent in the 33rd anniversary three-hour special",
+      ja: "「まる見え33周年 ミステリークイズ3時間SP」に番組エージェントとして出演",
+    },
+    url: "https://www.ntv.co.jp/marumie/articles/3264k73e3yqe1t5p5fch.html",
+  },
+];
+
+export const blogPosts: BlogPost[] = [
+  {
+    date: "2026-07-10",
+    displayDate: "2026.07.10",
+    source: "Engineering @ Intility",
+    title: "Secure Playground for Vibe Coders",
+    url: "https://engineering.intility.com/article/secure-playground-for-vibe-coders",
+  },
+  {
+    date: "2026-02-12",
+    displayDate: "2026.02.12",
+    source: "Engineering @ Intility",
+    title:
+      "Agent Teams or: How I Learned to Stop Worrying About Merge Conflicts and Love Git Worktrees",
+    url: "https://engineering.intility.com/article/agent-teams-or-how-i-learned-to-stop-worrying-about-merge-conflicts-and-love-git-worktrees",
+  },
+  {
+    date: "2025-10-10",
+    displayDate: "2025.10.10",
+    source: "blog.froystein.jp",
+    title: "Gateway API for dummies",
+    url: "https://blog.froystein.jp/en/posts/gateway-api-1/",
+  },
+  {
+    date: "2025-06-04",
+    displayDate: "2025.06.04",
+    source: "blog.froystein.jp",
+    title: "Configuring clients to use a container registry mirror",
+    url: "https://blog.froystein.jp/en/posts/registry-mirror-2/",
+  },
+  {
+    date: "2025-02-14",
+    displayDate: "2025.02.14",
+    source: "blog.froystein.jp",
+    title: "How to set up a simple registry mirror in Kubernetes",
+    url: "https://blog.froystein.jp/en/posts/registry-mirror-1/",
+  },
+  {
+    date: "2025-02-13",
+    displayDate: "2025.02.13",
+    source: "blog.froystein.jp",
+    title: "Hello World",
+    url: "https://blog.froystein.jp/en/posts/hello-world/",
+  },
+  {
+    date: "2024-09-25",
+    displayDate: "2024.09.25",
+    source: "Engineering @ Intility",
+    title: "Architecting a Scalable Kubernetes Platform",
+    url: "https://engineering.intility.com/article/architecting-a-scalable-kubernetes-platform",
+  },
+  {
+    date: "2022-05-23",
+    displayDate: "2022.05.23",
+    source: "Engineering @ Intility",
+    title: "Guide to High Availability in Kubernetes",
+    url: "https://engineering.intility.com/article/guide-to-high-availability-in-kubernetes",
+  },
+];
+
+export const certifications: Certification[] = [
+  {
+    title: "Red Hat Certified OpenShift Administrator",
+    url: "https://www.credly.com/badges/417725b8-2350-472c-85d4-f1db952371f7/public_url",
+  },
+  {
+    title: "Red Hat Certified Engineer (RHCE)",
+    url: "https://www.credly.com/badges/2f24df96-a500-4175-b0a1-97142609c93c/public_url",
+  },
+  {
+    title: "Red Hat Certified System Administrator (RHCSA)",
+    url: "https://www.credly.com/badges/12c4dcdb-2833-446e-bf69-eb0bda710d74/public_url",
+  },
+];
+
+export const mediaTopics: Record<Language, string[]> = {
+  en: [
+    "Norwegian culture, customs, society, and daily life",
+    "Differences between Norway and Japan",
+    "Japan from a Norwegian perspective",
+    "Working life and social values in Norway",
+    "Norwegian pronunciation and cultural context",
+    "Programme research and fact-checking",
+    "Technology, digitalisation, and IT in Norway",
+    "Kubernetes, cloud native technology, and SRE",
+  ],
+  ja: [
+    "ノルウェーの文化、習慣、社会、日常生活",
+    "ノルウェーと日本の違い",
+    "ノルウェー人から見た日本",
+    "ノルウェーでの働き方や社会的な価値観",
+    "ノルウェー語の発音確認、文化的背景の確認",
+    "番組リサーチや事実確認",
+    "ノルウェーの技術、デジタル化、IT事情",
+    "Kubernetes、クラウドネイティブ、SRE",
+  ],
+};
+
+export const mediaFormats: Record<Language, string[]> = {
+  en: [
+    "Television and video appearances",
+    "Interviews and reporting",
+    "Programme research and information",
+    "Radio and podcasts",
+    "Events and guest participation",
+    "Remote recording and phone consultation",
+  ],
+  ja: [
+    "テレビ・動画出演",
+    "インタビュー・取材",
+    "番組リサーチ・情報提供",
+    "ラジオ・ポッドキャスト",
+    "イベント登壇・ゲスト参加",
+    "オンライン収録・電話確認",
+  ],
+};

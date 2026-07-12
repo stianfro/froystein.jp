@@ -8,6 +8,7 @@ resources:
   - deployment.yaml
   - service.yaml
   - httproute-public.yaml
+  - httproute-redirect.yaml
 
 labels:
   - pairs:

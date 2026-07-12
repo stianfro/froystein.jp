@@ -1,0 +1,17 @@
+---
+import MediaPage from "../../components/MediaPage.astro";
+import { mediaStructuredData } from "../../data/structured-data";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="Norway-related media enquiries | Stian Froeystein"
+  description="Stian Froeystein is a Norwegian engineer living in Tokyo, fluent in Japanese and English, and available for television, interviews, programme research, and events."
+  canonicalPath="/media/"
+  alternatePath="/ja/media/"
+  currentPage="media"
+  language="en"
+  structuredData={mediaStructuredData("en", "/media/")}
+>
+  <MediaPage language="en" />
+</SiteLayout>

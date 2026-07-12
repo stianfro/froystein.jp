@@ -1,0 +1,40 @@
+---
+import { appearances, type Language } from "../data/content";
+
+interface Props {
+  language: Language;
+}
+
+const { language } = Astro.props;
+---
+
+<ol class="appearance-list">
+  {
+    appearances.map((appearance) => (
+      <li>
+        <time datetime={appearance.date}>{appearance.displayDate}</time>
+        <div>
+          <p class="appearance-program">{appearance.program}</p>
+          <p>
+            {appearance.network[language]} / {appearance.detail[language]}
+            {appearance.url && (
+              <>
+                {" / "}
+                <a
+                  class="official-link"
+                  href={appearance.url}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {language === "ja"
+                    ? "公式放送ページ"
+                    : "Official episode page"}
+                </a>
+              </>
+            )}
+          </p>
+        </div>
+      </li>
+    ))
+  }
+</ol>

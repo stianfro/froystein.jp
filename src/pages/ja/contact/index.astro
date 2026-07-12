@@ -1,0 +1,17 @@
+---
+import ContactPage from "../../../components/ContactPage.astro";
+import { contactStructuredData } from "../../../data/structured-data";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="お問い合わせ | Froystein Consulting"
+  description="Kubernetes・クラウドネイティブに関する技術相談と、スティアン・フロイスタインへの取材・出演のご相談窓口です。"
+  canonicalPath="/ja/contact/"
+  alternatePath="/contact/"
+  currentPage="contact"
+  language="ja"
+  structuredData={contactStructuredData("ja", "/ja/contact/")}
+>
+  <ContactPage language="ja" />
+</SiteLayout>

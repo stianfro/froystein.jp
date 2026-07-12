@@ -1,0 +1,19 @@
+---
+import { blogPosts } from "../data/content";
+---
+
+<ul class="post-list">
+  {
+    blogPosts.map((post) => (
+      <li>
+        <a href={post.url} rel="noopener noreferrer" target="_blank">
+          <span class="post-copy">
+            <span class="post-title">{post.title}</span>
+            <span class="post-source">{post.source}</span>
+          </span>
+          <time datetime={post.date}>{post.displayDate}</time>
+        </a>
+      </li>
+    ))
+  }
+</ul>

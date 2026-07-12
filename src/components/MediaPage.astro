@@ -1,0 +1,187 @@
+---
+import { mediaFormats, mediaTopics, type Language } from "../data/content";
+import AppearanceList from "./AppearanceList.astro";
+
+interface Props {
+  language: Language;
+}
+
+const { language } = Astro.props;
+const isJapanese = language === "ja";
+const contactPath = isJapanese ? "/ja/contact/" : "/contact/";
+---
+
+<main id="main" class="media-page page-shell">
+  <section class="media-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">NORWAY / JAPAN / MEDIA</p>
+      <h1 class="media-title">
+        {
+          isJapanese ? (
+            <>
+              <>
+                <span>ノルウェーに関する</span>
+                <span>取材・出演のご相談</span>
+              </>
+            </>
+          ) : (
+            <>
+              <>
+                <span>Norway-related</span>
+                <span>media enquiries</span>
+              </>
+            </>
+          )
+        }
+      </h1>
+      <p class="lead">
+        {
+          isJapanese
+            ? "スティアン・フロイスタインは、2021年から日本に在住するノルウェー出身のエンジニアです。東京都を拠点とし、日本語・英語での取材や収録に対応しています。"
+            : "Stian Froeystein is a Norwegian engineer who has lived in Japan since 2021. Based in Tokyo, he is available for interviews and recording in Japanese or English."
+        }
+      </p>
+      <ul
+        class="availability"
+        aria-label={isJapanese ? "対応方法" : "Availability"}
+      >
+        {
+          (isJapanese
+            ? ["東京での対面", "オンライン", "電話", "急なご相談にも対応"]
+            : ["Tokyo in person", "Remote", "Phone", "Short notice"]
+          ).map((item) => <li>{item}</li>)
+        }
+      </ul>
+    </div>
+    <dl class="identity-summary">
+      <div>
+        <dt>{isJapanese ? "氏名" : "Name"}</dt><dd>
+          Stian Froeystein<br /><span lang="ja">スティアン・フロイスタイン</span
+          >
+        </dd>
+      </div>
+      <div>
+        <dt>{isJapanese ? "出身・在住" : "From / based"}</dt><dd>
+          {isJapanese ? "ノルウェー出身、東京都在住" : "Norway / Tokyo, Japan"}
+        </dd>
+      </div>
+      <div>
+        <dt>{isJapanese ? "言語" : "Languages"}</dt><dd>
+          {
+            isJapanese
+              ? "ノルウェー語（母語）、日本語・英語（流暢）"
+              : "Norwegian (native), Japanese and English (fluent)"
+          }
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="profile-section content-grid">
+    <div class="section-heading">
+      <p class="section-code">PROFILE</p><h2>
+        {isJapanese ? "プロフィール" : "Profile"}
+      </h2>
+    </div>
+    <div>
+      <dl class="profile-facts">
+        <div>
+          <dt>{isJapanese ? "日本在住歴" : "In Japan"}</dt><dd>
+            {isJapanese ? "2021年〜" : "Since 2021"}
+          </dd>
+        </div>
+        <div>
+          <dt>{isJapanese ? "現職" : "Current roles"}</dt><dd>
+            {
+              isJapanese
+                ? "株式会社フロイスタインコンサルティング 代表取締役"
+                : "Representative Director, Froystein Consulting Co., Ltd"
+            }<br />Lead Site Reliability Engineer, Intility AS
+          </dd>
+        </div>
+        <div>
+          <dt>{isJapanese ? "その他" : "Other"}</dt><dd>
+            {
+              isJapanese
+                ? "元・日本ノルウェー協会副会長"
+                : "Former Vice President of the Norway-Japan Society"
+            }
+          </dd>
+        </div>
+        <div>
+          <dt>{isJapanese ? "技術経験" : "Engineering"}</dt><dd>
+            {
+              isJapanese
+                ? "Linux、クラウド基盤、Kubernetes、SREに約11年"
+                : "About 11 years across Linux, cloud infrastructure, Kubernetes, and SRE"
+            }
+          </dd>
+        </div>
+      </dl>
+      <p class="perspective-note">
+        {
+          isJapanese
+            ? "ノルウェーの文化や生活については、ノルウェーで育った経験と、2021年から日本で生活している経験に基づいてお話しします。IT・クラウド分野については、2015年からの実務経験に基づいて対応します。"
+            : "For Norwegian culture and daily life, Stian speaks from his experience of growing up in Norway and living in Japan. For IT and cloud topics, he draws on professional experience since 2015."
+        }
+      </p>
+    </div>
+  </section>
+
+  <section class="content-grid topics-section">
+    <div class="section-heading">
+      <p class="section-code">TOPICS / FORMATS</p><h2>
+        {isJapanese ? "対応できる内容" : "Topics and formats"}
+      </h2>
+    </div>
+    <div class="topics-grid">
+      <div>
+        <h3>{isJapanese ? "テーマ" : "Topics"}</h3><ul>
+          {mediaTopics[language].map((topic) => <li>{topic}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h3>{isJapanese ? "形式" : "Formats"}</h3><ul>
+          {mediaFormats[language].map((format) => <li>{format}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-grid appearances-section">
+    <div class="section-heading">
+      <p class="section-code">TV APPEARANCES</p><h2>
+        {isJapanese ? "テレビ出演歴" : "TV appearances"}
+      </h2>
+    </div>
+    <AppearanceList language={language} />
+  </section>
+
+  <section class="contact-prompt">
+    <div>
+      <p class="section-code">CONTACT</p><h2>
+        {isJapanese ? "取材・出演のご相談" : "Media enquiries"}
+      </h2>
+    </div>
+    <div>
+      <p>
+        {
+          isJapanese
+            ? "取材・出演専用のメール窓口をご案内します。"
+            : "Use the dedicated media contact route for programme and appearance enquiries."
+        }
+      </p><a class="contact-action" href="mailto:media@froystein.jp">
+        {
+          isJapanese
+            ? "media@froystein.jp にメール"
+            : "Email media@froystein.jp"
+        }
+      </a>
+      <p class="secondary-action">
+        <a href={contactPath}
+          >{isJapanese ? "その他のお問い合わせ" : "Other contact options"}</a
+        >
+      </p>
+    </div>
+  </section>
+</main>

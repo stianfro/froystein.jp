@@ -1,0 +1,68 @@
+---
+import type { Language } from "../data/content";
+
+interface Props {
+  language: Language;
+}
+const { language } = Astro.props;
+const isJapanese = language === "ja";
+---
+
+<main id="main" class="contact-page page-shell">
+  <header class="contact-hero">
+    <p class="eyebrow">CONTACT</p>
+    <h1>{isJapanese ? "お問い合わせ" : "Contact"}</h1>
+    <p class="lead">
+      {
+        isJapanese
+          ? "ご相談内容に応じて、以下の窓口からお問い合わせください。"
+          : "Choose the type of enquiry below."
+      }
+    </p>
+  </header>
+  <div class="contact-options">
+    <section>
+      <p class="section-code">CONSULTING</p>
+      <h2>{isJapanese ? "技術コンサルティング" : "Technical consultancy"}</h2>
+      <p>
+        {
+          isJapanese
+            ? "Kubernetes、クラウドネイティブ、プラットフォームエンジニアリング、SREに関するご相談は、LinkedInからご連絡ください。"
+            : "For Kubernetes, cloud native, platform engineering, or SRE enquiries, contact Stian through LinkedIn."
+        }
+      </p>
+      <a
+        class="contact-action"
+        href="https://www.linkedin.com/in/stian-fr%C3%B8ystein-1baa52103"
+        rel="noopener noreferrer"
+        target="_blank"
+        >{isJapanese ? "LinkedInで問い合わせる" : "Contact via LinkedIn"}</a
+      >
+    </section>
+    <section>
+      <p class="section-code">MEDIA</p>
+      <h2>{isJapanese ? "取材・出演のご相談" : "Media enquiries"}</h2>
+      <p>
+        {
+          isJapanese
+            ? "番組名または媒体名、ご相談内容、ご希望の日時と形式（対面・オンライン・電話）、返信期限をメールでお知らせください。"
+            : "Please email the programme or publication name, enquiry details, preferred date and format, and your reply deadline."
+        }
+      </p>
+      <a class="contact-action" href="mailto:media@froystein.jp"
+        >{
+          isJapanese
+            ? "media@froystein.jp にメール"
+            : "Email media@froystein.jp"
+        }</a
+      >
+      <p class="contact-note">
+        {
+          isJapanese
+            ? "内容を確認し、対応可能な場合に折り返しご連絡します。"
+            : "I will review the details and reply when I can assist."
+        }
+      </p>
+    </section>
+  </div>
+</main>
