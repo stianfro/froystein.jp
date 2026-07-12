@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/stianfro/froystein.jp/compare/v1.2.7...v1.3.0) (2026-07-12)
+
+
+### Features
+
+* add bilingual media discovery site ([#32](https://github.com/stianfro/froystein.jp/issues/32)) ([f1d3f3d](https://github.com/stianfro/froystein.jp/commit/f1d3f3d99f6ff75be43376bc73938ed253c083ca))
+
 ## [1.2.7](https://github.com/stianfro/froystein.jp/compare/v1.2.6...v1.2.7) (2026-06-02)
 
 
