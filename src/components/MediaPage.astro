@@ -170,7 +170,13 @@ const contactPath = isJapanese ? "/ja/contact/" : "/contact/";
             ? "取材・出演専用のメール窓口をご案内します。"
             : "Use the dedicated media contact route for programme and appearance enquiries."
         }
-      </p><a class="contact-action" href="mailto:media@froystein.jp">
+      </p><a
+        class="contact-action"
+        href="mailto:media@froystein.jp"
+        data-umami-event="media_email_click"
+        data-umami-event-language={language}
+        data-umami-event-page="media"
+      >
         {
           isJapanese
             ? "media@froystein.jp にメール"

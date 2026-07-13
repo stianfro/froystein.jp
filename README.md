@@ -16,3 +16,6 @@ just preview
 ```
 
 `just check` runs Astro diagnostics, formatting checks, YAML validation, a static production build, and focused build-output tests.
+
+See [Website analytics](docs/analytics.md) for the disabled-by-default Umami
+integration and its deployment contract.

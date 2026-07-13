@@ -20,12 +20,28 @@ FROM nginx:1.27-alpine
 
 # Copy custom nginx config for static routing
 COPY <<EOF /etc/nginx/conf.d/default.conf
+map \$http_referer \$analytics_referrer {
+    ~^https?://([^/?\\#]+) \$1;
+    default "";
+}
+
+log_format analytics escape=json '{"timestamp":"\$time_iso8601",'
+    '"method":"\$request_method",'
+    '"host":"\$host",'
+    '"path":"\$uri",'
+    '"status":\$status,'
+    '"referrer_host":"\$analytics_referrer",'
+    '"user_agent":"\$http_user_agent",'
+    '"request_time":\$request_time,'
+    '"country":"\$http_cf_ipcountry"}';
+
 server {
     listen 80;
     server_name _;
     root /usr/share/nginx/html;
     index index.html;
     absolute_redirect off;
+    access_log /dev/stdout analytics;
 
     # Gzip compression
     gzip on;

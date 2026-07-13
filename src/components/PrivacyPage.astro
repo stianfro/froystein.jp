@@ -1,0 +1,103 @@
+---
+import type { Language } from "../data/content";
+
+interface Props {
+  language: Language;
+}
+
+const { language } = Astro.props;
+const isJapanese = language === "ja";
+---
+
+<main id="main" class="privacy-page page-shell">
+  <header class="privacy-hero">
+    <p class="eyebrow">PRIVACY</p>
+    <h1>{isJapanese ? "プライバシー" : "Privacy"}</h1>
+    <p class="lead">
+      {
+        isJapanese
+          ? "当サイトでは、必要最小限のアクセス解析と運用ログを使用しています。"
+          : "This site uses limited audience measurement and operational logs."
+      }
+    </p>
+  </header>
+
+  <div class="privacy-content">
+    <section>
+      <h2>{isJapanese ? "アクセス解析" : "Audience measurement"}</h2>
+      <p>
+        {
+          isJapanese
+            ? "当サイトは、運営するインフラ上でセルフホストしたUmamiを使用します。閲覧数、訪問数、参照元、閲覧ページ、国、端末の種類、OS、ブラウザー、および下記の操作を集計します。広告、サイトをまたぐ追跡、個人プロファイルの作成には使用しません。"
+            : "This site uses a self-hosted Umami installation on infrastructure operated by Froystein Consulting. It measures page views, visits, referrers, pages, country, device type, operating system, browser, and the actions listed below. The data is not used for advertising, cross-site tracking, or individual profiles."
+        }
+      </p>
+      <p>
+        {
+          isJapanese
+            ? "計測対象の操作は、取材用メールのクリック、技術相談用LinkedInのクリック、記事への外部リンクのクリック、言語切り替えです。メールアドレス、入力内容、外部リンクのクエリ文字列は送信しません。"
+            : "Measured actions are clicks on the media email link, the consultancy LinkedIn link, outbound article links, and the language switch. Email addresses, form or typed content, and query strings from outbound links are not sent."
+        }
+      </p>
+    </section>
+
+    <section>
+      <h2>{isJapanese ? "Cookieと識別子" : "Cookies and identifiers"}</h2>
+      <p>
+        {
+          isJapanese
+            ? "アクセス解析にCookieまたは永続的な端末識別子を使用しません。UmamiはIPアドレスとブラウザー情報から月ごとに変わるセッションハッシュを生成しますが、IPアドレス自体は解析データベースに保存しません。位置情報は国単位に限定します。下のオプトアウトを選択した場合に限り、その設定をブラウザーのローカルストレージに保存します。Do Not Trackが有効なブラウザーからは計測しません。"
+            : "Audience measurement does not use cookies or a persistent device identifier. Umami creates a monthly session hash from the IP address and browser information, but the IP address itself is not stored in the analytics database. Location is limited to country level. Local storage is used only if you choose the opt-out below, so the browser can remember that choice. Browsers with Do Not Track enabled are not measured."
+        }
+      </p>
+      <button type="button" class="analytics-opt-out" data-analytics-opt-out>
+        {
+          isJapanese
+            ? "このブラウザーで計測を停止"
+            : "Disable analytics in this browser"
+        }
+      </button>
+      <p data-analytics-status hidden>
+        {
+          isJapanese
+            ? "このブラウザーではアクセス解析を停止しています。"
+            : "Analytics are disabled in this browser."
+        }
+      </p>
+      <p data-analytics-opt-out-error hidden>
+        {
+          isJapanese
+            ? "ブラウザーのストレージを使用できません。計測を停止するにはDo Not Trackを有効にしてください。"
+            : "Browser storage is unavailable. Enable Do Not Track to opt out."
+        }
+      </p>
+    </section>
+
+    <section>
+      <h2>{isJapanese ? "運用ログ" : "Operational logs"}</h2>
+      <p>
+        {
+          isJapanese
+            ? "セキュリティ、障害調査、Botと人によるアクセスの区別のため、Webサーバーのリクエストログを最大14日間保存します。ログにはクエリ文字列を除いたパス、メソッド、ステータス、ホスト、参照元のホスト名、ユーザーエージェント、リクエスト処理時間、Cloudflareが提供する国コードを記録します。クライアントIPアドレスと転送元IPアドレス（Forwarded-For）は記録しません。ログはアクセス制限されたシステムに保管し、広告や個人プロファイルには使用しません。"
+            : "Web server request logs are retained for up to 14 days for security, fault investigation, and distinguishing automated traffic from likely human traffic. Logs contain the path without its query string, method, status, host, referrer hostname, user agent, request duration, and country code provided by Cloudflare. They do not contain the client IP address or forwarded-for addresses. Logs are access-controlled and are not used for advertising or individual profiles."
+        }
+      </p>
+    </section>
+
+    <section>
+      <h2>{isJapanese ? "保存期間と管理者" : "Retention and controller"}</h2>
+      <p>
+        {
+          isJapanese
+            ? "解析イベントは最大13か月間保存します。集計後の匿名統計は、期間を定めず保存する場合があります。当サイトおよびデータの管理者は株式会社フロイスタインコンサルティングです。"
+            : "Analytics events are retained for up to 13 months. Anonymous aggregate statistics may be retained without a fixed end date. Froystein Consulting Co., Ltd is the controller of this site and its analytics data."
+        }
+      </p>
+      <p>
+        {isJapanese ? "お問い合わせ: " : "Privacy enquiries: "}<a
+          href="mailto:privacy@froystein.jp">privacy@froystein.jp</a
+        >
+      </p>
+    </section>
+  </div>
+</main>

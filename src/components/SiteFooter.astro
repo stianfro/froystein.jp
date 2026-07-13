@@ -23,6 +23,11 @@ const isJapanese = language === "ja";
   </div>
   <div class="footer-meta">
     <p>© {new Date().getFullYear()} Froystein Consulting Co., Ltd</p>
+    <p>
+      <a href={isJapanese ? "/ja/privacy/" : "/privacy/"}>
+        {isJapanese ? "プライバシー" : "Privacy"}
+      </a>
+    </p>
     <SocialLinks language={language} />
   </div>
 </footer>

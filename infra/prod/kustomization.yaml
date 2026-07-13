@@ -13,7 +13,6 @@ resources:
 labels:
   - pairs:
       app.kubernetes.io/part-of: froystein-jp
-      app.kubernetes.io/managed-by: kargo
     includeSelectors: false
 
 images:
