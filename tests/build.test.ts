@@ -261,6 +261,10 @@ describe("static build", () => {
     expect(dockerfile).toContain("location = /llms.txt");
     expect(dockerfile).toContain("charset_types text/plain;");
     expect(dockerfile).toContain('X-Robots-Tag "noindex, follow"');
+    expect(dockerfile).toContain("location = /sitemap-index.xml/");
+    expect(dockerfile).toContain("return 301 /sitemap-index.xml;");
+    expect(dockerfile).toContain("location = /sitemap-0.xml/");
+    expect(dockerfile).toContain("return 301 /sitemap-0.xml;");
     expect(dockerfile).toContain('"path":"\\$uri"');
     expect(dockerfile).not.toContain("\\$request_uri");
     expect(dockerfile).not.toContain("remote_addr");

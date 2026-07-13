@@ -64,6 +64,15 @@ server {
         try_files \$uri =404;
     }
 
+    # Redirect directory-shaped sitemap requests to the generated XML files
+    location = /sitemap-index.xml/ {
+        return 301 /sitemap-index.xml;
+    }
+
+    location = /sitemap-0.xml/ {
+        return 301 /sitemap-0.xml;
+    }
+
     # Cache static assets
     location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$ {
         expires 1y;
