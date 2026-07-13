@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/stianfro/froystein.jp/compare/v1.4.0...v1.4.1) (2026-07-13)
+
+
+### Bug Fixes
+
+* redirect sitemap paths with trailing slashes ([#39](https://github.com/stianfro/froystein.jp/issues/39)) ([863ca9a](https://github.com/stianfro/froystein.jp/commit/863ca9a1a69fbbabc3de116fe2a57f96143c861b))
+
 ## [1.4.0](https://github.com/stianfro/froystein.jp/compare/v1.3.2...v1.4.0) (2026-07-13)
 
 
