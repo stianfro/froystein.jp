@@ -49,8 +49,8 @@ lab repository rather than this image.
 Nginx writes structured JSON to standard output for Loki. It records the path
 without a query string, method, status, host, referrer hostname, user agent,
 request duration, and Cloudflare country header. It does not record the client
-IP address or forwarded-for headers. Health checks and assets remain visible by
-their paths so dashboards can separate them from page traffic.
+IP address or forwarded-for headers. The log collector drops health checks and
+any legacy access-log lines that are not in this JSON format.
 
 After enabling an environment:
 
@@ -59,4 +59,5 @@ After enabling an environment:
 3. Exercise each event and inspect its fixed properties in Umami.
 4. Enable Do Not Track and confirm that the tracker is not requested.
 5. Use the privacy-page opt-out and confirm that it is remembered.
-6. Confirm the Umami dashboard is reachable only through internal Authentik.
+6. Confirm the Umami dashboard is reachable only through the internal network
+   and requires Umami's local login.
