@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/stianfro/froystein.jp/compare/v1.3.2...v1.4.0) (2026-07-13)
+
+
+### Features
+
+* add privacy-conscious website analytics ([#37](https://github.com/stianfro/froystein.jp/issues/37)) ([7d791d5](https://github.com/stianfro/froystein.jp/commit/7d791d5cf1de71283ac88f78d06078dfa521548b))
+
 ## [1.3.2](https://github.com/stianfro/froystein.jp/compare/v1.3.1...v1.3.2) (2026-07-13)
 
 
