@@ -46,8 +46,8 @@ const isJapanese = language === "ja";
       <p>
         {
           isJapanese
-            ? "アクセス解析にCookieまたは永続的な端末識別子を使用しません。UmamiはIPアドレスとブラウザー情報から日ごとに変わるセッションハッシュを生成しますが、IPアドレス自体は解析データベースに保存しません。位置情報は国単位に限定します。下のオプトアウトを選択した場合に限り、その設定をブラウザーのローカルストレージに保存します。Do Not Trackが有効なブラウザーからは計測しません。"
-            : "Audience measurement does not use cookies or a persistent device identifier. Umami creates a daily session hash from the IP address and browser information, but the IP address itself is not stored in the analytics database. Location is limited to country level. Local storage is used only if you choose the opt-out below, so the browser can remember that choice. Browsers with Do Not Track enabled are not measured."
+            ? "アクセス解析にCookieまたは永続的な端末識別子を使用しません。UmamiはIPアドレスとブラウザー情報から月ごとに変わるセッションハッシュを生成しますが、IPアドレス自体は解析データベースに保存しません。位置情報は国単位に限定します。下のオプトアウトを選択した場合に限り、その設定をブラウザーのローカルストレージに保存します。Do Not Trackが有効なブラウザーからは計測しません。"
+            : "Audience measurement does not use cookies or a persistent device identifier. Umami creates a monthly session hash from the IP address and browser information, but the IP address itself is not stored in the analytics database. Location is limited to country level. Local storage is used only if you choose the opt-out below, so the browser can remember that choice. Browsers with Do Not Track enabled are not measured."
         }
       </p>
       <button type="button" class="analytics-opt-out" data-analytics-opt-out>
@@ -78,8 +78,8 @@ const isJapanese = language === "ja";
       <p>
         {
           isJapanese
-            ? "セキュリティ、障害調査、Botと人によるアクセスの区別のため、Webサーバーのリクエストログを最大14日間保存します。ログはアクセス制限されたシステムに保管し、広告や個人プロファイルには使用しません。"
-            : "Web server request logs are retained for up to 14 days for security, fault investigation, and distinguishing automated traffic from likely human traffic. Logs are access-controlled and are not used for advertising or individual profiles."
+            ? "セキュリティ、障害調査、Botと人によるアクセスの区別のため、Webサーバーのリクエストログを最大14日間保存します。ログにはクエリ文字列を除いたパス、メソッド、ステータス、ホスト、参照元のホスト名、ユーザーエージェント、リクエスト処理時間、Cloudflareが提供する国コードを記録します。クライアントIPアドレスと転送元IPアドレス（Forwarded-For）は記録しません。ログはアクセス制限されたシステムに保管し、広告や個人プロファイルには使用しません。"
+            : "Web server request logs are retained for up to 14 days for security, fault investigation, and distinguishing automated traffic from likely human traffic. Logs contain the path without its query string, method, status, host, referrer hostname, user agent, request duration, and country code provided by Cloudflare. They do not contain the client IP address or forwarded-for addresses. Logs are access-controlled and are not used for advertising or individual profiles."
         }
       </p>
     </section>

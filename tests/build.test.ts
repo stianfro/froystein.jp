@@ -107,10 +107,14 @@ describe("static build", () => {
     expect(contact).toContain('data-umami-event="media_email_click"');
     expect(media).toContain('data-umami-event-page="media"');
     expect(privacy).toContain("does not use cookies");
-    expect(privacy).toContain("daily session hash");
+    expect(privacy).toContain("monthly session hash");
+    expect(privacy).toContain("path without its query string");
+    expect(privacy).toContain("referrer hostname");
+    expect(privacy).toContain("do not contain the client IP address");
     expect(privacy).toContain("Disable analytics in this browser");
     expect(privacy).toContain("up to 13 months");
     expect(japanesePrivacy).toContain("最大14日間");
+    expect(japanesePrivacy).toContain("月ごとに変わるセッションハッシュ");
     expect(japanesePrivacy).toContain("privacy@froystein.jp");
 
     for (const html of [home, contact, media]) {
