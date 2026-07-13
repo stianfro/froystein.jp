@@ -33,7 +33,8 @@ describe("static build", () => {
     expect(html).toContain('<meta name="twitter:card" content="summary">');
     expect(html).toContain('<meta name="twitter:title" content="Froystein');
     expect(html).toContain('<meta name="twitter:description" content="');
-    expect(html).not.toMatch(/<script[^>]+src=/);
+    expect(html).toContain('<script src="/analytics-config.js"></script>');
+    expect(html).toContain('<script src="/analytics.js" defer></script>');
   });
 
   test("renders reciprocal Japanese and English profile pages", async () => {
@@ -82,6 +83,39 @@ describe("static build", () => {
 
     expect(english).toContain("Choose the type of enquiry below.");
     expect(japanese).toContain("以下の窓口からお問い合わせください");
+  });
+
+  test("ships disabled analytics with an allowlisted event vocabulary", async () => {
+    const [home, contact, media, privacy, japanesePrivacy, config, loader] =
+      await Promise.all([
+        readOutput("index.html"),
+        readOutput("contact/index.html"),
+        readOutput("media/index.html"),
+        readOutput("privacy/index.html"),
+        readOutput("ja/privacy/index.html"),
+        readOutput("analytics-config.js"),
+        readOutput("analytics.js"),
+      ]);
+
+    expect(config).toContain("enabled: false");
+    expect(loader).toContain('scriptUrl ?? "/_analytics/script.js"');
+    expect(loader).toContain('hostUrl ?? "/_analytics"');
+    expect(loader).toContain('scriptUrl.startsWith("/")');
+    expect(home).toContain('data-umami-event="article_outbound_click"');
+    expect(home).toContain('data-umami-event="language_switch"');
+    expect(contact).toContain('data-umami-event="consultancy_linkedin_click"');
+    expect(contact).toContain('data-umami-event="media_email_click"');
+    expect(media).toContain('data-umami-event-page="media"');
+    expect(privacy).toContain("does not use cookies");
+    expect(privacy).toContain("daily session hash");
+    expect(privacy).toContain("Disable analytics in this browser");
+    expect(privacy).toContain("up to 13 months");
+    expect(japanesePrivacy).toContain("最大14日間");
+    expect(japanesePrivacy).toContain("privacy@froystein.jp");
+
+    for (const html of [home, contact, media]) {
+      expect(html).not.toMatch(/data-umami-event-(?:email|url|query)=/);
+    }
   });
 
   test("publishes a connected Organization and ProfilePage entity graph", async () => {
@@ -137,7 +171,7 @@ describe("static build", () => {
     expect(
       (sitemap.match(/<lastmod>2026-07-12T00:00:00\.000Z<\/lastmod>/g) ?? [])
         .length,
-    ).toBe(6);
+    ).toBe(8);
     expect(sitemap).not.toContain("404.html");
     expect(llms).toContain("https://www.froystein.jp/ja/media.md");
     expect(sitemap).not.toContain(".md</loc>");
@@ -223,6 +257,11 @@ describe("static build", () => {
     expect(dockerfile).toContain("location = /llms.txt");
     expect(dockerfile).toContain("charset_types text/plain;");
     expect(dockerfile).toContain('X-Robots-Tag "noindex, follow"');
+    expect(dockerfile).toContain('"path":"\\$uri"');
+    expect(dockerfile).not.toContain("\\$request_uri");
+    expect(dockerfile).not.toContain("remote_addr");
+    expect(dockerfile).not.toContain("x-forwarded-for");
+    expect(dockerfile).toContain('"country":"\\$http_cf_ipcountry"');
 
     const response = markdownResponse("# Test");
     expect(response.headers.get("content-type")).toBe(
@@ -239,6 +278,8 @@ describe("static build", () => {
       "ja/index.html",
       "ja/contact/index.html",
       "ja/media/index.html",
+      "privacy/index.html",
+      "ja/privacy/index.html",
     ];
 
     for (const page of pages) {

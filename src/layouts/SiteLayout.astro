@@ -7,9 +7,10 @@ import BaseLayout from "./BaseLayout.astro";
 interface Props {
   alternatePath: string;
   canonicalPath: string;
-  currentPage: "contact" | "home" | "media";
+  currentPage: "contact" | "home" | "media" | "privacy";
   description: string;
   language: Language;
+  markdownMirror?: boolean;
   structuredData?: object | object[];
   title: string;
 }
@@ -23,6 +24,7 @@ const props = Astro.props;
   canonicalPath={props.canonicalPath}
   alternatePath={props.alternatePath}
   language={props.language}
+  markdownMirror={props.markdownMirror}
   structuredData={props.structuredData}
 >
   <a class="skip-link" href="#main">

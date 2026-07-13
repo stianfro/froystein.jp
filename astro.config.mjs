@@ -2,9 +2,16 @@ import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 
 const lastModifiedByPath = new Map(
-  ["/", "/contact/", "/media/", "/ja/", "/ja/contact/", "/ja/media/"].map(
-    (path) => [path, "2026-07-12"],
-  ),
+  [
+    "/",
+    "/contact/",
+    "/media/",
+    "/privacy/",
+    "/ja/",
+    "/ja/contact/",
+    "/ja/media/",
+    "/ja/privacy/",
+  ].map((path) => [path, "2026-07-12"]),
 );
 
 export default defineConfig({

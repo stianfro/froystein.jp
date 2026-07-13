@@ -1,12 +1,26 @@
 ---
-import { blogPosts } from "../data/content";
+import { blogPosts, type Language } from "../data/content";
+
+interface Props {
+  language: Language;
+}
+
+const { language } = Astro.props;
 ---
 
 <ul class="post-list">
   {
     blogPosts.map((post) => (
       <li>
-        <a href={post.url} rel="noopener noreferrer" target="_blank">
+        <a
+          href={post.url}
+          rel="noopener noreferrer"
+          target="_blank"
+          data-umami-event="article_outbound_click"
+          data-umami-event-article-id={post.date}
+          data-umami-event-source={post.source}
+          data-umami-event-language={language}
+        >
           <span class="post-copy">
             <span class="post-title">{post.title}</span>
             <span class="post-source">{post.source}</span>

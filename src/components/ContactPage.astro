@@ -36,6 +36,9 @@ const isJapanese = language === "ja";
         href="https://www.linkedin.com/in/stian-fr%C3%B8ystein-1baa52103"
         rel="noopener noreferrer"
         target="_blank"
+        data-umami-event="consultancy_linkedin_click"
+        data-umami-event-language={language}
+        data-umami-event-page="contact"
         >{isJapanese ? "LinkedInで問い合わせる" : "Contact via LinkedIn"}</a
       >
     </section>
@@ -49,7 +52,12 @@ const isJapanese = language === "ja";
             : "Please email the programme or publication name, enquiry details, preferred date and format, and your reply deadline."
         }
       </p>
-      <a class="contact-action" href="mailto:media@froystein.jp"
+      <a
+        class="contact-action"
+        href="mailto:media@froystein.jp"
+        data-umami-event="media_email_click"
+        data-umami-event-language={language}
+        data-umami-event-page="contact"
         >{
           isJapanese
             ? "media@froystein.jp にメール"

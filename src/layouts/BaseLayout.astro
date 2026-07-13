@@ -11,6 +11,7 @@ interface Props {
   alternatePath?: string;
   language?: "en" | "ja";
   noindex?: boolean;
+  markdownMirror?: boolean;
   structuredData?: object | object[];
 }
 
@@ -21,6 +22,7 @@ const {
   alternatePath,
   language = "en",
   noindex = false,
+  markdownMirror = true,
   structuredData,
 } = Astro.props;
 const canonicalUrl = new URL(canonicalPath, Astro.site);
@@ -29,14 +31,15 @@ const alternateUrl = alternatePath
   : undefined;
 const englishUrl = language === "en" ? canonicalUrl : alternateUrl;
 const japaneseUrl = language === "ja" ? canonicalUrl : alternateUrl;
-const markdownUrl = noindex
-  ? undefined
-  : new URL(
-      canonicalPath === "/"
-        ? "/index.md"
-        : `${canonicalPath.replace(/\/$/, "")}.md`,
-      Astro.site,
-    );
+const markdownUrl =
+  noindex || !markdownMirror
+    ? undefined
+    : new URL(
+        canonicalPath === "/"
+          ? "/index.md"
+          : `${canonicalPath.replace(/\/$/, "")}.md`,
+        Astro.site,
+      );
 ---
 
 <!doctype html>
@@ -101,5 +104,7 @@ const markdownUrl = noindex
   </head>
   <body>
     <slot />
+    <script is:inline src="/analytics-config.js"></script>
+    <script is:inline src="/analytics.js" defer></script>
   </body>
 </html>
