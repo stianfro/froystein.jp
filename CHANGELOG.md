@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/stianfro/froystein.jp/compare/v1.3.1...v1.3.2) (2026-07-13)
+
+
+### Documentation
+
+* add repository agent guidance ([6d4f6df](https://github.com/stianfro/froystein.jp/commit/6d4f6df1f58b44720128ba045f6d955204993b23))
+
 ## [1.3.1](https://github.com/stianfro/froystein.jp/compare/v1.3.0...v1.3.1) (2026-07-12)
 
 
