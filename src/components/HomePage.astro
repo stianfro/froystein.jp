@@ -8,7 +8,7 @@ interface Props {
 
 const { language } = Astro.props;
 const isJapanese = language === "ja";
-const mediaPath = isJapanese ? "/ja/media/" : "/media/";
+const internationalPath = isJapanese ? "/ja/international/" : "/international/";
 const contactPath = isJapanese ? "/ja/contact/" : "/contact/";
 ---
 
@@ -71,22 +71,22 @@ const contactPath = isJapanese ? "/ja/contact/" : "/contact/";
 
   <section class="media-entry">
     <div class="section-heading">
-      <p class="section-code">PROFILE</p>
-      <h2>{isJapanese ? "プロフィール・取材" : "About and media"}</h2>
+      <p class="section-code">INTERNATIONAL</p>
+      <h2>{isJapanese ? "国際業務支援" : "International services"}</h2>
     </div>
     <div>
       <p class="section-intro">
         {
           isJapanese
-            ? "東京在住のノルウェー人として、日本語・英語でのテレビ出演、取材、番組リサーチに対応します。"
-            : "As a Norwegian living in Tokyo, Stian is available for television, interviews, and programme research in Japanese or English."
+            ? "文化交流イベントやワークショップの企画・運営、日英商談通訳・文章翻訳、企業広報、SNS運用を支援します。"
+            : "Support for cultural events and workshops, Japanese and English interpreting and translation, corporate communications, and social media operations."
         }
       </p>
-      <a class="text-link" href={mediaPath}>
+      <a class="text-link" href={internationalPath}>
         {
           isJapanese
-            ? "プロフィールとテレビ出演歴を見る"
-            : "View profile and TV appearances"
+            ? "国際業務支援について詳しく見る"
+            : "View international services"
         }
       </a>
     </div>

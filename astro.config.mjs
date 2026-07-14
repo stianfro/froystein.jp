@@ -1,18 +1,18 @@
 import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 
-const lastModifiedByPath = new Map(
-  [
-    "/",
-    "/contact/",
-    "/media/",
-    "/privacy/",
-    "/ja/",
-    "/ja/contact/",
-    "/ja/media/",
-    "/ja/privacy/",
-  ].map((path) => [path, "2026-07-12"]),
-);
+const lastModifiedByPath = new Map([
+  ["/", "2026-07-14"],
+  ["/contact/", "2026-07-14"],
+  ["/international/", "2026-07-14"],
+  ["/media/", "2026-07-14"],
+  ["/privacy/", "2026-07-12"],
+  ["/ja/", "2026-07-14"],
+  ["/ja/contact/", "2026-07-14"],
+  ["/ja/international/", "2026-07-14"],
+  ["/ja/media/", "2026-07-14"],
+  ["/ja/privacy/", "2026-07-12"],
+]);
 
 export default defineConfig({
   site: "https://www.froystein.jp",

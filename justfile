@@ -11,6 +11,10 @@ install:
 dev *args:
     bun run dev {{args}}
 
+# Format source files
+format:
+    bun run format
+
 # Build for production
 build:
     bun run build

@@ -43,32 +43,38 @@ const isJapanese = language === "ja";
       >
     </section>
     <section>
-      <p class="section-code">MEDIA</p>
-      <h2>{isJapanese ? "取材・出演のご相談" : "Media enquiries"}</h2>
+      <p class="section-code">INTERNATIONAL / MEDIA</p>
+      <h2>
+        {
+          isJapanese
+            ? "国際業務・取材のご相談"
+            : "International services and media"
+        }
+      </h2>
       <p>
         {
           isJapanese
-            ? "番組名または媒体名、ご相談内容、ご希望の日時と形式（対面・オンライン・電話）、返信期限をメールでお知らせください。"
-            : "Please email the programme or publication name, enquiry details, preferred date and format, and your reply deadline."
+            ? "ご相談内容、希望時期、対応形式（対面・出張・オンライン）、必要な言語、返信期限をメールでお知らせください。"
+            : "Please email the request, preferred timing and format, required language direction, and your reply deadline."
         }
       </p>
       <a
         class="contact-action"
-        href="mailto:media@froystein.jp"
-        data-umami-event="media_email_click"
+        href="mailto:contact@froystein.jp"
+        data-umami-event="international_email_click"
         data-umami-event-language={language}
         data-umami-event-page="contact"
         >{
           isJapanese
-            ? "media@froystein.jp にメール"
-            : "Email media@froystein.jp"
+            ? "contact@froystein.jp にメール"
+            : "Email contact@froystein.jp"
         }</a
       >
       <p class="contact-note">
         {
           isJapanese
             ? "内容を確認し、対応可能な場合に折り返しご連絡します。"
-            : "I will review the details and reply when I can assist."
+            : "We will review the details and reply when we can assist."
         }
       </p>
     </section>

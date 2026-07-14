@@ -1,0 +1,17 @@
+---
+import InternationalPage from "../../components/InternationalPage.astro";
+import { internationalStructuredData } from "../../data/structured-data";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="International project and communications support | Froystein Consulting"
+  description="International cultural events and workshops, Japanese and English interpreting and translation, corporate communications, and social media support in Japan."
+  canonicalPath="/international/"
+  alternatePath="/ja/international/"
+  currentPage="international"
+  language="en"
+  structuredData={internationalStructuredData("en", "/international/")}
+>
+  <InternationalPage language="en" />
+</SiteLayout>

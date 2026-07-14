@@ -1,0 +1,138 @@
+---
+import {
+  internationalFormats,
+  internationalServices,
+  type Language,
+} from "../data/content";
+
+interface Props {
+  language: Language;
+}
+
+const { language } = Astro.props;
+const isJapanese = language === "ja";
+---
+
+<main id="main" class="international-page page-shell">
+  <section class="international-hero media-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">CULTURE / LANGUAGE / COMMUNICATION</p>
+      <h1 class="international-title">
+        {
+          isJapanese ? (
+            <span>国際業務支援</span>
+          ) : (
+            <>
+              <span>International project</span>
+              <span>and communications support</span>
+            </>
+          )
+        }
+      </h1>
+      <p class="lead">
+        {
+          isJapanese
+            ? "株式会社フロイスタインコンサルティングは、国際的な文化交流イベントやワークショップの企画・運営、日英商談通訳・文章翻訳、企業広報、SNS運用の企画・実行を支援します。"
+            : "Froystein Consulting supports international cultural events and workshops, Japanese and English interpreting and translation, corporate communications, and social media operations."
+        }
+      </p>
+      <p class="international-focus">
+        {
+          isJapanese
+            ? "ノルウェーと日本に関する文化交流やメディア活動で培った経験を活かしながら、その他の国や地域に関するご相談にも対応します。"
+            : "Norway and Japan are a particular area of experience, and enquiries involving other countries and regions are also welcome."
+        }
+      </p>
+    </div>
+    <dl class="identity-summary international-summary">
+      <div>
+        <dt>{isJapanese ? "対応言語" : "Languages"}</dt><dd>
+          日本語 ⇄ English
+        </dd>
+      </div>
+      <div>
+        <dt>{isJapanese ? "対面" : "In person"}</dt><dd>
+          {isJapanese ? "関東圏・国内出張" : "Kanto and travel in Japan"}
+        </dd>
+      </div>
+      <div>
+        <dt>{isJapanese ? "オンライン" : "Remote"}</dt><dd>
+          {isJapanese ? "対応可能" : "Available"}
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="content-grid international-services-section">
+    <div class="section-heading">
+      <p class="section-code">SERVICES</p>
+      <h2>{isJapanese ? "対応できる業務" : "How we can help"}</h2>
+    </div>
+    <ul class="service-list">
+      {
+        internationalServices.map((service) => (
+          <li>
+            <p class="service-code">{service.code}</p>
+            <div>
+              <h3>{service.title[language]}</h3>
+              <p>{service.description[language]}</p>
+              {service.path && service.linkLabel && (
+                <a class="text-link" href={service.path[language]}>
+                  {service.linkLabel[language]}
+                </a>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="content-grid international-formats-section">
+    <div class="section-heading">
+      <p class="section-code">WORKING FORMATS</p>
+      <h2>{isJapanese ? "対応形式" : "Working formats"}</h2>
+    </div>
+    <div>
+      <ul class="availability international-availability">
+        {internationalFormats[language].map((format) => <li>{format}</li>)}
+      </ul>
+      <p class="perspective-note">
+        {
+          isJapanese
+            ? "ご相談内容、希望時期、対応形式、必要な言語、返信期限をお知らせください。内容を確認し、対応可能な場合に折り返しご連絡します。"
+            : "Please include the request, preferred timing and format, required language direction, and reply deadline. We will review the details and reply when we can assist."
+        }
+      </p>
+    </div>
+  </section>
+
+  <section class="contact-prompt">
+    <div>
+      <p class="section-code">CONTACT</p>
+      <h2>{isJapanese ? "国際業務のご相談" : "International enquiries"}</h2>
+    </div>
+    <div>
+      <p>
+        {
+          isJapanese
+            ? "国際業務とノルウェー関連の取材・出演について、共通のメール窓口をご案内します。"
+            : "Use the shared company contact for international services and Norway-related media enquiries."
+        }
+      </p>
+      <a
+        class="contact-action"
+        href="mailto:contact@froystein.jp"
+        data-umami-event="international_email_click"
+        data-umami-event-language={language}
+        data-umami-event-page="international"
+      >
+        {
+          isJapanese
+            ? "contact@froystein.jp にメール"
+            : "Email contact@froystein.jp"
+        }
+      </a>
+    </div>
+  </section>
+</main>

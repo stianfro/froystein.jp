@@ -33,6 +33,7 @@ opts out. It does not call Umami identity, session replay, or performance APIs.
 Only links with static `data-umami-event` attributes produce custom events:
 
 - `media_email_click`: `language` and `page`
+- `international_email_click`: `language` and `page`
 - `consultancy_linkedin_click`: `language` and `page`
 - `article_outbound_click`: `article-id`, `source`, and `language`
 - `language_switch`: `from`, `to`, and `page-type`
