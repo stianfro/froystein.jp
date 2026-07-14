@@ -4,6 +4,7 @@ const siteUrl = "https://www.froystein.jp";
 const websiteId = `${siteUrl}/#website`;
 const organizationId = `${siteUrl}/#organization`;
 const personId = `${siteUrl}/#stian-froeystein`;
+const internationalServiceId = `${siteUrl}/international/#service`;
 
 const organization = {
   "@type": "Organization",
@@ -91,6 +92,60 @@ export function mediaStructuredData(language: Language, path: string) {
             : "Norway-related media enquiries | Stian Froeystein",
         isPartOf: { "@id": websiteId },
         mainEntity: { "@id": personId },
+        inLanguage: language,
+      },
+    ],
+  };
+}
+
+export function internationalStructuredData(language: Language, path: string) {
+  const url = new URL(path, siteUrl).href;
+  const service = {
+    "@type": "Service",
+    "@id": internationalServiceId,
+    name:
+      language === "ja"
+        ? "国際業務支援"
+        : "International project and communications support",
+    description:
+      language === "ja"
+        ? "文化交流イベントやワークショップの企画・運営、日英商談通訳・文章翻訳、企業広報、SNS運用を支援します。"
+        : "Support for international cultural events and workshops, Japanese and English interpreting and translation, corporate communications, and social media operations.",
+    serviceType:
+      language === "ja"
+        ? [
+            "文化交流イベント・ワークショップ",
+            "日英商談通訳・文章翻訳",
+            "企業広報",
+            "SNS運用",
+            "ノルウェー関連のメディア対応",
+          ]
+        : [
+            "Cultural events and workshops",
+            "Japanese and English interpreting and translation",
+            "Corporate communications",
+            "Social media operations",
+            "Norway-related media support",
+          ],
+    provider: { "@id": organizationId },
+    availableLanguage: ["Japanese", "English"],
+    areaServed: { "@type": "Country", name: "Japan" },
+  };
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      website,
+      organization,
+      service,
+      {
+        "@type": "WebPage",
+        "@id": `${url}#webpage`,
+        url,
+        name: service.name,
+        isPartOf: { "@id": websiteId },
+        about: { "@id": internationalServiceId },
+        mainEntity: { "@id": internationalServiceId },
         inLanguage: language,
       },
     ],

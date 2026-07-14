@@ -2,7 +2,7 @@
 
 ## Profile and media information
 
-Shared profile, appearance, media-topic, format, and blog-post data lives in `src/data/content.ts`. English and Japanese pages render the same records so dates and links cannot drift between languages.
+Shared international-service, profile, appearance, media-topic, format, and blog-post data lives in `src/data/content.ts`. English and Japanese pages render the same records so dates and links cannot drift between languages.
 
 When adding a television appearance:
 
@@ -39,7 +39,7 @@ When visible copy changes, update its Markdown equivalent in the same change. `/
 
 ## Contact information
 
-`media@froystein.jp` is the dedicated media address. Do not replace it with a personal address or add a telephone number or home address. The first release has no form, submission processor, tracking, or retention system.
+`contact@froystein.jp` is the public address for international-service and media enquiries. `media@froystein.jp` remains an operational alias for existing contacts but is not published on the site. Do not replace either address with a personal address or add a telephone number or home address. The site has no form, submission processor, tracking, or retention system.
 
 Before publication and after contact changes, test inbound and outbound delivery from an external account and verify SPF, DKIM, and DMARC alignment.
 

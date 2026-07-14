@@ -2,6 +2,8 @@ import {
   appearances,
   blogPosts,
   certifications,
+  internationalFormats,
+  internationalServices,
   mediaFormats,
   mediaTopics,
   type Language,
@@ -53,6 +55,26 @@ const certificationLines = () =>
     (certification) => `- [${certification.title}](${certification.url})`,
   );
 
+const internationalServiceLines = (language: Language) =>
+  internationalServices.flatMap((service) => {
+    const lines = [
+      `### ${service.title[language]}`,
+      "",
+      service.description[language],
+    ];
+
+    if (service.path && service.linkLabel) {
+      lines.push(
+        "",
+        `[${service.linkLabel[language]}](${absoluteUrl(service.path[language])})`,
+      );
+    }
+
+    lines.push("");
+
+    return lines;
+  });
+
 export function homeMarkdown(language: Language) {
   if (language === "ja") {
     return [
@@ -77,11 +99,11 @@ export function homeMarkdown(language: Language) {
       "",
       `[技術相談の窓口](${absoluteUrl("/ja/contact/")})`,
       "",
-      "## プロフィール・取材",
+      "## 国際業務支援",
       "",
-      "スティアン・フロイスタインは、東京在住のノルウェー出身エンジニアです。日本語・英語でのテレビ出演、取材、番組リサーチに対応しています。",
+      "文化交流イベントやワークショップの企画・運営、日英商談通訳・文章翻訳、企業広報、SNS運用を支援します。",
       "",
-      `[プロフィールとテレビ出演歴](${absoluteUrl("/ja/media/")})`,
+      `[国際業務支援について詳しく見る](${absoluteUrl("/ja/international/")})`,
       "",
       "## Blog posts",
       "",
@@ -115,11 +137,11 @@ export function homeMarkdown(language: Language) {
     "",
     `[Technical consultancy contact](${absoluteUrl("/contact/")})`,
     "",
-    "## Profile and media",
+    "## International services",
     "",
-    "Stian Froeystein is a Norwegian engineer living in Tokyo. He is available for television, interviews, and programme research in Japanese or English.",
+    "Support is available for cultural events and workshops, Japanese and English interpreting and translation, corporate communications, and social media operations.",
     "",
-    `[Profile and TV appearances](${absoluteUrl("/media/")})`,
+    `[View international services](${absoluteUrl("/international/")})`,
     "",
     "## Blog posts",
     "",
@@ -128,6 +150,60 @@ export function homeMarkdown(language: Language) {
     "## Certifications",
     "",
     ...certificationLines(),
+  ].join("\n");
+}
+
+export function internationalMarkdown(language: Language) {
+  if (language === "ja") {
+    return [
+      ...documentHeader(
+        "国際業務支援",
+        "文化交流イベントやワークショップの企画・運営、日英商談通訳・文章翻訳、企業広報、SNS運用を支援します。",
+        "/ja/international/",
+        "/international.md",
+        "English Markdown version",
+      ),
+      "",
+      "ノルウェーと日本に関する文化交流やメディア活動で培った経験を活かしながら、その他の国や地域に関するご相談にも対応します。",
+      "",
+      "## 対応できる業務",
+      "",
+      ...internationalServiceLines("ja"),
+      "## 対応形式",
+      "",
+      ...markdownList(internationalFormats.ja),
+      "",
+      "## お問い合わせ",
+      "",
+      "ご相談内容、希望時期、対応形式、必要な言語、返信期限をメールでお知らせください。",
+      "",
+      "[contact@froystein.jp にメール](mailto:contact@froystein.jp)",
+    ].join("\n");
+  }
+
+  return [
+    ...documentHeader(
+      "International project and communications support",
+      "Support for international cultural events and workshops, Japanese and English interpreting and translation, corporate communications, and social media operations.",
+      "/international/",
+      "/ja/international.md",
+      "日本語のMarkdown版",
+    ),
+    "",
+    "Norway and Japan are a particular area of experience, and enquiries involving other countries and regions are also welcome.",
+    "",
+    "## Services",
+    "",
+    ...internationalServiceLines("en"),
+    "## Working formats",
+    "",
+    ...markdownList(internationalFormats.en),
+    "",
+    "## Contact",
+    "",
+    "Please include the request, preferred timing and format, required language direction, and reply deadline.",
+    "",
+    "[Email contact@froystein.jp](mailto:contact@froystein.jp)",
   ].join("\n");
 }
 
@@ -176,9 +252,9 @@ export function mediaMarkdown(language: Language) {
       "",
       "## お問い合わせ",
       "",
-      "取材・出演のご相談は media@froystein.jp までメールでお送りください。",
+      "取材・出演のご相談は contact@froystein.jp までメールでお送りください。",
       "",
-      "[media@froystein.jp にメール](mailto:media@froystein.jp)",
+      "[contact@froystein.jp にメール](mailto:contact@froystein.jp)",
     ].join("\n");
   }
 
@@ -225,9 +301,9 @@ export function mediaMarkdown(language: Language) {
     "",
     "## Contact",
     "",
-    "For programme and appearance enquiries, email media@froystein.jp.",
+    "For programme and appearance enquiries, email contact@froystein.jp.",
     "",
-    "[Email media@froystein.jp](mailto:media@froystein.jp)",
+    "[Email contact@froystein.jp](mailto:contact@froystein.jp)",
   ].join("\n");
 }
 
@@ -236,7 +312,7 @@ export function contactMarkdown(language: Language) {
     return [
       ...documentHeader(
         "お問い合わせ",
-        "技術コンサルティングと、取材・出演のご相談では窓口が異なります。",
+        "技術コンサルティングと、国際業務・取材のご相談では窓口が異なります。",
         "/ja/contact/",
         "/contact.md",
         "English Markdown version",
@@ -248,18 +324,18 @@ export function contactMarkdown(language: Language) {
       "",
       `[LinkedInで問い合わせる](${linkedinUrl})`,
       "",
-      "## 取材・出演のご相談",
+      "## 国際業務・取材のご相談",
       "",
-      "番組名または媒体名、ご相談内容、ご希望の日時と形式（対面・オンライン・電話）、返信期限をメールでお知らせください。内容を確認し、対応可能な場合に折り返しご連絡します。",
+      "ご相談内容、希望時期、対応形式（対面・出張・オンライン）、必要な言語、返信期限をメールでお知らせください。内容を確認し、対応可能な場合に折り返しご連絡します。",
       "",
-      "[media@froystein.jp にメール](mailto:media@froystein.jp)",
+      "[contact@froystein.jp にメール](mailto:contact@froystein.jp)",
     ].join("\n");
   }
 
   return [
     ...documentHeader(
       "Contact",
-      "Technical consultancy and media enquiries use separate contact routes.",
+      "Technical consultancy and international-services enquiries use separate contact routes.",
       "/contact/",
       "/ja/contact.md",
       "日本語のMarkdown版",
@@ -271,11 +347,11 @@ export function contactMarkdown(language: Language) {
     "",
     `[Contact via LinkedIn](${linkedinUrl})`,
     "",
-    "## Media enquiries",
+    "## International services and media",
     "",
-    "Please email the programme or publication name, enquiry details, preferred date and format, and your reply deadline. I will review the details and reply when I can assist.",
+    "Please email the request, preferred timing and format, required language direction, and your reply deadline. We will review the details and reply when we can assist.",
     "",
-    "[Email media@froystein.jp](mailto:media@froystein.jp)",
+    "[Email contact@froystein.jp](mailto:contact@froystein.jp)",
   ].join("\n");
 }
 

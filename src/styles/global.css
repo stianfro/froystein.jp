@@ -226,6 +226,7 @@ h3 {
 
 .eyebrow,
 .section-code,
+.service-code,
 .fact-list dt,
 .identity-summary dt,
 .profile-facts dt,
@@ -390,6 +391,7 @@ h3 {
 }
 
 .media-page,
+.international-page,
 .contact-page,
 .privacy-page {
   max-width: var(--content-width);
@@ -408,6 +410,21 @@ h3 {
   font-size: clamp(2.4rem, 5vw, 4.2rem);
 }
 
+.international-title {
+  margin-bottom: 28px;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+}
+
+.international-title span {
+  display: block;
+}
+
+.international-focus {
+  max-width: 46rem;
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
 .identity-summary {
   min-width: 0;
 }
@@ -424,6 +441,45 @@ h3 {
 .availability li::before {
   content: "+ ";
   color: var(--accent);
+}
+
+.service-list {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+.service-list li {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 28px;
+  padding-block: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.service-code {
+  margin-bottom: 0;
+}
+
+.service-list h3 {
+  margin-bottom: 8px;
+  font-size: 1.15rem;
+}
+
+.service-list p:not(.service-code) {
+  max-width: 46rem;
+  margin-bottom: 8px;
+  color: var(--muted);
+}
+
+.service-list .text-link {
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.international-availability {
+  font-size: 0.86rem;
 }
 
 .profile-facts div {
@@ -623,7 +679,8 @@ h3 {
   }
 
   .profile-facts div,
-  .appearance-list li {
+  .appearance-list li,
+  .service-list li {
     grid-template-columns: 1fr;
     gap: 4px;
   }

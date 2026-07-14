@@ -1,0 +1,17 @@
+---
+import InternationalPage from "../../../components/InternationalPage.astro";
+import { internationalStructuredData } from "../../../data/structured-data";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="国際業務支援 | 株式会社フロイスタインコンサルティング"
+  description="文化交流イベントやワークショップの企画・運営、日英商談通訳・文章翻訳、企業広報、SNS運用を支援します。"
+  canonicalPath="/ja/international/"
+  alternatePath="/international/"
+  currentPage="international"
+  language="ja"
+  structuredData={internationalStructuredData("ja", "/ja/international/")}
+>
+  <InternationalPage language="ja" />
+</SiteLayout>

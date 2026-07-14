@@ -21,6 +21,8 @@ describe("static build", () => {
     expect(html).toContain('<html lang="en">');
     expect(html).toContain("Kubernetes and");
     expect(html).toContain("Cloud Native");
+    expect(html).toContain("International services");
+    expect(html).toContain('href="/international/"');
     expect(html).toContain("Blog posts");
     expect((html.match(/class="post-title"/g) ?? []).length).toBe(8);
     expect(html).toContain("Secure Playground for Vibe Coders");
@@ -35,6 +37,45 @@ describe("static build", () => {
     expect(html).toContain('<meta name="twitter:description" content="');
     expect(html).toContain('<script src="/analytics-config.js"></script>');
     expect(html).toContain('<script src="/analytics.js" defer></script>');
+  });
+
+  test("renders reciprocal international-service pages without personal or client claims", async () => {
+    const [english, japanese, englishMarkdown, japaneseMarkdown] =
+      await Promise.all([
+        readOutput("international/index.html"),
+        readOutput("ja/international/index.html"),
+        readOutput("international.md"),
+        readOutput("ja/international.md"),
+      ]);
+
+    expect(english).toContain('<html lang="en">');
+    expect(japanese).toContain('<html lang="ja">');
+    expect(english).toContain("International project");
+    expect(japanese).toContain("国際業務支援");
+    expect((english.match(/class="service-code"/g) ?? []).length).toBe(4);
+    expect(japanese).toContain("日本語から英語、英語から日本語の両方向");
+    expect(japanese).toContain("ゲームソフトウェア分野");
+    expect(japanese).toContain("日本国内への出張");
+    expect(japanese).toContain("オンライン");
+    expect(english).toContain("mailto:contact@froystein.jp");
+    expect(english).toContain(
+      'rel="alternate" hreflang="ja" href="https://www.froystein.jp/ja/international/"',
+    );
+    expect(japanese).toContain(
+      'rel="alternate" hreflang="en" href="https://www.froystein.jp/international/"',
+    );
+
+    for (const output of [
+      english,
+      japanese,
+      englishMarkdown,
+      japaneseMarkdown,
+    ]) {
+      expect(output).not.toMatch(
+        /Aoba Ueno|上野\s*青葉|Innovation Norway|NCCJ|Norwegian Chamber|Norway-Japan Society|日本・?ノルウェー協会|Embassy|大使館|press release|プレスリリース/i,
+      );
+      expect(output).not.toContain("media@froystein.jp");
+    }
   });
 
   test("renders reciprocal Japanese and English profile pages", async () => {
@@ -66,14 +107,15 @@ describe("static build", () => {
     );
   });
 
-  test("keeps technical and media contact routes explicit", async () => {
+  test("keeps technical and international contact routes explicit", async () => {
     const [english, japanese] = await Promise.all([
       readOutput("contact/index.html"),
       readOutput("ja/contact/index.html"),
     ]);
 
     for (const html of [english, japanese]) {
-      expect(html).toContain("mailto:media@froystein.jp");
+      expect(html).toContain("mailto:contact@froystein.jp");
+      expect(html).not.toContain("media@froystein.jp");
       expect(html).toContain(
         "https://www.linkedin.com/in/stian-fr%C3%B8ystein-1baa52103",
       );
@@ -86,16 +128,25 @@ describe("static build", () => {
   });
 
   test("ships disabled analytics with an allowlisted event vocabulary", async () => {
-    const [home, contact, media, privacy, japanesePrivacy, config, loader] =
-      await Promise.all([
-        readOutput("index.html"),
-        readOutput("contact/index.html"),
-        readOutput("media/index.html"),
-        readOutput("privacy/index.html"),
-        readOutput("ja/privacy/index.html"),
-        readOutput("analytics-config.js"),
-        readOutput("analytics.js"),
-      ]);
+    const [
+      home,
+      contact,
+      international,
+      media,
+      privacy,
+      japanesePrivacy,
+      config,
+      loader,
+    ] = await Promise.all([
+      readOutput("index.html"),
+      readOutput("contact/index.html"),
+      readOutput("international/index.html"),
+      readOutput("media/index.html"),
+      readOutput("privacy/index.html"),
+      readOutput("ja/privacy/index.html"),
+      readOutput("analytics-config.js"),
+      readOutput("analytics.js"),
+    ]);
 
     expect(config).toContain("enabled: false");
     expect(loader).toContain('scriptUrl ?? "/_analytics/script.js"');
@@ -104,7 +155,11 @@ describe("static build", () => {
     expect(home).toContain('data-umami-event="article_outbound_click"');
     expect(home).toContain('data-umami-event="language_switch"');
     expect(contact).toContain('data-umami-event="consultancy_linkedin_click"');
-    expect(contact).toContain('data-umami-event="media_email_click"');
+    expect(contact).toContain('data-umami-event="international_email_click"');
+    expect(international).toContain(
+      'data-umami-event="international_email_click"',
+    );
+    expect(media).toContain('data-umami-event="media_email_click"');
     expect(media).toContain('data-umami-event-page="media"');
     expect(privacy).toContain("does not use cookies");
     expect(privacy).toContain("monthly session hash");
@@ -117,17 +172,21 @@ describe("static build", () => {
     expect(japanesePrivacy).toContain("月ごとに変わるセッションハッシュ");
     expect(japanesePrivacy).toContain("privacy@froystein.jp");
 
-    for (const html of [home, contact, media]) {
+    for (const html of [home, contact, international, media]) {
       expect(html).not.toMatch(/data-umami-event-(?:email|url|query)=/);
     }
   });
 
-  test("publishes a connected Organization and ProfilePage entity graph", async () => {
-    const [home, media] = await Promise.all([
+  test("publishes connected Organization, Service, and ProfilePage entity graphs", async () => {
+    const [home, international, media] = await Promise.all([
       readOutput("index.html"),
+      readOutput("international/index.html"),
       readOutput("ja/media/index.html"),
     ]);
     const homeGraph = readJsonLd(home)["@graph"] as Array<
+      Record<string, unknown>
+    >;
+    const internationalGraph = readJsonLd(international)["@graph"] as Array<
       Record<string, unknown>
     >;
     const mediaGraph = readJsonLd(media)["@graph"] as Array<
@@ -138,6 +197,16 @@ describe("static build", () => {
       true,
     );
     expect(homeGraph.some((node) => node["@type"] === "WebSite")).toBe(true);
+    expect(
+      internationalGraph.some(
+        (node) =>
+          node["@type"] === "Service" &&
+          node.name === "International project and communications support",
+      ),
+    ).toBe(true);
+    expect(internationalGraph.some((node) => node["@type"] === "Person")).toBe(
+      false,
+    );
     expect(mediaGraph.some((node) => node["@type"] === "ProfilePage")).toBe(
       true,
     );
@@ -165,17 +234,23 @@ describe("static build", () => {
     for (const path of [
       "/",
       "/contact/",
+      "/international/",
       "/media/",
       "/ja/",
       "/ja/contact/",
+      "/ja/international/",
       "/ja/media/",
     ]) {
       expect(sitemap).toContain(`<loc>https://www.froystein.jp${path}</loc>`);
     }
     expect(
-      (sitemap.match(/<lastmod>2026-07-12T00:00:00\.000Z<\/lastmod>/g) ?? [])
+      (sitemap.match(/<lastmod>2026-07-14T00:00:00\.000Z<\/lastmod>/g) ?? [])
         .length,
     ).toBe(8);
+    expect(
+      (sitemap.match(/<lastmod>2026-07-12T00:00:00\.000Z<\/lastmod>/g) ?? [])
+        .length,
+    ).toBe(2);
     expect(sitemap).not.toContain("404.html");
     expect(llms).toContain("https://www.froystein.jp/ja/media.md");
     expect(sitemap).not.toContain(".md</loc>");
@@ -186,17 +261,21 @@ describe("static build", () => {
   test("publishes spec-shaped llms.txt and Markdown mirrors for every page", async () => {
     const mirrorDefinitions = [
       ["index.md", "https://www.froystein.jp/"],
+      ["international.md", "https://www.froystein.jp/international/"],
       ["media.md", "https://www.froystein.jp/media/"],
       ["contact.md", "https://www.froystein.jp/contact/"],
       ["ja.md", "https://www.froystein.jp/ja/"],
+      ["ja/international.md", "https://www.froystein.jp/ja/international/"],
       ["ja/media.md", "https://www.froystein.jp/ja/media/"],
       ["ja/contact.md", "https://www.froystein.jp/ja/contact/"],
     ] as const;
     const compatibilityPaths = [
       "index.html.md",
+      "international/index.html.md",
       "media/index.html.md",
       "contact/index.html.md",
       "ja/index.html.md",
+      "ja/international/index.html.md",
       "ja/media/index.html.md",
       "ja/contact/index.html.md",
     ] as const;
@@ -231,9 +310,11 @@ describe("static build", () => {
 
     for (const [htmlPath, markdownPath] of [
       ["index.html", "index.md"],
+      ["international/index.html", "international.md"],
       ["media/index.html", "media.md"],
       ["contact/index.html", "contact.md"],
       ["ja/index.html", "ja.md"],
+      ["ja/international/index.html", "ja/international.md"],
       ["ja/media/index.html", "ja/media.md"],
       ["ja/contact/index.html", "ja/contact.md"],
     ]) {
@@ -248,14 +329,18 @@ describe("static build", () => {
 
     expect(
       (
-        mirrors[4].match(
+        mirrors[6].match(
           /^- 20\d\d\.\d\d\.\d\d, (?:TBS|フジテレビ|日本テレビ|テレビ朝日),/gm,
         ) ?? []
       ).length,
     ).toBe(12);
-    expect(mirrors[4]).toContain("チャンハウス");
+    expect(mirrors[6]).toContain("チャンハウス");
     expect(mirrors[0]).toContain("Secure Playground for Vibe Coders");
-    expect(mirrors[2]).toContain("mailto:media@froystein.jp");
+    expect(mirrors[5]).toContain("ゲームソフトウェア分野");
+    expect(mirrors[3]).toContain("mailto:contact@froystein.jp");
+    for (const mirror of mirrors) {
+      expect(mirror).not.toContain("media@froystein.jp");
+    }
     expect(dockerfile).toContain("types { text/markdown md; }");
     expect(dockerfile).toContain("charset_types text/markdown;");
     expect(dockerfile).toContain("location = /llms.txt");
@@ -282,9 +367,11 @@ describe("static build", () => {
     const pages = [
       "index.html",
       "contact/index.html",
+      "international/index.html",
       "media/index.html",
       "ja/index.html",
       "ja/contact/index.html",
+      "ja/international/index.html",
       "ja/media/index.html",
       "privacy/index.html",
       "ja/privacy/index.html",

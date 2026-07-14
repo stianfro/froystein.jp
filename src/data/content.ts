@@ -22,6 +22,14 @@ export interface Certification {
   url: string;
 }
 
+export interface InternationalService {
+  code: string;
+  title: Record<Language, string>;
+  description: Record<Language, string>;
+  path?: Record<Language, string>;
+  linkLabel?: Record<Language, string>;
+}
+
 export const appearances: Appearance[] = [
   {
     date: "2026-06-24",
@@ -229,6 +237,63 @@ export const certifications: Certification[] = [
     url: "https://www.credly.com/badges/12c4dcdb-2833-446e-bf69-eb0bda710d74/public_url",
   },
 ];
+
+export const internationalServices: InternationalService[] = [
+  {
+    code: "CULTURE",
+    title: {
+      en: "Cultural events and workshops",
+      ja: "文化交流イベント・ワークショップ",
+    },
+    description: {
+      en: "Planning and delivery of international cultural events and workshops, from the initial concept and participant coordination through on-site operation.",
+      ja: "国際的な文化交流イベントやワークショップについて、企画立案、関係者との調整、当日の運営まで対応します。",
+    },
+  },
+  {
+    code: "LANGUAGE",
+    title: {
+      en: "Japanese and English language support",
+      ja: "日英の通訳・翻訳",
+    },
+    description: {
+      en: "Two-way Japanese and English interpreting for business meetings and written translation. Interpreting experience includes meetings in the game software sector.",
+      ja: "日本語から英語、英語から日本語の両方向で、商談通訳と文章翻訳に対応します。ゲームソフトウェア分野での商談通訳経験があります。",
+    },
+  },
+  {
+    code: "COMMUNICATIONS",
+    title: {
+      en: "Corporate communications and social media",
+      ja: "企業広報・SNS運用",
+    },
+    description: {
+      en: "Planning and delivery for corporate communications and social media operations, adapted to the organisation, audience, and project.",
+      ja: "企業や団体、対象となる方々、プロジェクトの目的に合わせて、企業広報とSNS運用の企画・実行を支援します。",
+    },
+  },
+  {
+    code: "MEDIA",
+    title: {
+      en: "Norway-related media support",
+      ja: "ノルウェー関連のメディア対応",
+    },
+    description: {
+      en: "Television and video appearances, interviews, programme research, and cultural context relating to Norway and Japan.",
+      ja: "ノルウェーと日本に関するテレビ・動画出演、取材、番組リサーチ、文化的背景の確認に対応します。",
+    },
+    path: { en: "/media/", ja: "/ja/media/" },
+    linkLabel: {
+      en: "View media topics and appearances",
+      ja: "取材テーマと出演歴を見る",
+    },
+  },
+];
+
+export const internationalFormats: Record<Language, string[]> = {
+  en: ["Kanto in person", "Travel within Japan", "Remote"],
+  ja: ["関東圏での対面", "日本国内への出張", "オンライン"],
+};
 
 export const mediaTopics: Record<Language, string[]> = {
   en: [
