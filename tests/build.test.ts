@@ -127,6 +127,8 @@ describe("static build", () => {
     expect(english).toContain("Stian Frøystein");
     expect(english).toContain("Stian Froeystein");
     expect(japanese).toContain("スティアン・フロイスタイン");
+    expect(japanese).toContain("Stian Froeystein");
+    expect(japanese).toContain("Stian Frøystein（ノルウェー語表記）");
     expect(japanese).toContain("Lead Site Reliability Engineer, Intility AS");
     expect((japanese.match(/class="appearance-program"/g) ?? []).length).toBe(
       12,

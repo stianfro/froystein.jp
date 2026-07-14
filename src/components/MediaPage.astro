@@ -56,9 +56,25 @@ const contactPath = isJapanese ? "/ja/contact/" : "/contact/";
     <dl class="identity-summary">
       <div>
         <dt>{isJapanese ? "氏名" : "Name"}</dt><dd>
-          Stian Frøystein<br /><span>Stian Froeystein</span><br /><span
-            lang="ja">スティアン・フロイスタイン</span
-          >
+          {
+            isJapanese ? (
+              <>
+                <span lang="ja">スティアン・フロイスタイン</span>
+                <br />
+                <span>Stian Froeystein</span>
+                <br />
+                <span>Stian Frøystein（ノルウェー語表記）</span>
+              </>
+            ) : (
+              <>
+                Stian Frøystein
+                <br />
+                <span>Stian Froeystein</span>
+                <br />
+                <span lang="ja">スティアン・フロイスタイン</span>
+              </>
+            )
+          }
         </dd>
       </div>
       <div>

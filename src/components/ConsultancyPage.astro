@@ -188,9 +188,13 @@ const mediaPath = isJapanese ? "/ja/media/" : "/media/";
     </div>
     <div class="credentials-grid">
       <div>
-        <h3>Stian Frøystein</h3>
+        <h3>{isJapanese ? "スティアン・フロイスタイン" : "Stian Frøystein"}</h3>
         <p class="alternate-name">
-          Stian Froeystein / スティアン・フロイスタイン
+          {
+            isJapanese
+              ? "Stian Froeystein / Stian Frøystein（ノルウェー語表記）"
+              : "Stian Froeystein / スティアン・フロイスタイン"
+          }
         </p>
         <p>
           {
