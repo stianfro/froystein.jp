@@ -79,7 +79,7 @@ jobs:
       - name: Check out the released source
         uses: actions/checkout@v4
         with:
-          ref: ${{ needs.release-please.outputs.tag_name }}
+          ref: ${{ needs.build-on-release.outputs.source-revision }}
           path: source
 
       - name: Check out the production branch

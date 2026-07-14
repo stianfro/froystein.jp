@@ -9,7 +9,8 @@ is required.
    dispatches the release run. This avoids GitHub's suppression of workflow runs
    for merges made with `GITHUB_TOKEN`.
 2. `Build and Push` publishes the versioned container image to GHCR.
-3. The build returns the image digest to `Release Please`.
+3. The build returns the image digest and exact source revision to
+   `Release Please`.
 4. `just promote-prod` renders `infra/prod` with the version and digest.
 5. GitHub Actions commits the rendered files to `env/prod`.
 6. Flux watches `env/prod`, applies the new revision, and waits for healthy
