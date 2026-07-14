@@ -62,7 +62,7 @@ spec:
         app.kubernetes.io/name: froystein-jp
     spec:
       containers:
-      - image: ghcr.io/stianfro/froystein.jp:1.5.1@sha256:94704980acce88fef0ed9f18904d6e430296d349a75255eeb1fa37bf49e932d0
+      - image: ghcr.io/stianfro/froystein.jp:1.5.2@sha256:a06c12eb7a887f4bd0205199b50ec995fee30583da87e3e00d6ba1dd63009098
         livenessProbe:
           httpGet:
             path: /healthz
