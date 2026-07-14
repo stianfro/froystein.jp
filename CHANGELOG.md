@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/stianfro/froystein.jp/compare/v1.5.0...v1.5.1) (2026-07-14)
+
+
+### Bug Fixes
+
+* **deploy:** automate production releases ([#44](https://github.com/stianfro/froystein.jp/issues/44)) ([4fc5afb](https://github.com/stianfro/froystein.jp/commit/4fc5afb5d57eaa5abaf6ef016f6b8fe973244f27))
+
 ## [1.5.0](https://github.com/stianfro/froystein.jp/compare/v1.4.1...v1.5.0) (2026-07-14)
 
 
