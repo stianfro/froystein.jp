@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/stianfro/froystein.jp/compare/v1.4.1...v1.5.0) (2026-07-14)
+
+
+### Features
+
+* add international services pages ([#41](https://github.com/stianfro/froystein.jp/issues/41)) ([d1ba7ce](https://github.com/stianfro/froystein.jp/commit/d1ba7ce2e70f390f00d95a4839967a3564fc3525))
+
 ## [1.4.1](https://github.com/stianfro/froystein.jp/compare/v1.4.0...v1.4.1) (2026-07-13)
 
 
