@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    tags:
-      - "v*"
   pull_request:
     branches:
       - main
@@ -15,6 +13,10 @@ on:
         description: 'Version tag (e.g., v1.2.3) for semver tagging'
         required: false
         type: string
+    outputs:
+      digest:
+        description: Immutable digest of the published image
+        value: ${{ jobs.build.outputs.digest }}
 
 env:
   REGISTRY: ghcr.io
@@ -23,6 +25,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      digest: ${{ steps.build-push.outputs.digest }}
     permissions:
       contents: read
       packages: write
@@ -58,6 +62,7 @@ jobs:
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || inputs.version != '' }}
 
       - name: Build and push Docker image
+        id: build-push
         uses: docker/build-push-action@v6
         with:
           context: .

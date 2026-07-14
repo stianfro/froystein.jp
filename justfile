@@ -38,6 +38,25 @@ docker-dev: docker-build docker-run
 kustomize-build:
     kustomize build infra/prod
 
+# Render an immutable release into an env/prod checkout
+promote-prod output_directory version digest:
+    scripts/promote-production.sh "{{output_directory}}" "{{version}}" "{{digest}}"
+
+# Verify production promotion rendering and input validation
+test-promotion:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    output_directory=$(mktemp -d "${TMPDIR:-/tmp}/froystein-promotion-test.XXXXXX")
+    trap 'rm -rf "$output_directory"' EXIT
+    digest=sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+    just promote-prod "$output_directory" v9.8.7 "$digest"
+    test "$(yq eval-all 'select(.kind == "Deployment") | .spec.template.spec.containers[] | select(.name == "web") | .image' "$output_directory/manifests.yaml")" = "ghcr.io/stianfro/froystein.jp:9.8.7@$digest"
+    test "$(yq '.resources[0]' "$output_directory/kustomization.yaml")" = "manifests.yaml"
+    if just promote-prod "$output_directory" invalid "$digest"; then
+      echo "invalid version was accepted" >&2
+      exit 1
+    fi
+
 # Lint source and YAML without depending on the active Kubernetes context
 lint:
     bun run lint
@@ -49,5 +68,5 @@ test: build
     bun run test
 
 # Run all checks before commit
-check: lint test
+check: lint test test-promotion
     @echo "All checks passed!"

@@ -4,8 +4,10 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
+  actions: write
   contents: write
   pull-requests: write
 
@@ -35,6 +37,20 @@ jobs:
           echo "Auto-merging PR #$PR_NUMBER"
           gh pr merge "$PR_NUMBER" --auto --squash --repo ${{ github.repository }}
 
+          for attempt in $(seq 1 60); do
+            state=$(gh pr view "$PR_NUMBER" --repo ${{ github.repository }} --json state --jq .state)
+            if [[ "$state" == "MERGED" ]]; then
+              echo "Release PR #$PR_NUMBER merged, dispatching the release run"
+              gh workflow run release-please.yaml --repo ${{ github.repository }} --ref main
+              exit 0
+            fi
+            echo "Attempt ${attempt}: release PR state is ${state}"
+            sleep 10
+          done
+
+          echo "Release PR #$PR_NUMBER did not merge within 10 minutes" >&2
+          exit 1
+
   build-on-release:
     needs: release-please
     if: ${{ needs.release-please.outputs.release_created == 'true' }}
@@ -44,3 +60,112 @@ jobs:
     permissions:
       contents: read
       packages: write
+
+  promote-production:
+    needs:
+      - release-please
+      - build-on-release
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: froystein-jp-production
+      cancel-in-progress: false
+    environment:
+      name: production
+      url: https://www.froystein.jp/
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the released source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.release-please.outputs.tag_name }}
+          path: source
+
+      - name: Check out the production branch
+        uses: actions/checkout@v4
+        with:
+          ref: env/prod
+          fetch-depth: 0
+          path: production
+
+      - name: Set up just
+        uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4
+
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@53f941b41dca13ed61874bbc6b4b6e1562877530 # v3.0.0
+        with:
+          kustomize-version: 5.8.1
+
+      - name: Install yq
+        env:
+          YQ_VERSION: v4.53.3
+          YQ_SHA256: fa52a4e758c63d38299163fbdd1edfb4c4963247918bf9c1c5d31d84789eded4
+        run: |
+          curl --fail --location --silent --show-error \
+            --output /tmp/yq \
+            "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64"
+          echo "${YQ_SHA256}  /tmp/yq" | sha256sum --check
+          sudo install -m 0755 /tmp/yq /usr/local/bin/yq
+
+      - name: Render the immutable production manifests
+        working-directory: source
+        env:
+          VERSION: ${{ needs.release-please.outputs.tag_name }}
+          DIGEST: ${{ needs.build-on-release.outputs.digest }}
+        run: just promote-prod ../production "$VERSION" "$DIGEST"
+
+      - name: Commit the production promotion
+        id: promotion
+        working-directory: production
+        env:
+          VERSION: ${{ needs.release-please.outputs.tag_name }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add manifests.yaml kustomization.yaml
+          if git diff --cached --quiet; then
+            echo "Production already points at ${VERSION}"
+            echo "created=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m "chore(deploy): promote ${VERSION} to production"
+          git push origin HEAD:env/prod
+          echo "created=true" >> "$GITHUB_OUTPUT"
+
+      - name: Verify the production release
+        env:
+          VERSION: ${{ needs.release-please.outputs.tag_name }}
+        run: |
+          expected_version="${VERSION#v}"
+          for attempt in $(seq 1 60); do
+            deployed_version=$(
+              curl --fail --silent --show-error --max-time 10 \
+                -H 'Cache-Control: no-cache' \
+                "https://www.froystein.jp/version.json?deployment=${GITHUB_RUN_ID}&attempt=${attempt}" \
+                | jq -r '.version // empty' 2>/dev/null \
+                || true
+            )
+            if [[ "$deployed_version" == "$expected_version" ]]; then
+              curl --fail --silent --show-error --max-time 10 \
+                --output /dev/null https://www.froystein.jp/healthz
+              curl --fail --silent --show-error --max-time 10 \
+                --output /dev/null https://www.froystein.jp/international/
+              echo "Production is serving ${expected_version}"
+              exit 0
+            fi
+            echo "Attempt ${attempt}: expected ${expected_version}, found ${deployed_version:-no version}"
+            sleep 10
+          done
+          echo "Production did not serve ${expected_version} within 10 minutes" >&2
+          exit 1
+
+      - name: Roll back a failed production promotion
+        if: ${{ failure() && steps.promotion.outputs.created == 'true' }}
+        working-directory: production
+        env:
+          VERSION: ${{ needs.release-please.outputs.tag_name }}
+        run: |
+          git revert --no-commit HEAD
+          git commit -m "revert(deploy): roll back ${VERSION}"
+          git push origin HEAD:env/prod
