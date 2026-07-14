@@ -1,0 +1,17 @@
+---
+import ConsultancyPage from "../../components/ConsultancyPage.astro";
+import { consultingStructuredData } from "../../data/structured-data";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="Kubernetes consulting in Tokyo | Froystein Consulting"
+  description="Kubernetes platform architecture, reliability, operations, and platform engineering consulting from Tokyo in English, Japanese, and Norwegian."
+  canonicalPath="/consulting/"
+  alternatePath="/ja/consulting/"
+  currentPage="consulting"
+  language="en"
+  structuredData={consultingStructuredData("en", "/consulting/")}
+>
+  <ConsultancyPage language="en" />
+</SiteLayout>

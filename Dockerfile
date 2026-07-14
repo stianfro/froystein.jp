@@ -25,12 +25,30 @@ map \$http_referer \$analytics_referrer {
     default "";
 }
 
+map \$arg_utm_source \$analytics_ai_utm_source {
+    default "";
+    ~*^chatgpt\\.com\$ "chatgpt";
+    ~*^(claude|claude\\.ai)\$ "claude";
+    ~*^(copilot|microsoft_copilot)\$ "microsoft_copilot";
+    ~*^(perplexity|perplexity\\.ai)\$ "perplexity";
+}
+
+map \$analytics_referrer \$analytics_ai_referrer {
+    default "";
+    ~*(^|\\.)chatgpt\\.com\$ "chatgpt";
+    ~*(^|\\.)claude\\.ai\$ "claude";
+    ~*^copilot\\.microsoft\\.com\$ "microsoft_copilot";
+    ~*(^|\\.)perplexity\\.ai\$ "perplexity";
+}
+
 log_format analytics escape=json '{"timestamp":"\$time_iso8601",'
     '"method":"\$request_method",'
     '"host":"\$host",'
     '"path":"\$uri",'
     '"status":\$status,'
     '"referrer_host":"\$analytics_referrer",'
+    '"ai_utm_source":"\$analytics_ai_utm_source",'
+    '"ai_referrer":"\$analytics_ai_referrer",'
     '"user_agent":"\$http_user_agent",'
     '"request_time":\$request_time,'
     '"country":"\$http_cf_ipcountry"}';

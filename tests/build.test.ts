@@ -22,6 +22,7 @@ describe("static build", () => {
     expect(html).toContain('<html lang="en">');
     expect(html).toContain("Kubernetes and");
     expect(html).toContain("Cloud Native");
+    expect(html).toContain('href="/consulting/"');
     expect(html).toContain("International services");
     expect(html).toContain('href="/international/"');
     expect(html).toContain("Blog posts");
@@ -38,6 +39,42 @@ describe("static build", () => {
     expect(html).toContain('<meta name="twitter:description" content="');
     expect(html).toContain('<script src="/analytics-config.js"></script>');
     expect(html).toContain('<script src="/analytics.js" defer></script>');
+  });
+
+  test("renders bilingual consultancy pages with citable public evidence", async () => {
+    const [english, japanese] = await Promise.all([
+      readOutput("consulting/index.html"),
+      readOutput("ja/consulting/index.html"),
+    ]);
+
+    expect(english).toContain('<html lang="en">');
+    expect(japanese).toContain('<html lang="ja">');
+    expect(english).toContain("Kubernetes consulting");
+    expect(japanese).toContain("Kubernetesプラットフォーム設計");
+    expect((english.match(/<article>/g) ?? []).length).toBe(3);
+    expect((english.match(/class="process-number"/g) ?? []).length).toBe(4);
+    expect((english.match(/class="post-title"/g) ?? []).length).toBe(8);
+    expect(english).toContain("Stian Frøystein");
+    expect(english).toContain("Stian Froeystein");
+    expect(english).toContain(
+      'rel="canonical" href="https://www.froystein.jp/consulting/"',
+    );
+    expect(english).toContain(
+      'rel="alternate" hreflang="ja" href="https://www.froystein.jp/ja/consulting/"',
+    );
+    expect(japanese).toContain(
+      'rel="alternate" hreflang="en" href="https://www.froystein.jp/consulting/"',
+    );
+
+    const graph = readJsonLd(english)["@graph"] as Array<
+      Record<string, unknown>
+    >;
+    expect(graph.some((node) => node["@type"] === "Service")).toBe(true);
+    expect(
+      graph.some(
+        (node) => node["@type"] === "Person" && node.name === "Stian Frøystein",
+      ),
+    ).toBe(true);
   });
 
   test("renders reciprocal international-service pages without personal or client claims", async () => {
@@ -87,6 +124,7 @@ describe("static build", () => {
 
     expect(english).toContain('<html lang="en">');
     expect(japanese).toContain('<html lang="ja">');
+    expect(english).toContain("Stian Frøystein");
     expect(english).toContain("Stian Froeystein");
     expect(japanese).toContain("スティアン・フロイスタイン");
     expect(japanese).toContain("Lead Site Reliability Engineer, Intility AS");
@@ -138,6 +176,7 @@ describe("static build", () => {
       japanesePrivacy,
       config,
       loader,
+      productionConfig,
     ] = await Promise.all([
       readOutput("index.html"),
       readOutput("contact/index.html"),
@@ -147,12 +186,18 @@ describe("static build", () => {
       readOutput("ja/privacy/index.html"),
       readOutput("analytics-config.js"),
       readOutput("analytics.js"),
+      Bun.file(
+        new URL("../infra/prod/analytics-config.js", import.meta.url),
+      ).text(),
     ]);
 
     expect(config).toContain("enabled: false");
+    expect(productionConfig).toContain("enabled: true");
     expect(loader).toContain('scriptUrl ?? "/_analytics/script.js"');
     expect(loader).toContain('hostUrl ?? "/_analytics"');
     expect(loader).toContain('scriptUrl.startsWith("/")');
+    expect(loader).toContain('window.umami?.track?.("ai_referral"');
+    expect(loader).toContain('tracker.dataset.excludeSearch = "true"');
     expect(home).toContain('data-umami-event="article_outbound_click"');
     expect(home).toContain('data-umami-event="language_switch"');
     expect(contact).toContain('data-umami-event="consultancy_linkedin_click"');
@@ -166,7 +211,8 @@ describe("static build", () => {
     expect(privacy).toContain("monthly session hash");
     expect(privacy).toContain("path without its query string");
     expect(privacy).toContain("referrer hostname");
-    expect(privacy).toContain("do not contain the client IP address");
+    expect(privacy).toContain("fixed service label");
+    expect(privacy).toContain("client IP addresses");
     expect(privacy).toContain("Disable analytics in this browser");
     expect(privacy).toContain("up to 13 months");
     expect(japanesePrivacy).toContain("最大14日間");
@@ -176,6 +222,55 @@ describe("static build", () => {
     for (const html of [home, contact, international, media]) {
       expect(html).not.toMatch(/data-umami-event-(?:email|url|query)=/);
     }
+
+    const events: Array<{ data: Record<string, string>; name: string }> = [];
+    let loadListener = () => {};
+    const tracker = {
+      dataset: {} as Record<string, string>,
+      addEventListener: (name: string, listener: () => void) => {
+        if (name === "load") loadListener = listener;
+      },
+    };
+    const fakeWindow = {
+      froysteinAnalytics: {
+        enabled: true,
+        websiteId: "00000000-0000-0000-0000-000000000000",
+      },
+      location: {
+        hostname: "www.froystein.jp",
+        reload: () => {},
+        search: "?utm_source=chatgpt.com&private=value",
+      },
+      umami: {
+        track: (name: string, data: Record<string, string>) => {
+          events.push({ data, name });
+        },
+      },
+    };
+    const fakeDocument = {
+      createElement: () => tracker,
+      head: { append: () => loadListener() },
+      querySelector: () => null,
+      querySelectorAll: () => [],
+      referrer: "",
+    };
+    const fakeStorage = {
+      getItem: () => null,
+      setItem: () => {},
+    };
+
+    new Function("window", "document", "navigator", "localStorage", loader)(
+      fakeWindow,
+      fakeDocument,
+      { doNotTrack: "0" },
+      fakeStorage,
+    );
+
+    expect(events).toEqual([
+      { data: { source: "chatgpt" }, name: "ai_referral" },
+    ]);
+    expect(JSON.stringify(events)).not.toContain("private");
+    expect(JSON.stringify(events)).not.toContain("value");
   });
 
   test("publishes connected Organization, Service, and ProfilePage entity graphs", async () => {
@@ -213,8 +308,7 @@ describe("static build", () => {
     );
     expect(
       mediaGraph.some(
-        (node) =>
-          node["@type"] === "Person" && node.name === "Stian Froeystein",
+        (node) => node["@type"] === "Person" && node.name === "Stian Frøystein",
       ),
     ).toBe(true);
   });
@@ -234,10 +328,12 @@ describe("static build", () => {
     );
     for (const path of [
       "/",
+      "/consulting/",
       "/contact/",
       "/international/",
       "/media/",
       "/ja/",
+      "/ja/consulting/",
       "/ja/contact/",
       "/ja/international/",
       "/ja/media/",
@@ -247,7 +343,7 @@ describe("static build", () => {
     expect(
       (sitemap.match(/<lastmod>2026-07-14T00:00:00\.000Z<\/lastmod>/g) ?? [])
         .length,
-    ).toBe(8);
+    ).toBe(10);
     expect(
       (sitemap.match(/<lastmod>2026-07-12T00:00:00\.000Z<\/lastmod>/g) ?? [])
         .length,
@@ -270,20 +366,24 @@ describe("static build", () => {
   test("publishes spec-shaped llms.txt and Markdown mirrors for every page", async () => {
     const mirrorDefinitions = [
       ["index.md", "https://www.froystein.jp/"],
+      ["consulting.md", "https://www.froystein.jp/consulting/"],
       ["international.md", "https://www.froystein.jp/international/"],
       ["media.md", "https://www.froystein.jp/media/"],
       ["contact.md", "https://www.froystein.jp/contact/"],
       ["ja.md", "https://www.froystein.jp/ja/"],
+      ["ja/consulting.md", "https://www.froystein.jp/ja/consulting/"],
       ["ja/international.md", "https://www.froystein.jp/ja/international/"],
       ["ja/media.md", "https://www.froystein.jp/ja/media/"],
       ["ja/contact.md", "https://www.froystein.jp/ja/contact/"],
     ] as const;
     const compatibilityPaths = [
       "index.html.md",
+      "consulting/index.html.md",
       "international/index.html.md",
       "media/index.html.md",
       "contact/index.html.md",
       "ja/index.html.md",
+      "ja/consulting/index.html.md",
       "ja/international/index.html.md",
       "ja/media/index.html.md",
       "ja/contact/index.html.md",
@@ -319,10 +419,12 @@ describe("static build", () => {
 
     for (const [htmlPath, markdownPath] of [
       ["index.html", "index.md"],
+      ["consulting/index.html", "consulting.md"],
       ["international/index.html", "international.md"],
       ["media/index.html", "media.md"],
       ["contact/index.html", "contact.md"],
       ["ja/index.html", "ja.md"],
+      ["ja/consulting/index.html", "ja/consulting.md"],
       ["ja/international/index.html", "ja/international.md"],
       ["ja/media/index.html", "ja/media.md"],
       ["ja/contact/index.html", "ja/contact.md"],
@@ -338,15 +440,17 @@ describe("static build", () => {
 
     expect(
       (
-        mirrors[6].match(
+        mirrors[8].match(
           /^- 20\d\d\.\d\d\.\d\d, (?:TBS|フジテレビ|日本テレビ|テレビ朝日),/gm,
         ) ?? []
       ).length,
     ).toBe(12);
-    expect(mirrors[6]).toContain("チャンハウス");
+    expect(mirrors[8]).toContain("チャンハウス");
     expect(mirrors[0]).toContain("Secure Playground for Vibe Coders");
-    expect(mirrors[5]).toContain("ゲームソフトウェア分野");
-    expect(mirrors[3]).toContain("mailto:contact@froystein.jp");
+    expect(mirrors[1]).toContain("Kubernetes platform architecture");
+    expect(mirrors[6]).toContain("Kubernetesプラットフォーム設計");
+    expect(mirrors[7]).toContain("ゲームソフトウェア分野");
+    expect(mirrors[4]).toContain("mailto:contact@froystein.jp");
     for (const mirror of mirrors) {
       expect(mirror).not.toContain("media@froystein.jp");
     }
@@ -364,6 +468,11 @@ describe("static build", () => {
     expect(dockerfile).not.toContain("remote_addr");
     expect(dockerfile).not.toContain("x-forwarded-for");
     expect(dockerfile).toContain('"country":"\\$http_cf_ipcountry"');
+    expect(dockerfile).toContain(
+      '"ai_utm_source":"\\$analytics_ai_utm_source"',
+    );
+    expect(dockerfile).toContain('"ai_referrer":"\\$analytics_ai_referrer"');
+    expect(dockerfile).not.toContain('"args":"\\$args"');
 
     const response = markdownResponse("# Test");
     expect(response.headers.get("content-type")).toBe(
@@ -375,10 +484,12 @@ describe("static build", () => {
   test("keeps every production internal link resolvable", async () => {
     const pages = [
       "index.html",
+      "consulting/index.html",
       "contact/index.html",
       "international/index.html",
       "media/index.html",
       "ja/index.html",
+      "ja/consulting/index.html",
       "ja/contact/index.html",
       "ja/international/index.html",
       "ja/media/index.html",

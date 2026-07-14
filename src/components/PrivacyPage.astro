@@ -35,8 +35,8 @@ const isJapanese = language === "ja";
       <p>
         {
           isJapanese
-            ? "計測対象の操作は、取材用メールのクリック、技術相談用LinkedInのクリック、記事への外部リンクのクリック、言語切り替えです。メールアドレス、入力内容、外部リンクのクエリ文字列は送信しません。"
-            : "Measured actions are clicks on the media email link, the consultancy LinkedIn link, outbound article links, and the language switch. Email addresses, form or typed content, and query strings from outbound links are not sent."
+            ? "計測対象の操作は、国際業務・取材用メールのクリック、技術相談用LinkedInのクリック、記事への外部リンクのクリック、言語切り替え、許可リストに含まれるAIサービスからの参照です。AIサービスには固定のサービス名だけを使います。メールアドレス、入力内容、完全なクエリ文字列または参照元URLは送信しません。"
+            : "Measured actions are clicks on the international or media email link, the consultancy LinkedIn link, outbound article links, the language switch, and referrals from allowlisted AI services. AI referrals use only a fixed service label. Email addresses, form or typed content, complete query strings, and complete referrer URLs are not sent."
         }
       </p>
     </section>
@@ -78,8 +78,8 @@ const isJapanese = language === "ja";
       <p>
         {
           isJapanese
-            ? "セキュリティ、障害調査、Botと人によるアクセスの区別のため、Webサーバーのリクエストログを最大14日間保存します。ログにはクエリ文字列を除いたパス、メソッド、ステータス、ホスト、参照元のホスト名、ユーザーエージェント、リクエスト処理時間、Cloudflareが提供する国コードを記録します。クライアントIPアドレスと転送元IPアドレス（Forwarded-For）は記録しません。ログはアクセス制限されたシステムに保管し、広告や個人プロファイルには使用しません。"
-            : "Web server request logs are retained for up to 14 days for security, fault investigation, and distinguishing automated traffic from likely human traffic. Logs contain the path without its query string, method, status, host, referrer hostname, user agent, request duration, and country code provided by Cloudflare. They do not contain the client IP address or forwarded-for addresses. Logs are access-controlled and are not used for advertising or individual profiles."
+            ? "セキュリティ、障害調査、Botと人によるアクセスの区別のため、Webサーバーのリクエストログを最大14日間保存します。ログにはクエリ文字列を除いたパス、メソッド、ステータス、ホスト、参照元のホスト名、ユーザーエージェント、リクエスト処理時間、Cloudflareが提供する国コードを記録します。AIサービスからの参照については、許可リストに含まれるutm_sourceまたは参照元のホスト名から変換した固定のサービス名も記録します。完全なクエリ文字列と参照元URL、クライアントIPアドレス、転送元IPアドレス（Forwarded-For）は記録しません。ログはアクセス制限されたシステムに保管し、広告や個人プロファイルには使用しません。"
+            : "Web server request logs are retained for up to 14 days for security, fault investigation, and distinguishing automated traffic from likely human traffic. Logs contain the path without its query string, method, status, host, referrer hostname, user agent, request duration, and country code provided by Cloudflare. For referrals from allowlisted AI services, they also contain a fixed service label derived from the utm_source value or referrer hostname. They do not contain complete query strings, complete referrer URLs, client IP addresses, or forwarded-for addresses. Logs are access-controlled and are not used for advertising or individual profiles."
         }
       </p>
     </section>

@@ -3,11 +3,13 @@ import { defineConfig } from "astro/config";
 
 const lastModifiedByPath = new Map([
   ["/", "2026-07-14"],
+  ["/consulting/", "2026-07-14"],
   ["/contact/", "2026-07-14"],
   ["/international/", "2026-07-14"],
   ["/media/", "2026-07-14"],
   ["/privacy/", "2026-07-12"],
   ["/ja/", "2026-07-14"],
+  ["/ja/consulting/", "2026-07-14"],
   ["/ja/contact/", "2026-07-14"],
   ["/ja/international/", "2026-07-14"],
   ["/ja/media/", "2026-07-14"],

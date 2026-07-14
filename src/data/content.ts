@@ -22,6 +22,17 @@ export interface Certification {
   url: string;
 }
 
+export interface ConsultancyArea {
+  summary: Record<Language, string>;
+  title: Record<Language, string>;
+  topics: Record<Language, string[]>;
+}
+
+export interface ConsultancyStep {
+  detail: Record<Language, string>;
+  title: Record<Language, string>;
+}
+
 export interface InternationalService {
   code: string;
   title: Record<Language, string>;
@@ -235,6 +246,106 @@ export const certifications: Certification[] = [
   {
     title: "Red Hat Certified System Administrator (RHCSA)",
     url: "https://www.credly.com/badges/12c4dcdb-2833-446e-bf69-eb0bda710d74/public_url",
+  },
+];
+
+export const consultancyAreas: ConsultancyArea[] = [
+  {
+    title: {
+      en: "Kubernetes platform architecture",
+      ja: "Kubernetesプラットフォーム設計",
+    },
+    summary: {
+      en: "Review or design the technical boundaries of a Kubernetes platform so that infrastructure choices match the organisation operating it.",
+      ja: "Kubernetesプラットフォームの技術的な境界を整理し、インフラの選択と運用する組織の体制を合わせます。",
+    },
+    topics: {
+      en: [
+        "Cluster and platform architecture",
+        "Networking, storage, access, and tenancy",
+        "Lifecycle, upgrades, and change boundaries",
+      ],
+      ja: [
+        "クラスタとプラットフォームのアーキテクチャ",
+        "ネットワーク、ストレージ、アクセス、テナンシー",
+        "ライフサイクル、アップグレード、変更範囲",
+      ],
+    },
+  },
+  {
+    title: {
+      en: "Reliability and operations",
+      ja: "信頼性と運用",
+    },
+    summary: {
+      en: "Connect reliability goals to practical operating routines, ownership, observability, incident readiness, and safe platform changes.",
+      ja: "信頼性の目標を、運用手順、責任範囲、オブザーバビリティ、障害対応、プラットフォーム変更の進め方につなげます。",
+    },
+    topics: {
+      en: [
+        "Availability and failure-mode reviews",
+        "Operational ownership and incident readiness",
+        "Observability and change safety",
+      ],
+      ja: [
+        "可用性と障害モードのレビュー",
+        "運用責任と障害対応の準備",
+        "オブザーバビリティと安全な変更",
+      ],
+    },
+  },
+  {
+    title: {
+      en: "Platform engineering",
+      ja: "プラットフォームエンジニアリング",
+    },
+    summary: {
+      en: "Define a platform contract that gives application teams useful defaults and self-service paths without hiding operational reality.",
+      ja: "運用の実態を隠さずに、アプリケーションチームへ実用的な標準とセルフサービスの経路を提供するプラットフォーム契約を整理します。",
+    },
+    topics: {
+      en: [
+        "Developer workflows and platform interfaces",
+        "GitOps, automation, and reusable patterns",
+        "Guardrails, documentation, and feedback loops",
+      ],
+      ja: [
+        "開発者ワークフローとプラットフォームのインターフェース",
+        "GitOps、自動化、再利用可能なパターン",
+        "ガードレール、ドキュメント、フィードバックループ",
+      ],
+    },
+  },
+];
+
+export const consultancySteps: ConsultancyStep[] = [
+  {
+    title: { en: "Establish context", ja: "前提を整理" },
+    detail: {
+      en: "Document the current platform, the teams using it, operational constraints, and the decision that needs to be made.",
+      ja: "現在のプラットフォーム、利用するチーム、運用上の制約、判断が必要な事項を整理します。",
+    },
+  },
+  {
+    title: { en: "Review evidence", ja: "根拠を確認" },
+    detail: {
+      en: "Inspect architecture and operating material, then identify assumptions, failure modes, ownership gaps, and tradeoffs.",
+      ja: "アーキテクチャと運用資料を確認し、前提、障害モード、責任範囲の不足、トレードオフを明確にします。",
+    },
+  },
+  {
+    title: { en: "Recommend a path", ja: "進め方を提案" },
+    detail: {
+      en: "Produce a practical sequence of decisions and changes, including risks, dependencies, and points that need validation.",
+      ja: "リスク、依存関係、検証が必要な点を含め、判断と変更を現実的な順序にまとめます。",
+    },
+  },
+  {
+    title: { en: "Review the change", ja: "変更をレビュー" },
+    detail: {
+      en: "Review implementation decisions and update the recommendation when new operational evidence changes the tradeoffs.",
+      ja: "実装上の判断をレビューし、新しい運用データによってトレードオフが変わった場合は提案を更新します。",
+    },
   },
 ];
 

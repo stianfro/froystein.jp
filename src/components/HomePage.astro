@@ -8,6 +8,7 @@ interface Props {
 
 const { language } = Astro.props;
 const isJapanese = language === "ja";
+const consultingPath = isJapanese ? "/ja/consulting/" : "/consulting/";
 const internationalPath = isJapanese ? "/ja/international/" : "/international/";
 const contactPath = isJapanese ? "/ja/contact/" : "/contact/";
 ---
@@ -45,12 +46,16 @@ const contactPath = isJapanese ? "/ja/contact/" : "/contact/";
         }
       </p>
       <p>
-        <a class="text-link" href={contactPath}>
+        <a class="text-link" href={consultingPath}>
           {
             isJapanese
-              ? "技術相談について問い合わせる"
-              : "Enquire about technical consultancy"
+              ? "技術コンサルティングの詳細"
+              : "Explore technical consultancy"
           }
+        </a>
+        <span aria-hidden="true"> · </span>
+        <a class="text-link" href={contactPath}>
+          {isJapanese ? "お問い合わせ" : "Contact"}
         </a>
       </p>
     </div>

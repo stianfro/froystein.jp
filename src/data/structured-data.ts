@@ -10,8 +10,21 @@ const organization = {
   "@type": "Organization",
   "@id": organizationId,
   name: "Froystein Consulting Co., Ltd",
-  alternateName: "株式会社フロイスタインコンサルティング",
+  alternateName: [
+    "Froystein Consulting",
+    "株式会社フロイスタインコンサルティング",
+  ],
   url: `${siteUrl}/`,
+  logo: `${siteUrl}/fc.svg`,
+  description:
+    "Kubernetes, cloud native, platform engineering, and site reliability engineering consultancy based in Tokyo.",
+  knowsAbout: [
+    "Kubernetes",
+    "Cloud native technology",
+    "Platform engineering",
+    "Site reliability engineering",
+    "Linux",
+  ],
 };
 
 const website = {
@@ -26,13 +39,20 @@ const website = {
 const person = {
   "@type": "Person",
   "@id": personId,
-  name: "Stian Froeystein",
-  alternateName: ["スティアン・フロイスタイン"],
+  name: "Stian Frøystein",
+  alternateName: ["Stian Froeystein", "スティアン・フロイスタイン"],
   url: `${siteUrl}/media/`,
   nationality: { "@type": "Country", name: "Norway" },
   homeLocation: { "@type": "City", name: "Tokyo" },
   knowsLanguage: ["Norwegian", "Japanese", "English"],
   jobTitle: ["Representative Director", "Lead Site Reliability Engineer"],
+  knowsAbout: [
+    "Linux",
+    "Cloud infrastructure",
+    "Kubernetes",
+    "Platform engineering",
+    "Site reliability engineering",
+  ],
   worksFor: [
     { "@id": organizationId },
     { "@type": "Organization", name: "Intility AS" },
@@ -73,6 +93,49 @@ export function homeStructuredData(language: Language, path: string) {
   };
 }
 
+export function consultingStructuredData(language: Language, path: string) {
+  const url = new URL(path, siteUrl).href;
+  const serviceId = `${siteUrl}/#consulting-service`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      website,
+      organization,
+      person,
+      {
+        "@type": "Service",
+        "@id": serviceId,
+        name:
+          language === "ja"
+            ? "Kubernetes技術コンサルティング"
+            : "Kubernetes and cloud native consulting",
+        serviceType: [
+          "Kubernetes platform architecture",
+          "Platform engineering",
+          "Site reliability engineering",
+        ],
+        provider: { "@id": organizationId },
+        url,
+        inLanguage: language,
+      },
+      {
+        "@type": "WebPage",
+        "@id": `${url}#webpage`,
+        url,
+        name:
+          language === "ja"
+            ? "Kubernetes技術コンサルティング"
+            : "Kubernetes consulting in Tokyo",
+        isPartOf: { "@id": websiteId },
+        about: { "@id": serviceId },
+        mainEntity: { "@id": serviceId },
+        inLanguage: language,
+      },
+    ],
+  };
+}
+
 export function mediaStructuredData(language: Language, path: string) {
   const url = new URL(path, siteUrl).href;
 
@@ -89,7 +152,7 @@ export function mediaStructuredData(language: Language, path: string) {
         name:
           language === "ja"
             ? "ノルウェーに関する取材・出演のご相談 | スティアン・フロイスタイン"
-            : "Norway-related media enquiries | Stian Froeystein",
+            : "Norway-related media enquiries | Stian Frøystein",
         isPartOf: { "@id": websiteId },
         mainEntity: { "@id": personId },
         inLanguage: language,
