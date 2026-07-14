@@ -17,6 +17,9 @@ on:
       digest:
         description: Immutable digest of the published image
         value: ${{ jobs.build.outputs.digest }}
+      source-revision:
+        description: Source revision used to build the image
+        value: ${{ jobs.build.outputs.source-revision }}
 
 env:
   REGISTRY: ghcr.io
@@ -27,6 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       digest: ${{ steps.build-push.outputs.digest }}
+      source-revision: ${{ github.sha }}
     permissions:
       contents: read
       packages: write
