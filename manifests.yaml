@@ -3,26 +3,40 @@ kind: Namespace
 metadata:
   labels:
     app.kubernetes.io/instance: prod
-    app.kubernetes.io/managed-by: kargo
     app.kubernetes.io/name: froystein-jp
     app.kubernetes.io/part-of: froystein-jp
   name: froystein-jp
 ---
 apiVersion: v1
+data:
+  analytics-config.js: |
+    window.froysteinAnalytics = Object.freeze({
+      enabled: true,
+      websiteId: "e34dfd71-7f91-4c29-b8f7-570b216319c9",
+      scriptUrl: "/_analytics/script.js",
+      hostUrl: "/_analytics",
+    });
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/part-of: froystein-jp
+  name: froystein-jp-analytics-config-cb9k7f76b6
+  namespace: froystein-jp
+---
+apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.kubernetes.io/managed-by: kargo
     app.kubernetes.io/name: froystein-jp
     app.kubernetes.io/part-of: froystein-jp
   name: froystein-jp
   namespace: froystein-jp
 spec:
   ports:
-    - name: http
-      port: 80
-      protocol: TCP
-      targetPort: http
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
   selector:
     app.kubernetes.io/name: froystein-jp
   type: ClusterIP
@@ -32,7 +46,6 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/component: web
-    app.kubernetes.io/managed-by: kargo
     app.kubernetes.io/name: froystein-jp
     app.kubernetes.io/part-of: froystein-jp
   name: froystein-jp
@@ -49,94 +62,159 @@ spec:
         app.kubernetes.io/name: froystein-jp
     spec:
       containers:
-        - image: ghcr.io/stianfro/froystein.jp:1.4.1@sha256:aa18d183ecbfbb771cece239ae9f7cf31ac4ccd116bb882671eb7882024244ec
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: http
-            initialDelaySeconds: 5
-            periodSeconds: 10
-          name: web
-          ports:
-            - containerPort: 80
-              name: http
-              protocol: TCP
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: http
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
-            requests:
-              cpu: 50m
-              memory: 64Mi
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 101
-          volumeMounts:
-            - mountPath: /var/cache/nginx
-              name: cache
-            - mountPath: /var/run
-              name: run
-            - mountPath: /tmp
-              name: tmp
+      - image: ghcr.io/stianfro/froystein.jp:1.4.1@sha256:aa18d183ecbfbb771cece239ae9f7cf31ac4ccd116bb882671eb7882024244ec
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        name: web
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 101
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html/analytics-config.js
+          name: analytics-config
+          readOnly: true
+          subPath: analytics-config.js
+        - mountPath: /var/cache/nginx
+          name: cache
+        - mountPath: /var/run
+          name: run
+        - mountPath: /tmp
+          name: tmp
       securityContext:
         seccompProfile:
           type: RuntimeDefault
       volumes:
-        - emptyDir: {}
-          name: cache
-        - emptyDir: {}
-          name: run
-        - emptyDir: {}
-          name: tmp
+      - configMap:
+          name: froystein-jp-analytics-config-cb9k7f76b6
+        name: analytics-config
+      - emptyDir: {}
+        name: cache
+      - emptyDir: {}
+        name: run
+      - emptyDir: {}
+        name: tmp
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   labels:
-    app.kubernetes.io/managed-by: kargo
+    app.kubernetes.io/part-of: froystein-jp
+  name: froystein-jp-analytics
+  namespace: froystein-jp
+spec:
+  hostnames:
+  - www.froystein.jp
+  parentRefs:
+  - name: eg-public
+    namespace: envoy-gateway-system
+  rules:
+  - backendRefs:
+    - name: umami
+      namespace: umami
+      port: 3000
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          replaceFullPath: /script.js
+          type: ReplaceFullPath
+    matches:
+    - path:
+        type: Exact
+        value: /_analytics/script.js
+  - backendRefs:
+    - name: umami
+      namespace: umami
+      port: 3000
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          replaceFullPath: /api/send
+          type: ReplaceFullPath
+    matches:
+    - path:
+        type: Exact
+        value: /_analytics/api/send
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  labels:
     app.kubernetes.io/part-of: froystein-jp
   name: froystein-jp-canonical-redirect
   namespace: froystein-jp
 spec:
   hostnames:
-    - froystein.jp
+  - froystein.jp
   parentRefs:
-    - name: eg-public
-      namespace: envoy-gateway-system
+  - name: eg-public
+    namespace: envoy-gateway-system
   rules:
-    - filters:
-        - requestRedirect:
-            hostname: www.froystein.jp
-            scheme: https
-            statusCode: 301
-          type: RequestRedirect
+  - filters:
+    - requestRedirect:
+        hostname: www.froystein.jp
+        scheme: https
+        statusCode: 301
+      type: RequestRedirect
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   labels:
-    app.kubernetes.io/managed-by: kargo
     app.kubernetes.io/part-of: froystein-jp
   name: froystein-jp-public
   namespace: froystein-jp
 spec:
   hostnames:
-    - www.froystein.jp
+  - www.froystein.jp
   parentRefs:
-    - name: eg-public
-      namespace: envoy-gateway-system
+  - name: eg-public
+    namespace: envoy-gateway-system
   rules:
-    - backendRefs:
-        - name: froystein-jp
-          port: 80
+  - backendRefs:
+    - name: froystein-jp
+      port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  labels:
+    app.kubernetes.io/part-of: froystein-jp
+  name: froystein-jp-analytics
+  namespace: umami
+spec:
+  from:
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    namespace: froystein-jp
+  to:
+  - group: ""
+    kind: Service
+    name: umami
