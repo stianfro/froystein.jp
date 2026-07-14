@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { readdir } from "node:fs/promises";
 import { markdownResponse } from "../src/data/markdown-content";
+import packageMetadata from "../package.json";
 
 const readOutput = (path: string) =>
   Bun.file(new URL(`../dist/${path}`, import.meta.url)).text();
@@ -256,6 +257,14 @@ describe("static build", () => {
     expect(sitemap).not.toContain(".md</loc>");
     expect(notFound).toContain("Page not found");
     expect(notFound).toContain('<meta name="robots" content="noindex">');
+  });
+
+  test("publishes the release version for deployment verification", async () => {
+    const response = JSON.parse(await readOutput("version.json")) as {
+      version: string;
+    };
+
+    expect(response.version).toBe(packageMetadata.version);
   });
 
   test("publishes spec-shaped llms.txt and Markdown mirrors for every page", async () => {

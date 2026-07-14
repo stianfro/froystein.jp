@@ -55,6 +55,13 @@ server {
         try_files \$uri =404;
     }
 
+    # Keep deployment verification uncached
+    location = /version.json {
+        default_type application/json;
+        add_header Cache-Control "no-store";
+        try_files \$uri =404;
+    }
+
     # Serve clean Markdown mirrors for llms.txt consumers without indexing duplicates
     location ~* \.md$ {
         types { text/markdown md; }

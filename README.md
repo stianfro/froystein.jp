@@ -19,3 +19,6 @@ just preview
 
 See [Website analytics](docs/analytics.md) for the disabled-by-default Umami
 integration and its deployment contract.
+
+See [Releases and production deployments](docs/deployments.md) for the automated
+release, promotion, verification, and rollback flow.
