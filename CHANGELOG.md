@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/stianfro/froystein.jp/compare/v1.5.2...v1.6.0) (2026-07-15)
+
+
+### Features
+
+* improve AI search visibility ([#43](https://github.com/stianfro/froystein.jp/issues/43)) ([324e87f](https://github.com/stianfro/froystein.jp/commit/324e87f20175bfc84fe5510eab7ae788470282a7))
+
 ## [1.5.2](https://github.com/stianfro/froystein.jp/compare/v1.5.1...v1.5.2) (2026-07-14)
 
 
