@@ -38,7 +38,7 @@ const contactPath = isJapanese ? "/ja/contact/" : "/contact/";
         {
           isJapanese
             ? "スティアン・フロイスタインは、2021年から日本に在住するノルウェー出身のエンジニアです。東京都を拠点とし、日本語・英語での取材や収録に対応しています。"
-            : "Stian Froeystein is a Norwegian engineer who has lived in Japan since 2021. Based in Tokyo, he is available for interviews and recording in Japanese or English."
+            : "Stian Frøystein is a Norwegian engineer who has lived in Japan since 2021. Based in Tokyo, he is available for interviews and recording in Japanese or English."
         }
       </p>
       <ul
@@ -56,8 +56,25 @@ const contactPath = isJapanese ? "/ja/contact/" : "/contact/";
     <dl class="identity-summary">
       <div>
         <dt>{isJapanese ? "氏名" : "Name"}</dt><dd>
-          Stian Froeystein<br /><span lang="ja">スティアン・フロイスタイン</span
-          >
+          {
+            isJapanese ? (
+              <>
+                <span lang="ja">スティアン・フロイスタイン</span>
+                <br />
+                <span>Stian Froeystein</span>
+                <br />
+                <span>Stian Frøystein（ノルウェー語表記）</span>
+              </>
+            ) : (
+              <>
+                Stian Frøystein
+                <br />
+                <span>Stian Froeystein</span>
+                <br />
+                <span lang="ja">スティアン・フロイスタイン</span>
+              </>
+            )
+          }
         </dd>
       </div>
       <div>

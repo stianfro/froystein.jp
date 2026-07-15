@@ -2,7 +2,8 @@
 import type { Language } from "../data/content";
 
 interface Props {
-  currentPage: "contact" | "home" | "international" | "media" | "privacy";
+  currentPage:
+    "consulting" | "contact" | "home" | "international" | "media" | "privacy";
   language: Language;
 }
 
@@ -10,6 +11,7 @@ const { currentPage, language } = Astro.props;
 const isJapanese = language === "ja";
 const prefix = isJapanese ? "/ja" : "";
 const paths = {
+  consulting: `${prefix}/consulting/`,
   contact: `${prefix}/contact/`,
   home: `${prefix}/`,
   international: `${prefix}/international/`,
@@ -17,6 +19,7 @@ const paths = {
   privacy: `${prefix}/privacy/`,
 };
 const alternatePaths = {
+  consulting: isJapanese ? "/consulting/" : "/ja/consulting/",
   contact: isJapanese ? "/contact/" : "/ja/contact/",
   home: isJapanese ? "/" : "/ja/",
   international: isJapanese ? "/international/" : "/ja/international/",
@@ -42,6 +45,12 @@ const alternatePaths = {
       href={paths.home}
     >
       {isJapanese ? "ホーム" : "Home"}
+    </a>
+    <a
+      aria-current={currentPage === "consulting" ? "page" : undefined}
+      href={paths.consulting}
+    >
+      {isJapanese ? "技術相談" : "Consulting"}
     </a>
     <a
       aria-current={currentPage === "international" ? "page" : undefined}

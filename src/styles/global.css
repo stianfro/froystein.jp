@@ -228,6 +228,7 @@ h3 {
 .section-code,
 .service-code,
 .fact-list dt,
+.consultancy-brief dt,
 .identity-summary dt,
 .profile-facts dt,
 .appearance-list time,
@@ -267,12 +268,14 @@ h3 {
 }
 
 .factual-title span,
+.consultancy-title span,
 .media-title span {
   display: inline-block;
   white-space: nowrap;
 }
 
 :lang(en) .factual-title span + span::before,
+:lang(en) .consultancy-title span + span::before,
 :lang(en) .media-title span + span::before {
   content: " ";
 }
@@ -289,6 +292,7 @@ h3 {
 }
 
 .fact-list,
+.consultancy-brief,
 .identity-summary,
 .profile-facts {
   margin: 0;
@@ -296,6 +300,7 @@ h3 {
 }
 
 .fact-list div,
+.consultancy-brief div,
 .identity-summary div,
 .profile-facts div {
   padding-block: 16px;
@@ -304,6 +309,8 @@ h3 {
 
 .fact-list dt,
 .fact-list dd,
+.consultancy-brief dt,
+.consultancy-brief dd,
 .identity-summary dt,
 .identity-summary dd,
 .profile-facts dt,
@@ -314,7 +321,8 @@ h3 {
 .media-entry,
 .content-section,
 .content-grid,
-.contact-prompt {
+.contact-prompt,
+.consultancy-contact {
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr);
   gap: 48px;
@@ -391,6 +399,7 @@ h3 {
 }
 
 .media-page,
+.consultancy-page,
 .international-page,
 .contact-page,
 .privacy-page {
@@ -408,6 +417,146 @@ h3 {
 
 .media-title {
   font-size: clamp(2.4rem, 5vw, 4.2rem);
+}
+
+.consultancy-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 72px;
+  align-items: end;
+  padding-block: 88px 80px;
+}
+
+.consultancy-title {
+  font-size: clamp(2.4rem, 5.4vw, 4.6rem);
+}
+
+.consultancy-title span {
+  display: block;
+}
+
+:lang(en) .consultancy-title span + span::before {
+  content: none;
+}
+
+.consultancy-brief {
+  min-width: 0;
+}
+
+.consultancy-brief div {
+  padding-block: 14px;
+}
+
+.consultancy-brief dt,
+.consultancy-brief dd {
+  margin: 0;
+}
+
+.signal-list,
+.area-list,
+.process-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.signal-list li {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 20px;
+  padding-block: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.signal-list li::before {
+  content: "review";
+  color: var(--accent);
+  font-family: var(--mono-font);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+:lang(ja) .signal-list li::before {
+  content: "確認";
+}
+
+.area-list article {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr) minmax(210px, 0.7fr);
+  gap: 28px;
+  padding-block: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.area-list h3,
+.area-list p,
+.area-list ul {
+  margin: 0;
+}
+
+.area-list p,
+.area-list li {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.area-list ul {
+  padding-left: 1.2em;
+}
+
+.area-list li + li {
+  margin-top: 6px;
+}
+
+.process-list li {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 24px;
+  padding-block: 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.process-list h3,
+.process-list p {
+  margin-bottom: 0;
+}
+
+.process-list p {
+  margin-top: 6px;
+  color: var(--muted);
+}
+
+.process-number,
+.alternate-name {
+  color: var(--muted);
+  font-family: var(--mono-font);
+  font-size: 0.75rem;
+}
+
+.process-number {
+  padding-top: 0.1rem;
+  color: var(--accent);
+}
+
+.consultancy-evidence .section-intro {
+  margin-bottom: 28px;
+}
+
+.credentials-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.9fr);
+  gap: 48px;
+}
+
+.alternate-name {
+  margin-top: -10px;
+}
+
+.consultancy-contact {
+  margin-top: 0;
+  border-bottom: 1px solid var(--line);
 }
 
 .international-title {
@@ -639,6 +788,8 @@ h3 {
   .content-grid,
   .media-hero,
   .contact-prompt,
+  .consultancy-contact,
+  .consultancy-hero,
   .contact-options {
     grid-template-columns: 1fr;
     gap: 28px;
@@ -659,6 +810,10 @@ h3 {
     padding-block: 56px;
   }
 
+  .consultancy-hero {
+    padding-block: 56px 48px;
+  }
+
   .media-hero h1 {
     font-size: clamp(1.7rem, 8vw, 2.25rem);
     letter-spacing: -0.035em;
@@ -668,12 +823,18 @@ h3 {
     font-size: clamp(1.8rem, 9vw, 3rem);
   }
 
+  .consultancy-hero h1 {
+    font-size: clamp(2rem, 10vw, 3.25rem);
+  }
+
   .factual-title span,
+  .consultancy-title span,
   .media-title span {
     display: block;
   }
 
   :lang(en) .factual-title span + span::before,
+  :lang(en) .consultancy-title span + span::before,
   :lang(en) .media-title span + span::before {
     content: none;
   }
@@ -688,6 +849,17 @@ h3 {
   .topics-grid {
     grid-template-columns: 1fr;
     gap: 28px;
+  }
+
+  .signal-list li,
+  .area-list article,
+  .credentials-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .signal-list li::before {
+    margin-bottom: 2px;
   }
 
   .contact-options section,

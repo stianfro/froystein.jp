@@ -11,14 +11,15 @@ Use the `justfile` for all project tasks:
 ```sh
 just install
 just dev
+just format
 just check
 just preview
 ```
 
 `just check` runs Astro diagnostics, formatting checks, YAML validation, a static production build, and focused build-output tests.
 
-See [Website analytics](docs/analytics.md) for the disabled-by-default Umami
-integration and its deployment contract.
+See [Website analytics](docs/analytics.md) for the runtime-configured Umami
+integration, production setup, and data contract.
 
 See [Releases and production deployments](docs/deployments.md) for the automated
 release, promotion, verification, and rollback flow.

@@ -48,5 +48,40 @@
   tracker.dataset.doNotTrack = "true";
   tracker.dataset.excludeHash = "true";
   tracker.dataset.excludeSearch = "true";
+
+  // Only fixed source labels are sent. The complete query string and referrer
+  // URL are never included in the event payload.
+  const aiSourceLabels = Object.freeze({
+    "chatgpt.com": "chatgpt",
+    "claude.ai": "claude",
+    claude: "claude",
+    "copilot.microsoft.com": "microsoft_copilot",
+    copilot: "microsoft_copilot",
+    microsoft_copilot: "microsoft_copilot",
+    "perplexity.ai": "perplexity",
+    perplexity: "perplexity",
+  });
+  const utmSource = new URLSearchParams(window.location.search)
+    .get("utm_source")
+    ?.toLowerCase();
+  let referrerHost = "";
+
+  try {
+    referrerHost = new URL(document.referrer).hostname
+      .toLowerCase()
+      .replace(/^www\./, "");
+  } catch {
+    // An absent or invalid referrer is not an error and sends no source event.
+  }
+
+  const aiReferralSource =
+    aiSourceLabels[utmSource] ?? aiSourceLabels[referrerHost];
+
+  if (aiReferralSource) {
+    tracker.addEventListener("load", () => {
+      window.umami?.track?.("ai_referral", { source: aiReferralSource });
+    });
+  }
+
   document.head.append(tracker);
 })();

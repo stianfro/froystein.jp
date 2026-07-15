@@ -31,6 +31,10 @@ docker-build tag="latest":
 docker-run tag="latest":
     docker run --rm -p 8080:80 ghcr.io/stianfro/froystein.jp:{{tag}}
 
+# Validate the production nginx configuration in an image
+docker-check tag="latest":
+    docker run --rm --entrypoint nginx ghcr.io/stianfro/froystein.jp:{{tag}} -t
+
 # Build and run locally
 docker-dev: docker-build docker-run
 
