@@ -228,7 +228,6 @@ h3 {
 .section-code,
 .service-code,
 .fact-list dt,
-.consultancy-brief dt,
 .identity-summary dt,
 .profile-facts dt,
 .appearance-list time,
@@ -290,7 +289,6 @@ h3 {
 }
 
 .fact-list,
-.consultancy-brief,
 .identity-summary,
 .profile-facts {
   margin: 0;
@@ -298,7 +296,6 @@ h3 {
 }
 
 .fact-list div,
-.consultancy-brief div,
 .identity-summary div,
 .profile-facts div {
   padding-block: 16px;
@@ -307,8 +304,6 @@ h3 {
 
 .fact-list dt,
 .fact-list dd,
-.consultancy-brief dt,
-.consultancy-brief dd,
 .identity-summary dt,
 .identity-summary dd,
 .profile-facts dt,
@@ -319,8 +314,7 @@ h3 {
 .media-entry,
 .content-section,
 .content-grid,
-.contact-prompt,
-.consultancy-contact {
+.contact-prompt {
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr);
   gap: 48px;
@@ -397,7 +391,6 @@ h3 {
 }
 
 .media-page,
-.consultancy-page,
 .international-page,
 .contact-page,
 .privacy-page {
@@ -417,27 +410,6 @@ h3 {
   font-size: clamp(2.4rem, 5vw, 4.2rem);
 }
 
-.consultancy-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
-  gap: 72px;
-  align-items: end;
-  padding-block: 88px 80px;
-}
-
-.consultancy-brief {
-  min-width: 0;
-}
-
-.consultancy-brief div {
-  padding-block: 14px;
-}
-
-.consultancy-brief dt,
-.consultancy-brief dd {
-  margin: 0;
-}
-
 .alternate-name {
   color: var(--muted);
   font-family: var(--mono-font);
@@ -452,11 +424,6 @@ h3 {
 
 .alternate-name {
   margin-top: -10px;
-}
-
-.consultancy-contact {
-  margin-top: 0;
-  border-bottom: 1px solid var(--line);
 }
 
 .international-title {
@@ -688,8 +655,6 @@ h3 {
   .content-grid,
   .media-hero,
   .contact-prompt,
-  .consultancy-contact,
-  .consultancy-hero,
   .contact-options {
     grid-template-columns: 1fr;
     gap: 28px;
@@ -710,10 +675,6 @@ h3 {
     padding-block: 56px;
   }
 
-  .consultancy-hero {
-    padding-block: 56px 48px;
-  }
-
   .media-hero h1 {
     font-size: clamp(1.7rem, 8vw, 2.25rem);
     letter-spacing: -0.035em;
@@ -721,10 +682,6 @@ h3 {
 
   .home-hero h1 {
     font-size: clamp(1.8rem, 9vw, 3rem);
-  }
-
-  .consultancy-hero h1 {
-    font-size: clamp(2rem, 10vw, 3.25rem);
   }
 
   .factual-title span,

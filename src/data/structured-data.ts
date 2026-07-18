@@ -93,49 +93,6 @@ export function homeStructuredData(language: Language, path: string) {
   };
 }
 
-export function consultingStructuredData(language: Language, path: string) {
-  const url = new URL(path, siteUrl).href;
-  const serviceId = `${siteUrl}/#consulting-service`;
-
-  return {
-    "@context": "https://schema.org",
-    "@graph": [
-      website,
-      organization,
-      {
-        "@type": "Service",
-        "@id": serviceId,
-        name:
-          language === "ja"
-            ? "Kubernetes技術コンサルティング"
-            : "Kubernetes and cloud native consulting",
-        serviceType: [
-          "Kubernetes",
-          "Cloud native technology",
-          "Platform engineering",
-          "Site reliability engineering",
-        ],
-        provider: { "@id": organizationId },
-        url,
-        inLanguage: language,
-      },
-      {
-        "@type": "WebPage",
-        "@id": `${url}#webpage`,
-        url,
-        name:
-          language === "ja"
-            ? "Kubernetes技術コンサルティング"
-            : "Technical consultancy",
-        isPartOf: { "@id": websiteId },
-        about: { "@id": serviceId },
-        mainEntity: { "@id": serviceId },
-        inLanguage: language,
-      },
-    ],
-  };
-}
-
 export function mediaStructuredData(language: Language, path: string) {
   const url = new URL(path, siteUrl).href;
 

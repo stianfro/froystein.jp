@@ -22,7 +22,7 @@ describe("static build", () => {
     expect(html).toContain('<html lang="en">');
     expect(html).toContain("Kubernetes and");
     expect(html).toContain("Cloud Native");
-    expect(html).toContain('href="/consulting/"');
+    expect(html).toContain('href="/contact/"');
     expect(html).toContain("International services");
     expect(html).toContain('href="/international/"');
     expect(html).toContain("Blog posts");
@@ -39,40 +39,6 @@ describe("static build", () => {
     expect(html).toContain('<meta name="twitter:description" content="');
     expect(html).toContain('<script src="/analytics-config.js"></script>');
     expect(html).toContain('<script src="/analytics.js" defer></script>');
-  });
-
-  test("renders concise bilingual consultancy pages", async () => {
-    const [english, japanese] = await Promise.all([
-      readOutput("consulting/index.html"),
-      readOutput("ja/consulting/index.html"),
-    ]);
-
-    expect(english).toContain('<html lang="en">');
-    expect(japanese).toContain('<html lang="ja">');
-    expect(english).toContain("Kubernetes and cloud native");
-    expect(japanese).toContain("Kubernetes・クラウドネイティブ");
-    expect(english).toContain("Technical experience");
-    expect(japanese).toContain("技術経験");
-    expect(english).toContain("Platform engineering");
-    expect(japanese).toContain("プラットフォームエンジニアリング");
-    expect(english).not.toContain("When a review helps");
-    expect(english).not.toContain("How the work proceeds");
-    expect(english).not.toContain("for platforms that");
-    expect(japanese).not.toContain("進め方");
-    expect(english).toContain(
-      'rel="canonical" href="https://www.froystein.jp/consulting/"',
-    );
-    expect(english).toContain(
-      'rel="alternate" hreflang="ja" href="https://www.froystein.jp/ja/consulting/"',
-    );
-    expect(japanese).toContain(
-      'rel="alternate" hreflang="en" href="https://www.froystein.jp/consulting/"',
-    );
-
-    const graph = readJsonLd(english)["@graph"] as Array<
-      Record<string, unknown>
-    >;
-    expect(graph.some((node) => node["@type"] === "Service")).toBe(true);
   });
 
   test("renders reciprocal international-service pages without personal or client claims", async () => {
@@ -147,10 +113,13 @@ describe("static build", () => {
   });
 
   test("keeps technical and international contact routes explicit", async () => {
-    const [english, japanese] = await Promise.all([
-      readOutput("contact/index.html"),
-      readOutput("ja/contact/index.html"),
-    ]);
+    const [english, japanese, oldEnglishRoute, oldJapaneseRoute] =
+      await Promise.all([
+        readOutput("contact/index.html"),
+        readOutput("ja/contact/index.html"),
+        readOutput("consulting/index.html"),
+        readOutput("ja/consulting/index.html"),
+      ]);
 
     for (const html of [english, japanese]) {
       expect(html).toContain("mailto:contact@froystein.jp");
@@ -158,12 +127,18 @@ describe("static build", () => {
       expect(html).toContain(
         "https://www.linkedin.com/in/stian-fr%C3%B8ystein-1baa52103",
       );
+      expect(html).toContain("Kubernetes");
+      expect(html).toContain("SRE");
+      expect(html).not.toContain("Technical experience");
+      expect(html).not.toContain("技術経験");
       expect(html).not.toContain('href="#contact"');
       expect(html).not.toContain('href="#company"');
     }
 
     expect(english).toContain("Choose the type of enquiry below.");
     expect(japanese).toContain("以下の窓口からお問い合わせください");
+    expect(oldEnglishRoute).toContain('content="0;url=/contact/"');
+    expect(oldJapaneseRoute).toContain('content="0;url=/ja/contact/"');
   });
 
   test("ships disabled analytics with an allowlisted event vocabulary", async () => {
@@ -328,12 +303,10 @@ describe("static build", () => {
     );
     for (const path of [
       "/",
-      "/consulting/",
       "/contact/",
       "/international/",
       "/media/",
       "/ja/",
-      "/ja/consulting/",
       "/ja/contact/",
       "/ja/international/",
       "/ja/media/",
@@ -343,7 +316,7 @@ describe("static build", () => {
     expect(
       (sitemap.match(/<lastmod>2026-07-14T00:00:00\.000Z<\/lastmod>/g) ?? [])
         .length,
-    ).toBe(10);
+    ).toBe(8);
     expect(
       (sitemap.match(/<lastmod>2026-07-12T00:00:00\.000Z<\/lastmod>/g) ?? [])
         .length,
@@ -366,24 +339,20 @@ describe("static build", () => {
   test("publishes spec-shaped llms.txt and Markdown mirrors for every page", async () => {
     const mirrorDefinitions = [
       ["index.md", "https://www.froystein.jp/"],
-      ["consulting.md", "https://www.froystein.jp/consulting/"],
       ["international.md", "https://www.froystein.jp/international/"],
       ["media.md", "https://www.froystein.jp/media/"],
       ["contact.md", "https://www.froystein.jp/contact/"],
       ["ja.md", "https://www.froystein.jp/ja/"],
-      ["ja/consulting.md", "https://www.froystein.jp/ja/consulting/"],
       ["ja/international.md", "https://www.froystein.jp/ja/international/"],
       ["ja/media.md", "https://www.froystein.jp/ja/media/"],
       ["ja/contact.md", "https://www.froystein.jp/ja/contact/"],
     ] as const;
     const compatibilityPaths = [
       "index.html.md",
-      "consulting/index.html.md",
       "international/index.html.md",
       "media/index.html.md",
       "contact/index.html.md",
       "ja/index.html.md",
-      "ja/consulting/index.html.md",
       "ja/international/index.html.md",
       "ja/media/index.html.md",
       "ja/contact/index.html.md",
@@ -419,12 +388,10 @@ describe("static build", () => {
 
     for (const [htmlPath, markdownPath] of [
       ["index.html", "index.md"],
-      ["consulting/index.html", "consulting.md"],
       ["international/index.html", "international.md"],
       ["media/index.html", "media.md"],
       ["contact/index.html", "contact.md"],
       ["ja/index.html", "ja.md"],
-      ["ja/consulting/index.html", "ja/consulting.md"],
       ["ja/international/index.html", "ja/international.md"],
       ["ja/media/index.html", "ja/media.md"],
       ["ja/contact/index.html", "ja/contact.md"],
@@ -440,17 +407,17 @@ describe("static build", () => {
 
     expect(
       (
-        mirrors[8].match(
+        mirrors[6].match(
           /^- 20\d\d\.\d\d\.\d\d, (?:TBS|フジテレビ|日本テレビ|テレビ朝日),/gm,
         ) ?? []
       ).length,
     ).toBe(12);
-    expect(mirrors[8]).toContain("チャンハウス");
+    expect(mirrors[6]).toContain("チャンハウス");
     expect(mirrors[0]).toContain("Secure Playground for Vibe Coders");
-    expect(mirrors[1]).toContain("Cloud native technology");
-    expect(mirrors[6]).toContain("クラウドネイティブ技術");
-    expect(mirrors[7]).toContain("ゲームソフトウェア分野");
-    expect(mirrors[4]).toContain("mailto:contact@froystein.jp");
+    expect(mirrors[3]).toContain("Cloud native technology");
+    expect(mirrors[7]).toContain("クラウドネイティブ技術");
+    expect(mirrors[5]).toContain("ゲームソフトウェア分野");
+    expect(mirrors[3]).toContain("mailto:contact@froystein.jp");
     for (const mirror of mirrors) {
       expect(mirror).not.toContain("media@froystein.jp");
     }
@@ -484,12 +451,10 @@ describe("static build", () => {
   test("keeps every production internal link resolvable", async () => {
     const pages = [
       "index.html",
-      "consulting/index.html",
       "contact/index.html",
       "international/index.html",
       "media/index.html",
       "ja/index.html",
-      "ja/consulting/index.html",
       "ja/contact/index.html",
       "ja/international/index.html",
       "ja/media/index.html",
