@@ -41,7 +41,7 @@ describe("static build", () => {
     expect(html).toContain('<script src="/analytics.js" defer></script>');
   });
 
-  test("renders bilingual consultancy pages with citable public evidence", async () => {
+  test("renders concise bilingual consultancy pages", async () => {
     const [english, japanese] = await Promise.all([
       readOutput("consulting/index.html"),
       readOutput("ja/consulting/index.html"),
@@ -49,13 +49,16 @@ describe("static build", () => {
 
     expect(english).toContain('<html lang="en">');
     expect(japanese).toContain('<html lang="ja">');
-    expect(english).toContain("Kubernetes consulting");
-    expect(japanese).toContain("Kubernetesプラットフォーム設計");
-    expect((english.match(/<article>/g) ?? []).length).toBe(3);
-    expect((english.match(/class="process-number"/g) ?? []).length).toBe(4);
-    expect((english.match(/class="post-title"/g) ?? []).length).toBe(8);
-    expect(english).toContain("Stian Frøystein");
-    expect(english).toContain("Stian Froeystein");
+    expect(english).toContain("Kubernetes and cloud native");
+    expect(japanese).toContain("Kubernetes・クラウドネイティブ");
+    expect(english).toContain("Technical experience");
+    expect(japanese).toContain("技術経験");
+    expect(english).toContain("Platform engineering");
+    expect(japanese).toContain("プラットフォームエンジニアリング");
+    expect(english).not.toContain("When a review helps");
+    expect(english).not.toContain("How the work proceeds");
+    expect(english).not.toContain("for platforms that");
+    expect(japanese).not.toContain("進め方");
     expect(english).toContain(
       'rel="canonical" href="https://www.froystein.jp/consulting/"',
     );
@@ -70,11 +73,6 @@ describe("static build", () => {
       Record<string, unknown>
     >;
     expect(graph.some((node) => node["@type"] === "Service")).toBe(true);
-    expect(
-      graph.some(
-        (node) => node["@type"] === "Person" && node.name === "Stian Frøystein",
-      ),
-    ).toBe(true);
   });
 
   test("renders reciprocal international-service pages without personal or client claims", async () => {
@@ -449,8 +447,8 @@ describe("static build", () => {
     ).toBe(12);
     expect(mirrors[8]).toContain("チャンハウス");
     expect(mirrors[0]).toContain("Secure Playground for Vibe Coders");
-    expect(mirrors[1]).toContain("Kubernetes platform architecture");
-    expect(mirrors[6]).toContain("Kubernetesプラットフォーム設計");
+    expect(mirrors[1]).toContain("Cloud native technology");
+    expect(mirrors[6]).toContain("クラウドネイティブ技術");
     expect(mirrors[7]).toContain("ゲームソフトウェア分野");
     expect(mirrors[4]).toContain("mailto:contact@froystein.jp");
     for (const mirror of mirrors) {

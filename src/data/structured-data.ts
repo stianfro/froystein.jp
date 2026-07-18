@@ -102,7 +102,6 @@ export function consultingStructuredData(language: Language, path: string) {
     "@graph": [
       website,
       organization,
-      person,
       {
         "@type": "Service",
         "@id": serviceId,
@@ -111,7 +110,8 @@ export function consultingStructuredData(language: Language, path: string) {
             ? "Kubernetes技術コンサルティング"
             : "Kubernetes and cloud native consulting",
         serviceType: [
-          "Kubernetes platform architecture",
+          "Kubernetes",
+          "Cloud native technology",
           "Platform engineering",
           "Site reliability engineering",
         ],
@@ -126,7 +126,7 @@ export function consultingStructuredData(language: Language, path: string) {
         name:
           language === "ja"
             ? "Kubernetes技術コンサルティング"
-            : "Kubernetes consulting in Tokyo",
+            : "Technical consultancy",
         isPartOf: { "@id": websiteId },
         about: { "@id": serviceId },
         mainEntity: { "@id": serviceId },
