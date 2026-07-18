@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/stianfro/froystein.jp/compare/v1.6.0...v1.6.1) (2026-07-18)
+
+
+### Bug Fixes
+
+* simplify consultancy content ([#49](https://github.com/stianfro/froystein.jp/issues/49)) ([3116514](https://github.com/stianfro/froystein.jp/commit/3116514aa498ca9d6a88c36ecacbc0531db211aa))
+
 ## [1.6.0](https://github.com/stianfro/froystein.jp/compare/v1.5.2...v1.6.0) (2026-07-15)
 
 
