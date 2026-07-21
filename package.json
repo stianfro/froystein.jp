@@ -15,7 +15,7 @@
   "dependencies": {
     "@astrojs/sitemap": "3.7.3",
     "@ibm/plex-sans-jp": "3.0.0",
-    "astro": "7.0.7"
+    "astro": "7.1.0"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.9",
