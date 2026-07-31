@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/stianfro/froystein.jp/compare/v1.6.1...v1.7.0) (2026-07-31)
+
+
+### Features
+
+* add software portfolio page ([fee88a2](https://github.com/stianfro/froystein.jp/commit/fee88a27ffd3826c5f4004ad0e917321115f13b1))
+
 ## [1.6.1](https://github.com/stianfro/froystein.jp/compare/v1.6.0...v1.6.1) (2026-07-18)
 
 
