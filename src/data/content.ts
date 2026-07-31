@@ -257,7 +257,7 @@ export const softwareProjects: SoftwareProject[] = [
   },
   {
     title: "Tabiji",
-    logo: "/projects/tabiji.svg",
+    logo: "/projects/tabiji-location.svg",
     description: {
       en: "A browser-only tracker for the regions you have visited in Japan and Norway. Your selections stay on your device.",
       ja: "日本とノルウェーで訪れた地域を記録する、ブラウザーだけで動くツールです。選択したデータは端末内に保存されます。",
