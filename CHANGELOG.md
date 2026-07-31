@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/stianfro/froystein.jp/compare/v1.7.0...v1.7.1) (2026-07-31)
+
+
+### Bug Fixes
+
+* replace tabiji portfolio logo ([ed1bbd4](https://github.com/stianfro/froystein.jp/commit/ed1bbd4e32c586f43e786e25f36e072e0e47e945))
+
 ## [1.7.0](https://github.com/stianfro/froystein.jp/compare/v1.6.1...v1.7.0) (2026-07-31)
 
 
