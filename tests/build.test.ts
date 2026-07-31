@@ -127,7 +127,7 @@ describe("static build", () => {
     expect(japanese).toContain("ソフトウェアプロジェクト");
     expect((english.match(/class="project-copy"/g) ?? []).length).toBe(2);
     expect(english).toContain('src="/projects/kemuri.svg"');
-    expect(english).toContain('src="/projects/tabiji-location.svg"');
+    expect(english).toContain('src="/projects/tabiji-map.svg"');
     expect(english).toContain("https://github.com/stianfro/kemuri");
     expect(english).toContain("https://github.com/stianfro/tabiji");
     expect(english).toContain("ICMP, HTTP, TCP, and DNS");
