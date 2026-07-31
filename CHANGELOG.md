@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.2](https://github.com/stianfro/froystein.jp/compare/v1.7.1...v1.7.2) (2026-07-31)
+
+
+### Bug Fixes
+
+* bust tabiji logo cache ([2efcde9](https://github.com/stianfro/froystein.jp/commit/2efcde9dae282578bf26bc62b25f8c19e6df572a))
+
 ## [1.7.1](https://github.com/stianfro/froystein.jp/compare/v1.7.0...v1.7.1) (2026-07-31)
 
 
