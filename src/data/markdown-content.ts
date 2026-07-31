@@ -6,6 +6,7 @@ import {
   internationalServices,
   mediaFormats,
   mediaTopics,
+  softwareProjects,
   type Language,
 } from "./content";
 
@@ -365,6 +366,48 @@ export function contactMarkdown(language: Language) {
     "Please email the request, preferred timing and format, required language direction, and your reply deadline.",
     "",
     "[Email contact@froystein.jp](mailto:contact@froystein.jp)",
+  ].join("\n");
+}
+
+export function projectsMarkdown(language: Language) {
+  if (language === "ja") {
+    return [
+      ...documentHeader(
+        "ソフトウェアプロジェクト",
+        "スティアン・フロイスタインが開発しているソフトウェアの一部を紹介します。",
+        "/ja/projects/",
+        "/projects.md",
+        "English Markdown version",
+      ),
+      "",
+      ...softwareProjects.flatMap((project) => [
+        `## ${project.title}`,
+        "",
+        project.description.ja,
+        "",
+        `[GitHubで見る](${project.url})`,
+        "",
+      ]),
+    ].join("\n");
+  }
+
+  return [
+    ...documentHeader(
+      "Software projects",
+      "A selection of software projects built by Stian Frøystein.",
+      "/projects/",
+      "/ja/projects.md",
+      "日本語のMarkdown版",
+    ),
+    "",
+    ...softwareProjects.flatMap((project) => [
+      `## ${project.title}`,
+      "",
+      project.description.en,
+      "",
+      `[View on GitHub](${project.url})`,
+      "",
+    ]),
   ].join("\n");
 }
 

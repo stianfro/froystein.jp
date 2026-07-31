@@ -1,4 +1,4 @@
-import type { Language } from "./content";
+import { softwareProjects, type Language } from "./content";
 
 const siteUrl = "https://www.froystein.jp";
 const websiteId = `${siteUrl}/#website`;
@@ -188,6 +188,42 @@ export function contactStructuredData(language: Language, path: string) {
         isPartOf: { "@id": websiteId },
         about: { "@id": organizationId },
         inLanguage: language,
+      },
+    ],
+  };
+}
+
+export function projectsStructuredData(language: Language, path: string) {
+  const url = new URL(path, siteUrl).href;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      website,
+      organization,
+      {
+        "@type": "CollectionPage",
+        "@id": `${url}#webpage`,
+        url,
+        name:
+          language === "ja" ? "ソフトウェアプロジェクト" : "Software projects",
+        isPartOf: { "@id": websiteId },
+        inLanguage: language,
+        mainEntity: {
+          "@type": "ItemList",
+          itemListElement: softwareProjects.map((project, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            item: {
+              "@type": "SoftwareSourceCode",
+              name: project.title,
+              description: project.description[language],
+              codeRepository: project.url,
+              image: new URL(project.logo, siteUrl).href,
+              author: { "@id": personId },
+            },
+          })),
+        },
       },
     ],
   };

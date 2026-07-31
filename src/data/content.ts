@@ -30,6 +30,13 @@ export interface InternationalService {
   linkLabel?: Record<Language, string>;
 }
 
+export interface SoftwareProject {
+  description: Record<Language, string>;
+  logo: string;
+  title: string;
+  url: string;
+}
+
 export const appearances: Appearance[] = [
   {
     date: "2026-06-24",
@@ -235,6 +242,27 @@ export const certifications: Certification[] = [
   {
     title: "Red Hat Certified System Administrator (RHCSA)",
     url: "https://www.credly.com/badges/12c4dcdb-2833-446e-bf69-eb0bda710d74/public_url",
+  },
+];
+
+export const softwareProjects: SoftwareProject[] = [
+  {
+    title: "Kemuri",
+    logo: "/projects/kemuri.svg",
+    description: {
+      en: "Latency monitoring with smoke-style graphs for ICMP, HTTP, TCP, and DNS checks.",
+      ja: "ICMP、HTTP、TCP、DNSのチェック結果を、スモーク形式のグラフで表示するレイテンシー監視ツールです。",
+    },
+    url: "https://github.com/stianfro/kemuri",
+  },
+  {
+    title: "Tabiji",
+    logo: "/projects/tabiji.svg",
+    description: {
+      en: "A browser-only tracker for the regions you have visited in Japan and Norway. Your selections stay on your device.",
+      ja: "日本とノルウェーで訪れた地域を記録する、ブラウザーだけで動くツールです。選択したデータは端末内に保存されます。",
+    },
+    url: "https://github.com/stianfro/tabiji",
   },
 ];
 

@@ -2,7 +2,8 @@
 import type { Language } from "../data/content";
 
 interface Props {
-  currentPage: "contact" | "home" | "international" | "media" | "privacy";
+  currentPage:
+    "contact" | "home" | "international" | "media" | "privacy" | "projects";
   language: Language;
 }
 
@@ -15,6 +16,7 @@ const paths = {
   international: `${prefix}/international/`,
   media: `${prefix}/media/`,
   privacy: `${prefix}/privacy/`,
+  projects: `${prefix}/projects/`,
 };
 const alternatePaths = {
   contact: isJapanese ? "/contact/" : "/ja/contact/",
@@ -22,6 +24,7 @@ const alternatePaths = {
   international: isJapanese ? "/international/" : "/ja/international/",
   media: isJapanese ? "/media/" : "/ja/media/",
   privacy: isJapanese ? "/privacy/" : "/ja/privacy/",
+  projects: isJapanese ? "/projects/" : "/ja/projects/",
 };
 ---
 
@@ -48,6 +51,12 @@ const alternatePaths = {
       href={paths.international}
     >
       {isJapanese ? "国際業務" : "International"}
+    </a>
+    <a
+      aria-current={currentPage === "projects" ? "page" : undefined}
+      href={paths.projects}
+    >
+      {isJapanese ? "プロジェクト" : "Projects"}
     </a>
     <a
       aria-current={currentPage === "media" ? "page" : undefined}

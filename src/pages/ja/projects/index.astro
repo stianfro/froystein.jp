@@ -1,0 +1,17 @@
+---
+import ProjectsPage from "../../../components/ProjectsPage.astro";
+import { projectsStructuredData } from "../../../data/structured-data";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="ソフトウェアプロジェクト | スティアン・フロイスタイン"
+  description="スティアン・フロイスタインが開発しているKemuriとTabijiを紹介します。"
+  canonicalPath="/ja/projects/"
+  alternatePath="/projects/"
+  currentPage="projects"
+  language="ja"
+  structuredData={projectsStructuredData("ja", "/ja/projects/")}
+>
+  <ProjectsPage language="ja" />
+</SiteLayout>

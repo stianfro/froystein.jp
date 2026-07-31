@@ -393,8 +393,46 @@ h3 {
 .media-page,
 .international-page,
 .contact-page,
-.privacy-page {
+.privacy-page,
+.projects-page {
   max-width: var(--content-width);
+}
+
+.projects-hero {
+  max-width: 50rem;
+  padding-block: 80px 64px;
+}
+
+.project-list {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+.project-list li {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 40px;
+  padding-block: 44px;
+  border-bottom: 1px solid var(--line);
+}
+
+.project-list img {
+  display: block;
+  width: 96px;
+  height: 96px;
+}
+
+.project-copy h2 {
+  margin-bottom: 10px;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+.project-copy p {
+  max-width: 42rem;
+  margin-bottom: 14px;
+  color: var(--muted);
 }
 
 .media-hero {
@@ -716,6 +754,21 @@ h3 {
     padding: 42px 0;
     border-left: 0;
     border-bottom: 1px solid var(--line);
+  }
+
+  .projects-hero {
+    padding-block: 56px 40px;
+  }
+
+  .project-list li {
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 24px;
+    padding-block: 34px;
+  }
+
+  .project-list img {
+    width: 72px;
+    height: 72px;
   }
 
   .site-footer {

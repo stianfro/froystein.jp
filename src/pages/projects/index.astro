@@ -1,0 +1,17 @@
+---
+import ProjectsPage from "../../components/ProjectsPage.astro";
+import { projectsStructuredData } from "../../data/structured-data";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="Software projects | Stian Frøystein"
+  description="A selection of software projects built by Stian Frøystein, including Kemuri and Tabiji."
+  canonicalPath="/projects/"
+  alternatePath="/ja/projects/"
+  currentPage="projects"
+  language="en"
+  structuredData={projectsStructuredData("en", "/projects/")}
+>
+  <ProjectsPage language="en" />
+</SiteLayout>

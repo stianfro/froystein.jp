@@ -112,6 +112,36 @@ describe("static build", () => {
     );
   });
 
+  test("renders reciprocal software project pages", async () => {
+    const [english, japanese, englishMarkdown, japaneseMarkdown] =
+      await Promise.all([
+        readOutput("projects/index.html"),
+        readOutput("ja/projects/index.html"),
+        readOutput("projects.md"),
+        readOutput("ja/projects.md"),
+      ]);
+
+    expect(english).toContain('<html lang="en">');
+    expect(japanese).toContain('<html lang="ja">');
+    expect(english).toContain("Software projects");
+    expect(japanese).toContain("ソフトウェアプロジェクト");
+    expect((english.match(/class="project-copy"/g) ?? []).length).toBe(2);
+    expect(english).toContain('src="/projects/kemuri.svg"');
+    expect(english).toContain('src="/projects/tabiji.svg"');
+    expect(english).toContain("https://github.com/stianfro/kemuri");
+    expect(english).toContain("https://github.com/stianfro/tabiji");
+    expect(english).toContain("ICMP, HTTP, TCP, and DNS");
+    expect(japanese).toContain("選択したデータは端末内に保存されます");
+    expect(englishMarkdown).toContain("## Kemuri");
+    expect(japaneseMarkdown).toContain("## Tabiji");
+    expect(english).toContain(
+      'rel="alternate" hreflang="ja" href="https://www.froystein.jp/ja/projects/"',
+    );
+    expect(japanese).toContain(
+      'rel="alternate" hreflang="en" href="https://www.froystein.jp/projects/"',
+    );
+  });
+
   test("keeps technical and international contact routes explicit", async () => {
     const [english, japanese, oldEnglishRoute, oldJapaneseRoute] =
       await Promise.all([
@@ -147,6 +177,7 @@ describe("static build", () => {
       contact,
       international,
       media,
+      projects,
       privacy,
       japanesePrivacy,
       config,
@@ -157,6 +188,7 @@ describe("static build", () => {
       readOutput("contact/index.html"),
       readOutput("international/index.html"),
       readOutput("media/index.html"),
+      readOutput("projects/index.html"),
       readOutput("privacy/index.html"),
       readOutput("ja/privacy/index.html"),
       readOutput("analytics-config.js"),
@@ -182,6 +214,9 @@ describe("static build", () => {
     );
     expect(media).toContain('data-umami-event="media_email_click"');
     expect(media).toContain('data-umami-event-page="media"');
+    expect(projects).toContain('data-umami-event="project_outbound_click"');
+    expect(privacy).toContain("software project links");
+    expect(japanesePrivacy).toContain("ソフトウェアプロジェクトへの外部リンク");
     expect(privacy).toContain("does not use cookies");
     expect(privacy).toContain("monthly session hash");
     expect(privacy).toContain("path without its query string");
@@ -194,7 +229,7 @@ describe("static build", () => {
     expect(japanesePrivacy).toContain("月ごとに変わるセッションハッシュ");
     expect(japanesePrivacy).toContain("privacy@froystein.jp");
 
-    for (const html of [home, contact, international, media]) {
+    for (const html of [home, contact, international, media, projects]) {
       expect(html).not.toMatch(/data-umami-event-(?:email|url|query)=/);
     }
 
@@ -306,10 +341,12 @@ describe("static build", () => {
       "/contact/",
       "/international/",
       "/media/",
+      "/projects/",
       "/ja/",
       "/ja/contact/",
       "/ja/international/",
       "/ja/media/",
+      "/ja/projects/",
     ]) {
       expect(sitemap).toContain(`<loc>https://www.froystein.jp${path}</loc>`);
     }
@@ -317,6 +354,10 @@ describe("static build", () => {
       (sitemap.match(/<lastmod>2026-07-14T00:00:00\.000Z<\/lastmod>/g) ?? [])
         .length,
     ).toBe(8);
+    expect(
+      (sitemap.match(/<lastmod>2026-07-31T00:00:00\.000Z<\/lastmod>/g) ?? [])
+        .length,
+    ).toBe(2);
     expect(
       (sitemap.match(/<lastmod>2026-07-12T00:00:00\.000Z<\/lastmod>/g) ?? [])
         .length,
@@ -342,20 +383,24 @@ describe("static build", () => {
       ["international.md", "https://www.froystein.jp/international/"],
       ["media.md", "https://www.froystein.jp/media/"],
       ["contact.md", "https://www.froystein.jp/contact/"],
+      ["projects.md", "https://www.froystein.jp/projects/"],
       ["ja.md", "https://www.froystein.jp/ja/"],
       ["ja/international.md", "https://www.froystein.jp/ja/international/"],
       ["ja/media.md", "https://www.froystein.jp/ja/media/"],
       ["ja/contact.md", "https://www.froystein.jp/ja/contact/"],
+      ["ja/projects.md", "https://www.froystein.jp/ja/projects/"],
     ] as const;
     const compatibilityPaths = [
       "index.html.md",
       "international/index.html.md",
       "media/index.html.md",
       "contact/index.html.md",
+      "projects/index.html.md",
       "ja/index.html.md",
       "ja/international/index.html.md",
       "ja/media/index.html.md",
       "ja/contact/index.html.md",
+      "ja/projects/index.html.md",
     ] as const;
     const [llms, dockerfile, ...outputs] = await Promise.all([
       readOutput("llms.txt"),
@@ -391,10 +436,12 @@ describe("static build", () => {
       ["international/index.html", "international.md"],
       ["media/index.html", "media.md"],
       ["contact/index.html", "contact.md"],
+      ["projects/index.html", "projects.md"],
       ["ja/index.html", "ja.md"],
       ["ja/international/index.html", "ja/international.md"],
       ["ja/media/index.html", "ja/media.md"],
       ["ja/contact/index.html", "ja/contact.md"],
+      ["ja/projects/index.html", "ja/projects.md"],
     ]) {
       const html = await readOutput(htmlPath);
       expect(html).toContain(
@@ -407,16 +454,16 @@ describe("static build", () => {
 
     expect(
       (
-        mirrors[6].match(
+        mirrors[7].match(
           /^- 20\d\d\.\d\d\.\d\d, (?:TBS|フジテレビ|日本テレビ|テレビ朝日),/gm,
         ) ?? []
       ).length,
     ).toBe(12);
-    expect(mirrors[6]).toContain("チャンハウス");
+    expect(mirrors[7]).toContain("チャンハウス");
     expect(mirrors[0]).toContain("Secure Playground for Vibe Coders");
     expect(mirrors[3]).toContain("Cloud native technology");
-    expect(mirrors[7]).toContain("クラウドネイティブ技術");
-    expect(mirrors[5]).toContain("ゲームソフトウェア分野");
+    expect(mirrors[8]).toContain("クラウドネイティブ技術");
+    expect(mirrors[6]).toContain("ゲームソフトウェア分野");
     expect(mirrors[3]).toContain("mailto:contact@froystein.jp");
     for (const mirror of mirrors) {
       expect(mirror).not.toContain("media@froystein.jp");
@@ -454,10 +501,12 @@ describe("static build", () => {
       "contact/index.html",
       "international/index.html",
       "media/index.html",
+      "projects/index.html",
       "ja/index.html",
       "ja/contact/index.html",
       "ja/international/index.html",
       "ja/media/index.html",
+      "ja/projects/index.html",
       "privacy/index.html",
       "ja/privacy/index.html",
     ];

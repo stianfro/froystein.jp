@@ -6,11 +6,13 @@ const lastModifiedByPath = new Map([
   ["/contact/", "2026-07-14"],
   ["/international/", "2026-07-14"],
   ["/media/", "2026-07-14"],
+  ["/projects/", "2026-07-31"],
   ["/privacy/", "2026-07-12"],
   ["/ja/", "2026-07-14"],
   ["/ja/contact/", "2026-07-14"],
   ["/ja/international/", "2026-07-14"],
   ["/ja/media/", "2026-07-14"],
+  ["/ja/projects/", "2026-07-31"],
   ["/ja/privacy/", "2026-07-12"],
 ]);
 
